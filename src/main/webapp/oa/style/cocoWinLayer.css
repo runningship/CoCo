@@ -1,0 +1,170 @@
+
+
+
+.cocoLayer{ width:100%; position:absolute; top:70px; left:100px; box-shadow: #666 0px 0px 10px; border-radius:3px; font-family:"宋体"; background-color:#ffffff; z-index:99999;}
+
+.cocoLayerTit, .cocoListLayerTit{ width:100%; height:32px; background-color:#1c3748; line-height:32px; border-radius:3px 3px 0 0; z-index:10; cursor:default;}
+
+.cocoLayerTit span, .cocoListLayerTit span{ color:#76e4e5; font-size:13px; margin-left:15px;}
+
+.cocoLayerTit i.closeBg, .cocoListLayerTit i.closeBg{ width:20px; height:21px; background:url(../cocoImages/close.png) no-repeat; position:absolute;}
+
+.cocoLayerTit i.close, .cocoListLayerTit i.close{ background-position:0 -47px; top:6px; right:10px;}
+.cocoLayerTit i.close:hover, .cocoListLayerTit i.close:hover{ background-position:-25px -47px;}
+
+.cocoLayerMain{ margin:8px; max-height:390px; border:1px solid #dddddd; overflow:hidden; overflow-y:auto; font-size:12px;}
+
+.cocoLayerMain .mainTit{ width:100%; float:left; height:32px; line-height:32px; background:url(../cocoImages/titBg.png) repeat-x;}
+
+.cocoLayerMain span{ float:left;}
+.cocoLayerMain span.select{ width:30px; margin-left:15px;}
+
+.cocoLayerMain span.select input{ margin-top:9px;}
+
+.cocoLayerMain span.webSiteName{ width:180px;}
+
+.cocoLayerMain span.webSiteLine{ width:300px;}
+
+.cocoLayerMain span.caozuo{ width:80px;}
+
+.cocoLayerMain ul.mainCon{ width:100%; float:left; max-height:300px; overflow:hidden; overflow-y:auto;}
+
+.cocoLayerMain ul.mainCon li{ line-height:32px; width:100%; float:left; border-bottom:1px solid #dfdfdf; color:#43799b;}
+
+.cocoLayerMain ul.mainCon li span.caozuo i{ margin-left:5px; cursor:pointer; font-size:12px; background-color:#dcdcdc; border-radius:2px; padding:1px; color:#a0a3a5; font-style:normal; font-weight:bold;}
+.cocoLayerMain ul.mainCon li span.caozuo i:hover{ background-color:#f55252; color:#ffffff;}
+
+.cocoLayerMain .btnMain{ width:100%; float:left; margin:15px 15px;}
+
+.cocoLayerMain .btnMain .scBtn{ padding:6px 25px; background-color:#f55252; border-radius:2px; color:#ffffff; border:none; cursor:pointer;}
+
+.cocoLayerMain .btnMain .scBtn:hover{ background-color:#de2a2a;}
+
+
+
+
+
+
+
+.ggLayerMain{font-size:12px; width:100%; height:100%; background-color:#e2e2e2;  position:relative; overflow: hidden; overflow-y:auto;}
+
+.ggLayerMainScol{ float:left; margin-bottom:50px; width:100%;}
+
+.ggListBox{ width:47%; height:45px; float:left; margin:20px 0 0 2%; font-family:"宋体";}
+
+.ggListBoxTit{ width:100%; height:45px; background-color:#f5f5f5; float:left; border-radius:3px;}
+
+.ggBorLeftRed{ border-left:3px solid #ef4f4f;}
+.ggBorLeftBlue{ border-left:3px solid #1bacae;}
+.ggBorLeftGreen{ border-left:3px solid #6cb95b;}
+.ggBorLeftGrey{ border-left:3px solid #8497a3;}
+
+.ggListBoxTit .tit { margin-left:15px; color: #2a404e; float:left;}
+
+.ggListBoxTit .tit h2{ font-weight:normal; width:325px; height:28px; line-height:28px; margin-left:0px; max-width:350px; overflow:hidden; font-size: 13px; cursor:pointer;}
+
+.ggListBoxTit .tit h2:hover{ color:#008b8d;}
+
+.ggListBoxTit i{ padding-left:18px; font-style:normal; font-size: 12px}
+
+.ggListBoxTit .conTime { height:13px; line-height:13px; font-size: 12px;color: #a8b6be;}
+.ggListBoxTit i.clock{ float:left; margin-left:15px; height:13px; background:url(../cocoImages/timeClock.png) no-repeat;}
+.ggListBoxTit i.person{ float:left; margin-right:5px; height:13px; background:url(../images/person.png) no-repeat;}
+
+.ggListBoxBot{ width:75px; float:right; height:15px; margin-top:5px;}
+
+.ggListBoxBot i {height: 15px; cursor: pointer; font-size:12px;0 padding-left:18px; font-style:normal; font-family:"微软雅黑"; color:#b3c0c7;}
+
+.ggListBoxBot i.zan {background-position: -4px -201px; margin:0;}
+.ggListBoxBot i.zan:hover, .ggListBoxBot i.zanSel{ background-position:-38px -201px;}
+
+.ggListBoxBot i.xg{ background-position:-4px -133px;}
+.ggListBoxBot i.xg:hover, .ggListBoxBot i.xgSel{ background-position:-38px -133px;}
+/*.ggListBoxBot i.hf {background-position: -4px -201px;}
+.ggListBoxBot i.hf:hover, .ggListBoxBot i.hfSel{ background-position:-38px -201px;}*/
+.ggListBoxBot i.hf { background:url(../images/delete.png) no-repeat;}
+.ggListBoxBot i.hf:hover, .ggListBoxBot i.hfSel{ background:url(../images/delete.png) no-repeat;}
+
+.ggListBoxBot .tuBox{ height:15px; /*width:43px;*/ line-height:16px; margin-right:2px; display:inline-block; color:#a8b6be; float:left;}
+
+.ggListBoxBot .tuBox i{ float:left;}
+
+
+
+.ggLayerMainPage{ position:fixed; z-index:1100; bottom:0; left:0; width:100%; display:table; height:34px; background-color:#e2e2e2; border-top:1px solid #dddddd;}
+
+.ggLayerMainPageCon{ width:520px; height:28px; margin:0 auto; margin-top:15px; text-align:center; background:url(../images/pageBg.png) no-repeat center bottom; font-family:"宋体";}
+
+.ggLayerMainPageCon button{ background:none; border:none; cursor:pointer; width:31px; text-align:center; height:21px; line-height:21px;}
+
+.ggLayerMainPageCon .moreBox{ font-weight:bold; color:#068d90;}
+
+.ggLayerMainPageCon .numBox{ font-family:Arial; font-size:13px;  color:#5e6b73;}
+
+.ggLayerMainPageCon button.numBox:hover{ background:url(../images/numBg.png) no-repeat center bottom; color:#ffffff;}
+
+
+.textMoeInfoMain{ width:96%; margin:20px 2%; padding-bottom:50px; float:left; font-family:"宋体";}
+
+.layerInfoBox{ width:100%; padding-bottom:20px; position:relative;-webkit-user-select: text;}
+
+.layerInfoBoxTit{ height:60px; width:100%; position:relative; display:inline-block; line-height:23px; padding-top:10px; background-color:#ffffff;}
+
+.layerInfoBoxImg{ width:48px; height:48px; overflow:hidden; margin:0 16px;}
+
+.layerInfoBoxImg{ width:48px; border-radius:4px;}
+
+.layerInfoBoxTit .yh{ color:#899ba5; font-size:12px;}
+
+.layerInfoBoxTit .time{ color:#899ba5; font-size:12px; margin-left:30px;}
+
+.layerInfoBoxTit .tit{ color:#3e525e; font-size:15px;}
+
+.layerInfoBoxTit a.tit:hover{ color:#2b92cc;}
+
+.layerInfoCaozuo{ position:absolute; top:10px; right:0;}
+
+.layerInfoCaozuo i{ width:15px; height:15px; overflow:hidden; text-indent:999999px; margin-right:15px; cursor:pointer;}
+
+.layerInfoCaozuo i.xg{ background-position:-4px -133px;}
+.layerInfoCaozuo i.xg:hover, .layerInfoCaozuo i.xgSel{ background-position:-38px -133px;}
+.layerInfoCaozuo i.zan{ background-position:-4px -168px;}
+/*.layerInfoCaozuo i.zan:hover, */.layerInfoCaozuo i.zanSel{ background-position:-38px -168px;}
+.layerInfoCaozuo i.hf{ background-position:-4px -201px;}
+.layerInfoCaozuo i.hf:hover, .layerInfoCaozuo i.hfSel{ background-position:-38px -201px;}
+
+.layerInfoBoxContent{ height:30px; width:100%; line-height:30px; background-color:#07b5be; font-size:12px; color:#fff;}
+
+.layerInfoBoxContent i{ font-style:normal;}
+
+.layerInfoBoxContent a.back{ color:#ffffff; margin-right:15px;}
+.layerInfoBoxContent a.back:hover{ text-decoration:underline;}
+
+.layerInfoBoxConInfo{ width:96%; padding:10px 2%; background-color:#ffffff; font-size:12px; line-height:25px; color:#2a404e;}
+
+.layerInfoBoxConInfo p{ text-indent:25px;}
+
+.layerAddHf{ width:100%; background-color:#ffffff; margin-top:15px; float:left;}
+
+.layerAddHfSendWrite{ width:600px; height:50px; padding:5px; margin:5px 0; margin-left:5px; float:left; background-color:#f7f7f7; border:1px solid #ececec;}
+
+.layerAddHfNewsWrite{ width:600px; height:50px; font-size:12px; color:#636f80; background:none; border:none;outline: none;resize: none;}
+
+.layerSendBtnMessage{ width:80px; height:62px; cursor:pointer; background-color:#058d8f; border:1px solid #058d8f; margin-top:5px; color:#ffffff; font-size:16px; font-family:"微软雅黑";}
+
+
+.layerInfoHfList{ width:100%; background-color:#ffffff; margin-top:15px; float:left; padding:10px 0;}
+
+.layerInfoHfCon{ margin:0 3%; width:94%; float:left; position:relative; border-left:2px solid #c8d2d7;}
+
+.layerInfoHfCon .tit{ width:100%; float:left; color:#96a3ac; margin:15px 0 10px 0;}
+
+.layerInfoHfCon .titText{ margin-left:20px;}
+.layerInfoHfCon .titTime{ color:#899ba5;}
+
+.layerInfoHfCon .con{ width:100%; float:left; line-height:20px; padding-bottom:10px; color:#2a404e; border-bottom:1px dashed #cdd7dd;}
+
+.layerInfoHfCon .con .conMain{ margin-left:20px; display:block;}
+
+
+.layerInfoBoxLine img {margin-top: 12px;width: 24px;height: 24px;border-radius: 13px; border:2px solid #ffffff; position:absolute;left:-15px;top: -2px;}

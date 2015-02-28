@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>coco</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  	<listener>
+	    <listener-class>com.youwei.coco.StartUpListener</listener-class>
+	</listener>
+	<listener>
+	    <listener-class>org.bc.web.RequestListener</listener-class>
+	</listener>
+	<session-config>
+	  <session-timeout>1440</session-timeout>
+	 </session-config>
+	 
+	<servlet>
+        <servlet-name>bosh</servlet-name>
+        <servlet-class>com.codemarvels.boshservlet.BoshXmppServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>bosh</servlet-name>
+	    <url-pattern>/bosh/*</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+    	<filter-name>grandFilter</filter-name>
+    	<filter-class>org.bc.web.GrandFilter</filter-class>
+    	<init-param>
+    		<param-name>encoding</param-name>
+    		<param-value>utf-8</param-value>
+    	</init-param>
+    	<init-param>
+    		<param-name>userOfflineHandler</param-name>
+    		<param-value>com.youwei.coco.CocoUserOfflineHandler</param-value>
+    	</init-param>
+    </filter>
+    <filter-mapping>
+    	<filter-name>grandFilter</filter-name>
+    	<url-pattern>*.jsp</url-pattern>
+    	<url-pattern>/c/*</url-pattern>
+    </filter-mapping>
+</web-app>

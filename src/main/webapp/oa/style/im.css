@@ -1,0 +1,9 @@
+.user_status_filter_0{-webkit-filter: grayscale(100%);}
+/*在线*/
+.user_status_1{ width:10px; height:10px; border-radius:8px; background-color:#f46868; position:absolute; right:5px; top:10px;}
+/*离线*/
+.user_status_0{ width:10px; height:10px; border-radius:8px; background-color:#d1d9dd; position:absolute; right:5px; top:10px;}
+
+.cocoPerInfo, .cocoQunInfo{ width:130px; margin-left:10px; font-family:"宋体"; white-space:nowrap;}
+.cocoPerInfo .name{ color:#5b7585; font-size:12px; margin:2px 0;}
+.cocoPerInfo .txt{ color:#bbbbbb; font-size:12px; margin:0;}

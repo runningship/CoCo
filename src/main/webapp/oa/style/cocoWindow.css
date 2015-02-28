@@ -1,0 +1,118 @@
+
+
+.cocoWin{ width:660px; height:560px; position:absolute; top:70px; left:100px; box-shadow: #666 0px 0px 10px; border-radius:3px; font-family:"宋体"; z-index:1990;}
+
+.cocoWintit{ width:100%; height:32px; line-height:30px; background:url(/oa/cocoImages/titBg.png) repeat-x; border-radius:3px 3px 0 0; position:relative; cursor:default;}
+
+.cocoWintit span{ color:#006566; font-size:12px; margin-left:15px;}
+
+.cocoWintit i.closeBg{ width:20px; height:21px; background:url(/oa/cocoImages/close.png) no-repeat; position:absolute;}
+
+.cocoWintit i.closeX{ background-position:0 0; top:6px; right:10px;}
+.cocoWintit i.closeX:hover{ background-position:-25px 0;}
+
+.cocoWintit i.none{ background-position:0 -23px; top:6px; right:35px;}
+.cocoWintit i.none:hover{ background-position:-25px -23px;}
+
+
+
+.cocoWinContent{ width:100%; height:528px; float:left; background-color:#ffffff;}
+
+.cocoWinContentLxr{ width:150px; float:left; height:528px;overflow-y: scroll; background-color:#1c3748; border-radius:0 0 0 3px; overflow:hidden; overflow-y:auto; }/*-webkit-user-select: none;*/
+
+
+
+.cocoWinLxrList{ width:100%; margin-top:15px;}
+
+.cocoWinLxrList li{ width:100%; float:left; height:45px; position:relative; padding:5px 0; margin-bottom:8px;}
+
+.cocoWinLxrList li:hover{ background-color:#122f41;}
+
+.cocoWinLxrList li.now{ background-color:#051c2b;}
+
+.cocoWinLxrListTx{ width:39px; height:37px; margin-left:10px;}
+.cocoWinLxrListTx img{ width:35px; height:35px; border-radius:20px; border:2px solid rgba(255,255,255,0.2);}
+
+.cocoWinLxrListPerInfo{ width:90px; margin-left:2px; font-family:"宋体"; white-space:nowrap;}
+
+.cocoWinLxrListPerInfo .name{ color:#299da3; font-size:12px; margin:2px 0;}
+.cocoWinLxrListPerInfo .txt{ color:#356684; font-size:12px;}
+
+.cocoWinNewsNum{ height:13px; padding:0 4px; border-radius:8px; background-color:#f55252; text-align:center; line-height:13px; position:absolute; left:10px; top:2px; font-size:12px; color:#ffffff; font-family:"宋体";}
+
+.cocoQunNewsNum{ height:13px; padding:0 4px; border-radius:8px; background-color:#f55252; text-align:center; line-height:13px; position:absolute; right:5px; top:6px; font-size:12px; color:#ffffff; font-family:"宋体";}
+
+.cocoWinLxrList li.now .msgClose, .cocoWinLxrList li:hover .msgClose{ display:inline-block; height:13px; width:13px; padding-left:1px; text-align:center; border-radius:8px; background-color:#0c2535; line-height:15px; position:absolute; right:5px; top:7px; font-size:12px; color:#345971;}
+
+.cocoWinLxrList li:hover .msgClose:hover{background-color:#0c2535;  color:#299da3; cursor:pointer;}
+
+.cocoWinInfoListShow{ width:510px; height:100%; float:left; background-color:#ffffff; border-bottom:1px solid #e5e5e5; -webkit-user-select: none;}
+
+.WinInfoListShowMainBox{ width:510px; height:400px; float:left; margin:5px 0; overflow:hidden; overflow-y:auto;position: relative;}
+
+.WinInfoListAppend{ width:100%; display:inline-block; position:relative; margin-top:20px;}
+
+.WinInfoListAppend .txImg{ width:42px; height:42px; top:0; left:16px; position:absolute;-webkit-user-select: none;}
+.WinInfoListAppend .txImg img{ width:38px; height:38px; border-radius:20px; border-radius:20px; border:2px solid #ffffff;box-shadow: #bbbbbb 0px 0px 5px;}
+
+
+
+.WinInfoListAppend .txImgRight{ width:42px; height:42px; top:0; right:16px; position:absolute;}
+.WinInfoListAppend .txImgRight img{ width:38px; height:38px; border-radius:20px; border:2px solid #ffffff;box-shadow: #bbbbbb 0px 0px 5px;}
+
+.WinInfoListAppend .newsAppend{ margin:0 70px; width:360px; display:inline-block; position:relative;}
+
+.WinInfoListAppend .newsAppendName{ position:absolute; top:0; left:0;}
+
+.WinInfoListAppend .newsAppendBox{ background-color:#efefef; border-radius:5px; padding:8px 12px; position:relative;}
+
+.WinInfoListAppend .lxrName{ width:100%; float:left; font-size:12px; color:#999999; margin-bottom:3px;}
+.WinInfoListAppend .pleft{ text-align:left;}
+.WinInfoListAppend .pright{ text-align:right;}
+
+.WinInfoListAppend .newsAppendBox img{ max-width:200px;}
+
+.WinInfoListAppend .newsAppendBox .conTxt{ max-width:320px; white-space:normal; font-size:12px; color:#0b202d; line-height:18px;-webkit-user-select: text;}
+
+.WinInfoListAppend .newsAppendBox .conTime{ width:100%; font-size:12px; color:#a8b6be; margin-top:10px;-webkit-user-select: text;}
+
+.WinInfoListAppend .newsAppendBox .conTime i.clock{ float:left; margin-right:5px; width:13px; height:13px; background:url(/oa/cocoImages/timeClock.png) no-repeat;}
+
+.WinInfoListAppend .newsAppendBox .sanjiaoLeft{ position:absolute; z-index:10; top:8px; left:-8px; width:0; height:0; border-top: 5px solid transparent;border-right: 8px solid #efefef; border-bottom: 5px solid transparent;}
+
+.WinInfoListAppend .newsAppendBox .sanjiaoRight{ position:absolute; z-index:10; top:10px; right:-8px; width:0; height:0; border-top: 5px solid transparent;border-left: 8px solid #efefef; border-bottom: 5px solid transparent;}
+
+
+
+
+
+
+.WinInfoSend{ width:100%; float:left; height:117px; background-color:#efefef; border-top:1px solid #ffffff;}
+
+.WinInfoSendWrite{ width:428px; height:117px; margin-left:2px; float:left; background-color:#ffffff; overflow:hidden; font-size:12px;}
+
+.fontStyleNewsWrite{ width:425px; height:101px; background-color:#fff; float:left; font-size:12px; color:#636f80; background:none; border:none; outline: none;resize: none;}
+
+.WinInfoSendBtn{ width:80px; height:111px; float:left;}
+
+.WinInfoSendBtnAddPhoto{ width:100%; height:61px; center no-repeat; border:none; cursor:pointer;}
+.WinInfoSendBtnMessage{ width:100%; height:56px; background-color:#058d8f; border:none; color:#ffffff; font-size:16px; font-family:"微软雅黑";}
+.msg_more{
+	position: absolute;top: 0px;width: 100px;font-size: 10px;right: 200px;
+}
+
+
+
+
+
+.mask {  
+    background:#000;  
+    display:none;  
+    opacity:0.0;/*FF*/  
+    width:100%;  
+    height:100%;  
+    position:fixed;  
+    top:0;  
+    left:0;  
+    z-index:1980;  
+}

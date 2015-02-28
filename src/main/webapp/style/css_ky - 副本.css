@@ -1,0 +1,276 @@
+
+*{ margin:0; padding:0;}
+
+img{ border:none;}
+
+ul,li{ list-style:none;}
+
+a{ text-decoration:none;}
+
+em{ font-style:normal;}
+
+html,body{ height: 100%;font: 100% 微软雅黑, 宋体, 新宋体;}
+
+
+
+    ::-webkit-scrollbar {  
+      width: 7px;  
+      height: 7px; position:absolute;
+    }  
+      
+    ::-webkit-scrollbar-track,  
+    ::-webkit-scrollbar-thumb {  
+      border-radius: 999px;  
+      border: 1px solid transparent;  
+    }  
+      
+    ::-webkit-scrollbar-track {  
+      box-shadow: 1px 1px 5px rgba(0,0,0,.3) inset;  
+    }  
+      
+    ::-webkit-scrollbar-thumb {  
+      min-height: 20px;  
+      background-clip: content-box;  
+      box-shadow: 0 0 0 5px rgba(0,0,0,.7) inset;  
+    }  
+      
+    ::-webkit-scrollbar-corner {  
+      background: transparent;  
+    }  
+
+
+
+
+
+
+.KY_Main{
+	 height: 100%; min-width:1040px; min-height:400px; overflow:hidden;
+}
+
+.KY_W{ width:100%;}
+
+.Fleft{ float:left;}
+
+
+.MainLeft{
+	width:50px; height: 100%; background-color:#5d6065; float:left; border-right:1px solid #404040; position:relative;
+}
+
+.MainRight{
+	  /*margin-left:51px;*/ background-color:#dedede; height:100%;
+}
+.MainLeft ul li i, .MainLeftBottom i, .MainRightTop li i, .MR_ConTit ul li i{ 
+       background:url(../style/images/icons_all.png) no-repeat; display:inline-block;
+}
+
+.MainLeftTop{ width:100%; height:50px; border-bottom:1px solid #46484c; background:-webkit-gradient(linear, 0 0, 0 100%, from(#5ce5c6), to(#1aaa82));}
+
+.LCenter{text-align:center; vertical-align:middle;}
+
+.MainLeft ul, .MainLeft ul li{ width:100%;}
+
+
+.MainLeft ul li{ float:left; height:50px; border-bottom:1px solid #333333; text-align:center;background:-webkit-gradient(linear, 0 0, 0 100%, from(#7b8087), to(#5d6065));}
+
+.MainLeft ul li:hover{ box-shadow: inset 0px 0px 40px #111111; background:-webkit-gradient(linear, 0 0, 0 100%, from(#3bb093), to(#288b72));
+-webkit-transition: all 0.3s;
+-webkit-transition-property: all;
+-webkit-transition-duration: 0.3s;
+-webkit-transition-timing-function: initial;
+-webkit-transition-delay: initial;
+}
+
+.MainLeft ul li.select{ box-shadow: inset 0px 0px 70px #000000; background:-webkit-gradient(linear, 0 0, 0 100%, from(#288b72), to(#007759));
+-webkit-transition: all 0.3s;
+-webkit-transition-property: all;
+-webkit-transition-duration: 0.3s;
+-webkit-transition-timing-function: initial;
+-webkit-transition-delay: initial;
+}
+
+.MainLeft ul li i{width:23px; height:23px; overflow:hidden; display:inline-block; margin-top:14px;}
+
+.MainLeft ul li i.i1{ background-position:0 0;}
+
+.MainLeft ul li i.i2{ background-position:0 -25px;}
+
+.MainLeftBottom{ position:absolute; bottom:15px; left:7px; width:36px; height:36px;border-radius: 18px; background-color:#222222; box-shadow: inset 0px 0px 15px #000000; text-align:center; border:1px solid #000000;}
+
+.MainLeftBottom i{ width:16px; height:16px; margin-top:9px; background-position:0 -239px;}
+
+.MainLeftBottom:hover{box-shadow: inset 0px 0px 15px #000000;  -webkit-animation:myfirst 0.3s; background-color:#007759; border:1px solid #00241b;-webkit-transition: all .3s;
+-webkit-transition-property: all;
+-webkit-transition-duration: 0.3s;
+-webkit-transition-timing-function: initial;
+-webkit-transition-delay: initial;
+}
+
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+from {background: #000000; border:1px solid #333333;}
+to {background: #007759; border:1px solid #00241b;}
+}
+
+
+
+.MainRightTop{ height:50px; border-bottom:1px solid #bfbfbf;background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#ececec));}
+
+.MainRightTop li{ float:left; height:50px; line-height:50px; padding:0 45px; border-left:1px solid #fefefe; border-right:1px solid #fefefe; color:#00b67d;-webkit-transition: all 0.3s;
+-webkit-transition-property: all;
+-webkit-transition-duration: 0.3s;
+-webkit-transition-timing-function: initial;
+-webkit-transition-delay: initial;
+}
+
+.MainRightTop li i{ width:23px; height:20px; margin:0 2px -4px 0;}
+
+.MainRightTop li.line{ padding:0; width:1px; background-color:#d2d2d2; border:none;}
+
+.MainRightTop li:hover, .MainRightTop li.slect{ color:#ffffff; cursor:pointer; background:-webkit-gradient(linear, 0 0, 0 100%, from(#24ceab), to(#14a47c));
+}
+
+
+
+
+.MainRightTop li i.i1{ background-position:0 -52px;}
+.MainRightTop li:hover i.i1, .MainRightTop li.slect i.i1{ background-position:0 -136px;}
+.MainRightTop li i.i2{ background-position:0 -73px;}
+.MainRightTop li:hover i.i2, .MainRightTop li.slect i.i2{ background-position:0 -157px;}
+.MainRightTop li i.i3{ background-position:0 -94px;}
+.MainRightTop li:hover i.i3, .MainRightTop li.slect i.i3{ background-position:0 -178px;}
+.MainRightTop li i.i4{ background-position:0 -115px;}
+.MainRightTop li:hover i.i4, .MainRightTop li.slect i.i4{ background-position:0 -199px;}
+
+
+.MainRightInputMain{ display:inline-block;background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f6f6f6)); border-bottom:1px solid #b2b2b2; padding:8px;}
+
+.InputMainLine{ width:100%; float:left; display:inline-block;}
+
+.InputMainLine li{ display:inline-block; float:left; margin-right:5px;}
+
+.InputMainLine li input, .InputMainLine li span, .InputMainLine li button, .InputMainLine li select{ border-radius: 4px; background-color:#ffffff; border:1px solid #cccccc; padding:0 5px; float:left; font-family:"微软雅黑";}
+
+.InputMainLine li span{ background-color:#eeeeee; padding:0 5px;  border-bottom-right-radius: 0; border-top-right-radius: 0;}
+
+.InputMainLine li input.input-sm{ height:28px; line-height:1.5;}
+
+.InputMainLine li .w110{ width:110px;}
+.InputMainLine li .w76{ width:76px;}
+.InputMainLine li .w208{ width:208px;}
+.InputMainLine li .w45{ width:45px; text-align:center;}
+.InputMainLine li .w46{ width:46px; text-align:center;}
+.InputMainLine li .w130{ width:130px; text-align:center;}
+.InputMainLine li .w75{ width:75px; text-align:center;}
+
+.InputMainLine li .input-left{  border-bottom-left-radius: 0; border-top-left-radius: 0; border-left:none;}
+.InputMainLine li .input-right{  border-bottom-right-radius: 0; border-top-right-radius: 0; border-right:none;}
+.InputMainLine li .input-rightB{ border-radius: 0;border-left:none;}
+
+.InputMainLine li select{ height:30px; font-size:12px; padding:0;}
+
+
+.SpanName{ float:left; height:28px; font-size:14px; line-height:28px; color:#555555;}
+
+.SpanNameH2{ float:left; height:58px; font-size:14px; color:#555555; display:table;}
+
+.SpanNameH2 em{ display:table-cell; vertical-align:middle;}
+
+.InputMainLine li span.LRborNone{  border-radius: 0; padding:0 3px;}
+
+.InputMainLine li span.Lnone{ border-bottom-left-radius: 0; border-top-left-radius: 0;}
+.InputMainLine li span.Rnone{ border-bottom-right-radius: 0; border-top-left-right: 0;}
+
+
+.InputMainLine li button{ height:30px; line-height:30px; padding:0 11px; color:#555555;}
+
+i.caret {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid;
+    display: inline-block;
+    height: 0;
+    margin: -2px 0 0 2px;
+    vertical-align: middle;
+    width: 0;
+}
+
+
+.inputBox {
+    width: 76px;
+}
+
+.DivBoxW1 {
+    width: 87px;
+}
+
+.LiBoxW1 {
+    width: 63px;
+}
+
+.ButtonW1 {
+    width: 63px;
+}
+
+.InputMainLine li button.ButtonS{ background-color:#369a7e; color:#ffffff; border:1px solid #369a7e;}
+.InputMainLine li button.ButtonQ{ background-color:#dddddd; color:#333333;}
+
+
+
+
+.MainRightConMain{border-top:1px solid #f2f2f2; height:100%; overflow:hidden; position:relative; min-width:974px;}
+
+.MainRightConL{ margin:5px 5px 0 5px; width:248px; background-color:#f9f9f9; height:100%; float:left; border:1px solid #d1d1d1; overflow:hidden; overflow-y:auto;}
+
+
+.MR_ConTit{ position:absolute; top:169px; height:32px; line-height:32px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e9e9e9)); border-bottom:1px solid #d1d1d1;}
+
+.MR_ConTit ul{ margin:5px 5px; float:left;}
+
+.MR_ConTit ul li{ height:21px; line-height:21px; color:#008765; font-size:12px; padding:0 8px; float:left; border-radius: 5px; border:1px solid #d0d0d0; background-color:#ffffff; position:relative; margin-right:10px;}
+
+.MR_ConTit ul li.tit{ border:none; background:none; color:#000000;margin-right:0;}
+
+.MR_ConTit ul li i{ position:absolute; top:4px; right:-7px; cursor:pointer; width:13px; height:13px; background-position:0 -223px;}
+
+
+.MR_ConTitW1{ width:248px;}
+
+.MR_ConTitW2{ min-width:700px;}
+
+
+.TableMainL{ display:inline-block; padding-top:32px; font-size:12px; color:#999999;}
+
+.TableMainL td{ height:30px; border-bottom:1px solid #dddddd; padding:0 3px;}
+
+.TextColor1{ color:#333333;}
+
+.TextStyle1{ cursor: pointer; color: #0066cc; font-weight: bold; font-size: 12px; text-decoration: underline;}
+
+.TextStyle2{ color:#ff0000; margin-right:2px;}
+
+
+
+.MainRightConR{ margin:5px 0 0 0; background-color:#f9f9f9; height:100%; float:left; border:1px solid #d1d1d1; overflow:hidden; overflow-y:auto;}
+
+
+
+
+
+
+
+
+.KY_MainRCon{ margin:5px 5px 0 5px; float:left; background-color:#f9f9f9; height:100%; overflow:hidden; border:1px solid #d1d1d1; font-family:"宋体";}
+
+
+.KY_TableMain{ font-size:12px; text-align:center; width:100%; color:#333333;}
+
+.KY_TableMain th{ height:30px; background-color:#e9e9e9;}
+
+.KY_TableMain td{ padding:7px 0; border-bottom:1px solid #dddddd;}
+
+.Bg_Color1{}
+
+.KY_TableMain td a{ color:#16755b;}
+
+.KY_TableMain td a:hover{ text-decoration:underline; color:#014a35;}
