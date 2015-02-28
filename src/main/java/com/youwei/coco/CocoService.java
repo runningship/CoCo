@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.GException;
 import org.bc.sdak.TransactionalServiceHelper;
+import org.bc.sdak.utils.JSONHelper;
 import org.bc.web.ModelAndView;
 import org.bc.web.Module;
 import org.bc.web.PlatformExceptionType;
@@ -31,17 +32,25 @@ public class CocoService {
 	public static final String AssistantName="小助手";
 	
 	@WebMethod
+	public ModelAndView myProfile(){
+		ModelAndView mv = new ModelAndView();
+		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
+		mv.data.put("me", JSONHelper.toJSON(u));
+		return mv;
+	}
+	@WebMethod
 	public ModelAndView home(){
 		ModelAndView mv = new ModelAndView();
 //		List<Map> users = dao.listAsMap("select u.avatar as avatar, u.uname as uname , d.namea as dname ,u.id as uid from User u, Department d where u.cid=? and u.lock=1 and u.did=d.id order by u.uname", ThreadSessionHelper.getUser().cid);
 		
 		List<Map> users = getBuddyList(null);
 		
-		mv.jspData.put("me", ThreadSessionHelper.getUser());
+		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
+		mv.jspData.put("me", u);
 		//按在线优先排序
-		mv.jspData.put("contacts",users);
+//		mv.jspData.put("contacts",users);
 		
-		mv.jspData.put("depts",getGroupList());
+//		mv.jspData.put("depts",getGroupList());
 		
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 //		mv.jspData.put("use_im", me.Company().useIm);
@@ -66,6 +75,7 @@ public class CocoService {
 		}
 		ThreadSession.getHttpSession().setAttribute(KeyConstants.Session_User, u);
 		ModelAndView mv = new ModelAndView();
+		mv.data.put("me", JSONHelper.toJSON(u));
 		return mv;
 	}
 	

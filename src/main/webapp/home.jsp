@@ -23,18 +23,39 @@
 <script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
 var web_socket_on=false;
-my_uid=${me.id};
-my_avatar=${me.avatar};
-my_name = '${me.uname}';
-ws_url = 'ws://${domainName}:9099?uid=${me.id}';
+
 $(function(){
-	initUserTree('cocoList');
+	getMyProfile();
+	
 	});
 	
-function loginSuccess(){
+function loginSuccess(data){
 	LayerRemoveBox('login');
+	$('.cocoMain').toggleClass('hide');
+	connectWebSocket();
+	initUserTree('cocoList');
 }
 
+function getMyProfile(){
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: '/c/myProfile',
+	    success:function(data){
+	    	if(data.id){
+	    		my_uid=data.id;
+		    	my_avatar=data.avatar;
+		    	my_name = data.name;
+		    	ws_url = 'ws://${domainName}:9099?uid='+data.id;
+		    	connectWebSocket();
+		    	initUserTree('cocoList');
+	    	}else{
+	    		 $('.cocoMain').toggleClass('hide');
+	    		 startLogin();
+	    	}
+	    }
+	  });
+}
 function startLogin(){
 	openNewWin('login' , '500','300','登录','oa/login.jsp');
 }

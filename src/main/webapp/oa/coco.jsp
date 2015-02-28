@@ -11,8 +11,6 @@
 <script type="text/javascript">
 
 $(function(){
-    connectWebSocket();
-    
     ue_text_editor = UE.getEditor('editor', {
         toolbars: [
             ['simpleupload','emotion','spechars','forecolor']
