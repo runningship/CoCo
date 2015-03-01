@@ -11,7 +11,7 @@
 <title>中介宝</title>
 <meta name="description" content="中介宝房源软件系统">
 <meta name="keywords" content="房源软件,房源系统,中介宝">
-<link href="/style/css.css" rel="stylesheet">
+<!-- <link href="/style/css.css" rel="stylesheet"> -->
 <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="/style/style.css" rel="stylesheet">
 
@@ -42,6 +42,7 @@ function getMyProfile(){
 	    dataType: 'json',
 	    url: '/c/myProfile',
 	    success:function(data){
+	    	data = data.me;
 	    	if(data.id){
 	    		my_uid=data.id;
 		    	my_avatar=data.avatar;

@@ -90,20 +90,20 @@ var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
 return (reg.test(location.search))? encodeURIComponent(decodeURIComponent(RegExp.$2.replace(/\+/g, " "))) : '';
 }
 
-window.blockAlert = window.alert;
-window.alert = function(data){
-    art.dialog.tips(data);
-}
-window.infoAlert = function(data){
-    art.dialog({
-        id:'tips',
-        title:'提示',
-        content:data,
-        ok:true,
-        focus:true,
-        padding:15
-    });
-}
+// window.blockAlert = window.alert;
+// window.alert = function(data){
+//     art.dialog.tips(data);
+// }
+// window.infoAlert = function(data){
+//     art.dialog({
+//         id:'tips',
+//         title:'提示',
+//         content:data,
+//         ok:true,
+//         focus:true,
+//         padding:15
+//     });
+// }
 YW={
     options:{
         beforeSend: function(XMLHttpRequest){

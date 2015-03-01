@@ -29,13 +29,18 @@
 		 
 		 $("#layerBoxDj").css("display","block");
 		 
-		 
+		 	$("#cocoWintit").mouseup(function(){ 
+				_move=false;  
+				$("#layerBoxDj").fadeTo(0, 1);//松开鼠标后停止移动并恢复成不透明
+//				$(".mask").hide();  
+			})
+			
 		    $("#cocoWintit").mousedown(function(e){  
 				_move=true;  
 				
 				$("#layerBoxDj").css({"z-index":999});
 				
-				$(".mask").show();
+				//$(".mask").show();
 				
 				_x=e.pageX-parseInt($("#layerBoxDj").css("left"));  
 				_y=e.pageY-parseInt($("#layerBoxDj").css("top"));  
@@ -61,11 +66,7 @@
 				}  
 			});
 			
-			$("#cocoWintit").mouseup(function(){  
-				_move=false;  
-				$("#layerBoxDj").fadeTo(0, 1);//松开鼠标后停止移动并恢复成不透明
-				$(".mask").hide();  
-			})
+			
 			
 /*			 $("#cocoWintit").mouseup(function(){  
 				_move=false;  

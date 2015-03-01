@@ -62,8 +62,8 @@ public class StartUpListener implements ServletContextListener{
 		settings.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.EhCacheRegionFactory");
 		settings.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, "true");
 		
-		settings.put(AvailableSettings.PROXOOL_XML, "proxool.xml");//相对目录为classes
-//		settings.put(AvailableSettings.PROXOOL_XML, ConfigCache.get("hefei_proxool_xml" ,ThreadSessionHelper.getDomain()+"_proxool.xml"));//相对目录为classes
+//		settings.put(AvailableSettings.PROXOOL_XML, "proxool.xml");//相对目录为classes
+		settings.put(AvailableSettings.PROXOOL_XML, ConfigCache.get("coco_proxool_xml" ,""));//相对目录为classes
 		settings.put(AvailableSettings.PROXOOL_EXISTING_POOL, "false");
 		settings.put(AvailableSettings.PROXOOL_POOL_ALIAS, "coco");
 		

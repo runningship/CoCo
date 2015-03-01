@@ -31,6 +31,11 @@ $(function(){
     heartBeat();
 });
 
+function showSearchPanel(){
+	$('#searchResult').css('display','');;
+	selBoxCge('searchResult');
+	//初始化数据
+}
 </script>
 <div class="cocoMain" style="z-index:9999999">
      
@@ -59,7 +64,7 @@ $(function(){
          <div class="tr w100">
               <div class="td cocoMainSearch">
               
-                   <input type="text" class="cocoMainSearchBox" placeholder="搜索联系人" />
+                   <input type="text" class="cocoMainSearchBox" placeholder="搜索联系人"  onfocus="showSearchPanel()"/>
               
               </div>
          </div>
@@ -71,6 +76,14 @@ $(function(){
                     <div id="lxrList" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; z-index:1;">
                     
                     	<ul id="cocoList" class="ztree jtree cocoList"></ul>
+                    </div>
+                    
+                    <div id="searchResult" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; z-index:1;display:none">
+                    	<ul class="cocoList">
+                    	<li id="lxr_user_198" onclick="openChat(198,'徐青',118)"><div id="user_avatar_user_198" class="cocoTx Fleft"><img user_avatar_img="118" src="/oa/images/avatar/118.jpg" class="user_avatar_img_user_198 user_status_filter_1"></div><div class="cocoPerInfo Fleft"><p class="name">徐青</p><p class="txt"></p></div><div class="new_msg_count "></div></li>
+                    	<li id="lxr_user_198" onclick="openChat(198,'徐青',118)"><div id="user_avatar_user_198" class="cocoTx Fleft"><img user_avatar_img="118" src="/oa/images/avatar/118.jpg" class="user_avatar_img_user_198 user_status_filter_1"></div><div class="cocoPerInfo Fleft"><p class="name">徐青</p><p class="txt"></p></div><div class="new_msg_count "></div></li>
+                    	<li id="lxr_user_198" onclick="openChat(198,'徐青',118)"><div id="user_avatar_user_198" class="cocoTx Fleft"><img user_avatar_img="118" src="/oa/images/avatar/118.jpg" class="user_avatar_img_user_198 user_status_filter_1"></div><div class="cocoPerInfo Fleft"><p class="name">徐青</p><p class="txt"></p></div><div class="new_msg_count "></div></li>
+                    	</ul>
                     </div>
                     
                     <div id="qunList" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; left:-100%;">
@@ -131,13 +144,16 @@ $(function(){
            <iframe class="mask"></iframe>  
            <div class="mask"></div>  
 <div class="cocoWin" id="layerBoxDj" style=" display:none;">
-
-     <div class="cocoWintit" id="cocoWintit" style="-webkit-user-select:none;"><span class="chat_title Fleft"></span><i class="closeBg none" onclick="closeBox()" title="最小化"></i><i class="closeBg closeX" onclick="closeBox(closeAllChat)" title="关闭"></i></div>
+<!-- 聊天窗口，可多人 -->
+     <div class="cocoWintit" id="cocoWintit" style="-webkit-user-select:none;" >
+	     <span class="chat_title Fleft"></span><i class="closeBg none" onclick="closeBox()" title="最小化"></i>
+	     <i class="closeBg closeX" onclick="closeBox(closeAllChat)" title="关闭"></i>
+     </div>
      
      <div class="cocoWinContent">
      
           <div class="cocoWinContentLxr" style="-webkit-user-select:none;">
-               
+               <!-- 左侧聊天人列表 -->
                <ul class="cocoWinLxrList">
                                     
                </ul>
@@ -145,22 +161,17 @@ $(function(){
           </div>
           
           <div style=" width:510px; float:left; height:100%;-webkit-user-select:text;">
+          	  <!-- 聊天记录区 -->
               <div class="cocoWinInfoListShow" style="height:411px;">
               
                    
                    
               
               </div>
-                <!-- <div id="facePanel" style="display: none;position:absolute;bottom:125px;border:1px solid #eee">
-                    <c:forEach var="i"  begin="1"  end="60"  step="1">
-                        <img src="http://forum.csdn.net/PointForum/ui/scripts/csdn/Plugin/001/face/${i}.gif" onclick="appendFaceToMsg(${i});" />
-                    </c:forEach>
-                </div> -->
+              <!-- 消息发送区 -->
               <div class="WinInfoSend">
                     
-                    <!-- <div style="height:22px;"><img src="oa/images/face.gif"/ style="cursor:pointer;margin-left:5px;" onclick="showFacePanel()"></div> -->
                     <div class="WinInfoSendWrite">
-                         <!-- <textarea id="msg_textarea" onkeyup="msgAreaKeyup();" class="fontStyleNewsWrite"></textarea> -->
                          <span id="editor" type="text/plain" name="conts" style="height:84px;width:100%"></span>
                     </div>
                     

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -50,7 +51,7 @@ public class CocoService {
 		//按在线优先排序
 //		mv.jspData.put("contacts",users);
 		
-//		mv.jspData.put("depts",getGroupList());
+		mv.jspData.put("depts",getGroupList());
 		
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 //		mv.jspData.put("use_im", me.Company().useIm);
@@ -111,14 +112,17 @@ public class CocoService {
 			
 			//get direct children
 			List<Map> users = dao.listAsMap("select did as did , avatar as avatar ,uname as uname ,id as uid from User where did=?",intId);
+			Random r = new Random();
 			for(Map u : users){
 				JSONObject json = new JSONObject();
 				json.put("id", "user"+"_"+u.get("uid"));
+				json.put("uid", u.get("uid"));
 				json.put("pId", "dept_"+intId);
 				json.put("name", u.get("uname"));
 				json.put("type", "user");
 				json.put("avatar", u.get("avatar"));
 				json.put("status", KeyConstants.User_Status_Online);
+				json.put("avatar", r.nextInt(150));
 				result.add(json);
 			}
 		}
@@ -152,6 +156,7 @@ public class CocoService {
 		ass.put("online", true);
 		users.add(ass);
 		users =dao.listAsMap("select did as did , avatar as avatar ,uname as uname ,id as uid from User where cid=1");
+		
 		return users;
 	}
 	
