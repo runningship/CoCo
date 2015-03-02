@@ -81,6 +81,57 @@ public class CocoService {
 	}
 	
 	@WebMethod
+	public ModelAndView getUserTree(){
+		ModelAndView mv = new ModelAndView();
+		JSONArray result = new JSONArray();
+		getComps(result);
+		mv.data.put("result", result.toArray());
+		return mv;
+	}
+	
+	private void getComps(JSONArray result) {
+		List<Map> depts = dao.listAsMap("select id as did , fid as fid ,namea as dname from Department where fid=0");
+		for(Map d : depts){
+			JSONObject json = new JSONObject();
+			json.put("id", "comp"+"_"+d.get("did"));
+			json.put("pId", 0);
+			json.put("name", d.get("dname"));
+			json.put("type", "comp");
+			json.put("isParent", true);
+			result.add(json);
+			getDepts(result,(Integer)d.get("did"));
+		}
+	}
+	private void getDepts(JSONArray result, Integer fid) {
+		List<Map> depts = dao.listAsMap("select id as did , fid as fid ,namea as dname from Department where fid=?", fid);
+		for(Map d : depts){
+			JSONObject json = new JSONObject();
+			json.put("id", "comp"+"_"+d.get("did"));
+			json.put("pId", "comp_"+d.get("fid"));
+			json.put("name", d.get("dname"));
+			json.put("type", "comp");
+			json.put("isParent", true);
+			result.add(json);
+			getUsers(result , (Integer)d.get("did"));
+		}
+	}
+	private void getUsers(JSONArray result, Integer did) {
+		List<Map> users = dao.listAsMap("select did as did , avatar as avatar ,uname as uname ,id as uid from User where did=?",did);
+		Random r = new Random();
+		for(Map u : users){
+			JSONObject json = new JSONObject();
+			json.put("id", "user"+"_"+u.get("uid"));
+			json.put("uid", u.get("uid"));
+			json.put("pId", "comp_"+did);
+			json.put("name", u.get("uname"));
+			json.put("type", "user");
+			json.put("avatar", u.get("avatar"));
+			json.put("status", KeyConstants.User_Status_Online);
+			json.put("avatar", r.nextInt(150));
+			result.add(json);
+		}
+	}
+	@WebMethod
 	public ModelAndView getChildren(String id , String type){
 		ModelAndView mv = new ModelAndView();
 		JSONArray result = new JSONArray();

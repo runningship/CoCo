@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="/oa/style/cocoWindow.css" />
 <link rel="stylesheet" type="text/css" href="/oa/style/cocoWinLayer.css" />
 <link rel="stylesheet" type="text/css" href="/oa/style/cssOa.css" />
+<link rel="stylesheet" type="text/css" href="/oa/style/im.css" />
 <script src="/js/jquery.js" type="text/javascript"></script>
 <script src="/js/buildHtml.js" type="text/javascript"></script>
 <script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script>
@@ -30,10 +31,12 @@ $(function(){
 	});
 	
 function loginSuccess(data){
-	LayerRemoveBox('login');
-	$('.cocoMain').toggleClass('hide');
-	connectWebSocket();
-	initUserTree('cocoList');
+	// LayerRemoveBox('login');
+	// $('.cocoMain').toggleClass('hide');
+	// connectWebSocket();
+	// initUserTree('cocoList');
+	//刷新
+	window.location.reload();
 }
 
 function getMyProfile(){
@@ -69,7 +72,7 @@ function startLogin(){
     </div>
     
 <div>
-<jsp:include page="oa/userTree.jsp"></jsp:include>
+<jsp:include page="oa/userTree2.jsp"></jsp:include>
 </div>
 
 </body>

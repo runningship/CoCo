@@ -10,63 +10,42 @@
 <script type="text/javascript" src="/js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
         
 <script type="text/javascript">
+//一次性加载
 var setting = {
   view: {
     showIcon: false,
     addDiyDom: addDiyDom,
     showLine:false,
-    dblClickExpand: true,
   },
   data: {
     simpleData: {
       enable: true
     }
   },
-  async: {
-	enable: true,
-	url: "/c/getChildren",
-	autoParam: ["id", "type"]
-  },
   callback: {
     // onRightClick: OnRightClick
     // onClick: onClick
     // onCheck: onCheck
-    beforeExpand: beforeExpand
   }
 };
 
 function onCheck(event, treeId, treeNode){
   console.log(treeNode.id);
 }
-function beforeExpand(treeId, treeNode) {
-  if(treeNode.zAsync){
-    return;
-  }
-  if (!treeNode.isAjaxing) {
-    startTime = new Date();
-    treeNode.times = 1;
-    var zTree = $.fn.zTree.getZTreeObj(treeId);
-    // ajaxGetNodes(treeNode, "refresh");
-    zTree.reAsyncChildNodes(treeNode, 'refresh', true);
-    return true;
-  } else {
-    alert("zTree 正在下载数据中，请稍后展开节点。。。");
-    return false;
-  }
-}
 
 function initUserTree(treeId){
-	$.fn.zTree.init($("#"+treeId), setting ,null);
-	//递归加载子节点
-  // $.ajax({
-  //   type: 'POST',
-  //   url: '/c/getChildren?parent=-1',
-  //   data:'',
-  //   success: function(data){
-  //       var result=JSON.parse(data);
-  //       $.fn.zTree.init($("#"+treeId), setting, result.result);
-  //   }
-  // });
+   $.ajax({
+     type: 'POST',
+     url: '/c/getUserTree',
+     data:'',
+     success: function(data){
+         var result=JSON.parse(data);
+         $.fn.zTree.init($("#"+treeId), setting, result.result);
+         var treeObj = $.fn.zTree.getZTreeObj(treeId); 
+         treeObj.expandAll(true);
+         treeObj.expandAll(false); 
+     }
+   });
 }
 
 

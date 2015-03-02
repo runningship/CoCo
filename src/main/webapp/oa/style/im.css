@@ -7,3 +7,20 @@
 .cocoPerInfo, .cocoQunInfo{ width:130px; margin-left:10px; font-family:"宋体"; white-space:nowrap;}
 .cocoPerInfo .name{ color:#5b7585; font-size:12px; margin:2px 0;}
 .cocoPerInfo .txt{ color:#bbbbbb; font-size:12px; margin:0;}
+
+.cocoList{ width:200px; margin-top:15px; float:left;}
+
+.cocoList li{ width:200px; float:left; }
+
+/* .cocoList li:hover{ background-color:#1c3748;} */
+
+.cocoTx{ width:35px; height:35px; margin-left:10px;}
+.cocoTx img{ width:35px; height:35px; border-radius:20px; border:2px solid #ffffff;box-shadow: #bbbbbb 0px 0px 5px;}
+
+.cocoSearchList{ width:200px; margin-top:15px; float:left;}
+
+.cocoSearchList li{ width:200px; float:left; }
+
+#searchResult   img{ width:25px; height:25px; border-radius:15px; border:0px solid #ffffff;box-shadow: #bbbbbb 0px 0px 5px;}
+
+#searchResult .cocoPerInfo { width:130px; margin-left:10px; font-family:"宋体"; white-space:nowrap;margin-top:3px;}

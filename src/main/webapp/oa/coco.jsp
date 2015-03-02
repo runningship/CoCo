@@ -32,9 +32,11 @@ $(function(){
 });
 
 function showSearchPanel(){
-	$('#searchResult').css('display','');;
+	$('#searchResult ul').empty();
+	$('#searchResult ul').append($('#lxrList .a_user'));
+	$('#searchResult').css('display','');
 	selBoxCge('searchResult');
-	//初始化数据
+	
 }
 </script>
 <div class="cocoMain" style="z-index:9999999">
@@ -79,10 +81,7 @@ function showSearchPanel(){
                     </div>
                     
                     <div id="searchResult" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; z-index:1;display:none">
-                    	<ul class="cocoList">
-                    	<li id="lxr_user_198" onclick="openChat(198,'徐青',118)"><div id="user_avatar_user_198" class="cocoTx Fleft"><img user_avatar_img="118" src="/oa/images/avatar/118.jpg" class="user_avatar_img_user_198 user_status_filter_1"></div><div class="cocoPerInfo Fleft"><p class="name">徐青</p><p class="txt"></p></div><div class="new_msg_count "></div></li>
-                    	<li id="lxr_user_198" onclick="openChat(198,'徐青',118)"><div id="user_avatar_user_198" class="cocoTx Fleft"><img user_avatar_img="118" src="/oa/images/avatar/118.jpg" class="user_avatar_img_user_198 user_status_filter_1"></div><div class="cocoPerInfo Fleft"><p class="name">徐青</p><p class="txt"></p></div><div class="new_msg_count "></div></li>
-                    	<li id="lxr_user_198" onclick="openChat(198,'徐青',118)"><div id="user_avatar_user_198" class="cocoTx Fleft"><img user_avatar_img="118" src="/oa/images/avatar/118.jpg" class="user_avatar_img_user_198 user_status_filter_1"></div><div class="cocoPerInfo Fleft"><p class="name">徐青</p><p class="txt"></p></div><div class="new_msg_count "></div></li>
+                    	<ul class="cocoSearchList">
                     	</ul>
                     </div>
                     
