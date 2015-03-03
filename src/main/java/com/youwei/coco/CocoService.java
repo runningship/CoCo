@@ -1,6 +1,7 @@
 package com.youwei.coco;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.jsoup.helper.DataUtil;
 
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.user.entity.Buyer;
+import com.youwei.coco.user.entity.RecentContact;
 import com.youwei.coco.user.entity.Seller;
 import com.youwei.coco.user.entity.Token;
 import com.youwei.coco.user.entity.User;
@@ -41,8 +43,16 @@ public class CocoService {
 	@WebMethod
 	public ModelAndView myProfile(){
 		ModelAndView mv = new ModelAndView();
-		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
+		User u = (User)ThreadSessionHelper.getUser();
 		mv.data.put("me", DataHelper.toCommonUser(u));
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView getSeller(String sellerId){
+		ModelAndView mv = new ModelAndView();
+		Seller po = dao.get(Seller.class, sellerId);
+		mv.data.put("seller", JSONHelper.toJSON(po));
 		return mv;
 	}
 	
@@ -57,6 +67,9 @@ public class CocoService {
 			}else{
 				ThreadSession.getHttpSession().setAttribute(KeyConstants.Session_User, u);
 				mv.data.put("me", DataHelper.toCommonUser(u));
+				List<Map> sellers = dao.listAsMap("select seller.companyName as companyName , seller.sellerId as sellerId "
+						+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId");
+				mv.data.put("sellers", JSONHelper.toJSONArray(sellers));
 			}
 		}else{
 			mv.data.put("result", "-1");
@@ -67,19 +80,40 @@ public class CocoService {
 	@WebMethod
 	public ModelAndView home(){
 		ModelAndView mv = new ModelAndView();
-		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
-		if(u!=null){
-			mv.jspData.put("me",DataHelper.toCommonUser(u));
-		}
+//		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
+//		if(u!=null){
+//			mv.jspData.put("me",DataHelper.toCommonUser(u));
+//		}
+		User u = (User)ThreadSessionHelper.getUser();
 		mv.jspData.put("depts",getGroupList());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 		return mv;
 	}
 	@WebMethod
-	public ModelAndView webchat(String token){
+	public ModelAndView webchat(String token , String sellerId){
 		ModelAndView mv = new ModelAndView();
-		mv.jspData.put("token", token);
+//		mv.jspData.put("token", token);
+//		Seller seller = dao.get(Seller.class, sellerId);
+//		mv.jspData.put("token", token);
+//		mv.jspData.put("seller", seller);
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView addRecentContact(String contactId){
+		ModelAndView mv = new ModelAndView();
+		String uid =ThreadSessionHelper.getUser().getId();
+		RecentContact po = dao.getUniqueByParams(RecentContact.class, new String[]{"uid" , "contactId"}, new Object[]{uid , contactId});
+		if(po!=null){
+			po.lasttime = new Date();
+		}else{
+			po = new RecentContact();
+			po.uid = uid;
+			po.contactId = contactId;
+			po.lasttime = new Date();
+		}
+		dao.saveOrUpdate(po);
 		return mv;
 	}
 	

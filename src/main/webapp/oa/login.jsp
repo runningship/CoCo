@@ -23,7 +23,7 @@ function login(){
 	    dataType: 'json',
 	    url: '/c/login?name='+$('#idName').val()+'&pwd='+$('#idPassword').val()+'&type='+$('#idType').val(),
 	    success:function(data){
-	    	window.parent.loginSuccess(data);
+	    	window.location='../home.jsp';
 	    },
 	    error:function(data){
 	    	console.log(data);

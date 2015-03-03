@@ -27,18 +27,8 @@ var web_socket_on=false;
 
 $(function(){
 	getMyProfile();
+});
 	
-	});
-	
-function loginSuccess(data){
-	// LayerRemoveBox('login');
-	// $('.cocoMain').toggleClass('hide');
-	// connectWebSocket();
-	// initUserTree('cocoList');
-	//刷新
-	window.location.reload();
-}
-
 function getMyProfile(){
 	$.ajax({
 	    type: 'get',
@@ -54,12 +44,14 @@ function getMyProfile(){
 		    	connectWebSocket();
 		    	initUserTree('cocoList');
 	    	}else{
-	    		 $('.cocoMain').toggleClass('hide');
-	    		 startLogin();
+	    		 //$('.cocoMain').toggleClass('hide');
+	    		 //startLogin();
+	    		 window.location='oa/login.jsp';
 	    	}
 	    }
 	  });
 }
+
 function startLogin(){
 	openNewWin('login' , '310','270','登录','oa/login.jsp');
 }

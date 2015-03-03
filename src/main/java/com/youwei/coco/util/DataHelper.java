@@ -92,11 +92,11 @@ public class DataHelper {
 	public static User getUser(String type , String id){
 		CommonDaoService dao = SimpDaoTool.getGlobalCommonDaoService();
 		if(KeyConstants.User_Type_Buyer.equals(type)){
-			return dao.getUnique(Buyer.class, id);
+			return dao.get(Buyer.class, id);
 		}else if(KeyConstants.User_Type_Seller.equals(type)){
-			return dao.getUnique(Seller.class, id);
+			return dao.get(Seller.class, id);
 		}else if(KeyConstants.User_Type_Admin.equals(type)){
-			return dao.getUnique(Admin.class, Integer.valueOf(id));
+			return dao.get(Admin.class, Integer.valueOf(id));
 		}
 		return null;
 	}

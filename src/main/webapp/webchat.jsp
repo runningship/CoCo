@@ -24,12 +24,39 @@
 <script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
 var web_socket_on=false;
-
+var valid = false;
 $(function(){
-	auth('${token}');
+	//auth('${token}');
 });
 
-function auth(token){
+function addRecentContact(contactId){
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: '/c/addRecentContact?contactId='+contactId,
+	    success:function(data){
+	    }
+	  });
+}
+
+function openSeller(sellerId){
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: '/c/getSeller?sellerId='+sellerId,
+	    success:function(data){
+	    	var seller = data.seller;
+	    	openChat(seller.sellerId , seller.companyName , seller.avatar);
+	    }
+	  });
+}
+function openChats(sellers){
+	for(var i=0;i<sellers.length;i++){
+		var seller = sellers[i];
+		openChat(seller.sellerId , seller.companyName , seller.avatar);
+	}
+}
+function auth(token , success, error){
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
@@ -41,9 +68,23 @@ function auth(token){
 		    	my_avatar=user.avatar;
 		    	my_name = user.name;
 		    	ws_url = 'ws://${domainName}:9099?uid='+user.id+'&type='+user.type+'&uname='+user.name;
+		    	valid = true;
 		    	connectWebSocket();
+		    	//通知调用页面
+		    	if(success){
+		    		success();
+		    	}
+		    	//addRecentContact('${seller.sellerId}');
+		    	//openChat('${seller.sellerId}' , '${seller.companyName}' , ${seller.avatar});
+		    	if(data.sellers){
+		    		openChats(data.sellers);
+		    	}
 	    	}else{
+	    		if(error){
+	    			
+	    		}
 	    		 //startLogin();
+	    		 //通知调用页面，登录失败
 	    	}
 	    }
 	  });
@@ -94,7 +135,7 @@ $(function(){
 
            <iframe class="mask"></iframe>  
            <div class="mask"></div>  
-<div class="cocoWin" id="layerBoxDj" style="">
+<div class="cocoWin" id="layerBoxDj" style="position:initial">
 <!-- 聊天窗口，可多人 -->
      <div class="cocoWintit" id="cocoWintit" style="-webkit-user-select:none;" >
 	     <span class="chat_title Fleft"></span><i class="closeBg none" onclick="closeBox()" title="最小化"></i>
