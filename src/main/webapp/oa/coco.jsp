@@ -47,7 +47,7 @@ function showSearchPanel(){
 
               <div class="td cocoMainTit oaTitBgCoco">
                 <div class=""><img src="/oa/images/avatar/${me.avatar}.jpg" class="user_offline_filter" id="avatarId" onclick="openNewWin('changeAvatar','695','500','修改头像','oa/avatar.jsp');" />
-                    <div title="" class="mainInfo mainName" id="user_name_div">${me.uname}</div>
+                    <div title="" class="mainInfo mainName" id="user_name_div">${me.name}</div>
                     <input id="user_name_input" style="display:none;margin-top:5px;" onblur="endChangeName();" />
                     <div class="mainInfo mainabout">${dname}</div>
                     <div class="turnLit" onclick="$('.cocoMain').toggleClass('hide');">-</div>

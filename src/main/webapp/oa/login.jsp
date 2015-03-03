@@ -21,7 +21,7 @@ function login(){
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: '/c/login?name='+$('#idName').val()+'&pwd='+$('#idPassword').val(),
+	    url: '/c/login?name='+$('#idName').val()+'&pwd='+$('#idPassword').val()+'&type='+$('#idType').val(),
 	    success:function(data){
 	    	window.parent.loginSuccess(data);
 	    },
@@ -31,44 +31,46 @@ function login(){
 	  });
 }
 </script>
+<style>
+    .form_login{ display:inline-block; margin: 30px 30px; }
+    .form_login .labU,.form_login .labP{ border: 1px solid #E6E6E6; width: 250px; height: 40px; overflow: hidden; position: relative; background: no-repeat 5px center;}
+    .form_login .labU{ background-image: url('images/icon_user.png');}
+    .form_login .labP{ background-image: url('images/icon_password.png');}
+    .form_login .labU .inputbox,.form_login .labP .inputbox{ position: absolute; top: 0; right:0; bottom: 0; left: 40px;}
+    .form_login .labU .input,.form_login .labP .input{width: 100%;height: 100%;border: 0; padding-left: 5px;font-weight: normal;}
+    .btn { display: inline-block; background: #EEE; color: #000; height: 40px; line-height: 30px; width: 49%;}
+    .btn_submit{ background:#FF6600; color: #FFF; }
+    .btn_reg{ background:#28A9D8; color: #FFF; }
+</style>
 </head>
 <body style="overflow: hidden">
 <div class="html ">
     
     <div class="bodyer">
         <div class="mainer bd ">
-            <ul>
+            <ul class="form_login">
                 <li>
-                    <div class="row loginBox" >
-                        <div class="col-xs-2"></div>
-                        <div class="col-xs-8">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label for="idName" class="col-xs-2 control-label">账号:</label>
-                                    <div class="col-xs-8 form_menu_box" id="idNameBox">
-                                        <input type="text" class="form-control" id="idName" tabindex="10" placeholder="">
-                                        <div class="form_menu_list"></div>
-                                    </div>
-                                    <a class="col-xs-2 btn btn-link" data-type="wangjizhanghao">忘记帐号？</a>
-                                </div>
-                                <div class="form-group">
-                                    <label for="idPassword" class="col-xs-2 control-label">密码:</label>
-                                    <div class="col-xs-8">
-                                        <input type="password" class="form-control" id="idPassword" tabindex="11" placeholder="">
-                                    </div>
-                                    <a class="col-xs-2 btn btn-link" data-type="wangjimima">忘记密码？</a>
-                                </div>
-                                <div class="form-group"></div>
-                                <div class="form-group">
-                                    <label class="col-xs-2 control-label"></label>
-                                    <div class="col-xs-8">
-                                        <button onclick="login();" type="button" class="btn btn-primary "  tabindex="12"><span class="ladda-label">登　录</span></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-xs-2"></div>
-                    </div>
+                    <label class="labU">
+                        <div class="inputbox"><input type="text" class="input" id="idName" placeholder="帐号"></div>
+                    </label>
+                </li>
+                <li>
+                    <label class="labP">
+                        <div class="inputbox"><input type="text" class="input" id="idPassword" placeholder="密码"></div>
+                    </label>
+                </li>
+                <li>
+                    <label class="labP">
+                        <div class="inputbox">
+                        <select name="idType" id="idType" class="input">
+                            <option value="buyer">买家</option>
+                            <option value="seller">卖家</option>
+                        </select></div>
+                    </label>
+                </li>
+                <li>
+                    <a href="#" class="btn btn_submit" onclick="login();">登 陆</a>
+                    <a href="http://365ji.com/register.action" target="_blank" class="btn btn_reg">注 册</a>
                 </li>
             </ul>
         </div>

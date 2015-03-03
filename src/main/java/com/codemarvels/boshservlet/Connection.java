@@ -8,7 +8,7 @@ public class Connection{
 
 	public HttpServletResponse resp;
 	
-	public Integer  uid;
+	public String  uid;
 	
 	private boolean close=false;
 	
@@ -16,7 +16,7 @@ public class Connection{
 	
 	public String returnText = "next_round";
 	
-	public Connection(Integer uid){
+	public Connection(String uid){
 		this.uid = uid;
 	}
 	

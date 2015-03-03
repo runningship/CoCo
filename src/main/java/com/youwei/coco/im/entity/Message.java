@@ -18,9 +18,9 @@ public class Message {
 	
 	public Date sendtime;
 	
-	public Integer senderId;
+	public String senderId;
 	
-	public Integer receiverId;
+	public String receiverId;
 	
 //	public Integer receiverType;
 	

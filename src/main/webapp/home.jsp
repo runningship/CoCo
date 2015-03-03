@@ -45,12 +45,12 @@ function getMyProfile(){
 	    dataType: 'json',
 	    url: '/c/myProfile',
 	    success:function(data){
-	    	data = data.me;
-	    	if(data.id){
-	    		my_uid=data.id;
-		    	my_avatar=data.avatar;
-		    	my_name = data.name;
-		    	ws_url = 'ws://${domainName}:9099?uid='+data.id;
+	    	var user = data.me;
+	    	if(user.id){
+	    		my_uid=user.id;
+		    	my_avatar=user.avatar;
+		    	my_name = user.name;
+		    	ws_url = 'ws://${domainName}:9099?uid='+user.id+'&type='+user.type+'&uname='+user.name;
 		    	connectWebSocket();
 		    	initUserTree('cocoList');
 	    	}else{
@@ -61,7 +61,7 @@ function getMyProfile(){
 	  });
 }
 function startLogin(){
-	openNewWin('login' , '500','300','登录','oa/login.jsp');
+	openNewWin('login' , '310','270','登录','oa/login.jsp');
 }
 </script>
 

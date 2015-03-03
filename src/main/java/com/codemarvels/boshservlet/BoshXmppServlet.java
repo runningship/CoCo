@@ -28,11 +28,11 @@ public class BoshXmppServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-    	Integer uid = 0;
+    	String uid = "";
     	User u = ThreadSessionHelper.getUser();
     	if(u!=null){
 //    		return;
-    		uid = u.id;
+    		uid = u.getId();
     	}
     	String type = getStringParam("type" , request);
     	if("ping".equals(type)){

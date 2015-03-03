@@ -9,7 +9,7 @@ import net.sf.json.JSONObject;
 
 public class OutMessageManager extends Thread{
 
-	public static Map<Integer , Connection> conns = new HashMap<Integer , Connection>();
+	public static Map<String , Connection> conns = new HashMap<String , Connection>();
 	
 	private List<JSONObject> msgs = new ArrayList<JSONObject>();
 

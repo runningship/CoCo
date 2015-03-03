@@ -51,10 +51,10 @@ public class StartUpListener implements ServletContextListener{
 //		settings.put(AvailableSettings.DRIVER, "com.p6spy.engine.spy.P6SpyDriver");
 		
 //		settings.put(AvailableSettings.DIALECT, "org.hibernate.dialect.SQLServer2008Dialect");
-		settings.put(AvailableSettings.DIALECT, SQL2008Dialect.class.getName());
+//		settings.put(AvailableSettings.DIALECT, SQL2008Dialect.class.getName());
 		
 //		settings.put(AvailableSettings.DRIVER, "com.mysql.jdbc.Driver");
-//		settings.put(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
+		settings.put(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 		
 		settings.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 //		settings.put(AvailableSettings.HBM2DDL_AUTO, "update");

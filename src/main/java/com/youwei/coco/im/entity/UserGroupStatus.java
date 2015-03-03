@@ -16,7 +16,7 @@ public class UserGroupStatus {
 	
 	public Date lasttime;
 	
-	public Integer receiverId;
+	public String receiverId;
 	
-	public Integer groupId;
+	public String groupId;
 }

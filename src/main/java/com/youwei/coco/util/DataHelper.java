@@ -1,25 +1,25 @@
 package com.youwei.coco.util;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
+import net.sf.json.JSONObject;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
+import org.bc.sdak.CommonDaoService;
+import org.bc.sdak.SimpDaoTool;
 import org.bc.sdak.utils.LogUtil;
-import org.bc.web.ThreadSession;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+
+import com.youwei.coco.KeyConstants;
+import com.youwei.coco.user.entity.Admin;
+import com.youwei.coco.user.entity.Buyer;
+import com.youwei.coco.user.entity.Seller;
+import com.youwei.coco.user.entity.User;
 
 public class DataHelper {
 
@@ -77,13 +77,27 @@ public class DataHelper {
 		return "";
 	}
 	
-	public static List<String> getFilterWords(){
-		try {
-			List<String> lines = FileUtils.readLines(new File(ThreadSession.getHttpSession().getServletContext().getRealPath("/")+File.separator+"filter-words.txt"), "utf8");
-			return lines;
-		} catch (IOException e) {
-			LogUtil.log(Level.WARN, "load filter words failed ", e);
-			return new ArrayList<String>();
+	public static JSONObject toCommonUser(User u){
+		JSONObject jobj = new JSONObject();
+		if(u==null){
+			return jobj;
 		}
+		jobj.put("id", u.getId());
+		jobj.put("name", u.getName());
+		jobj.put("avatar", u.getAvatar());
+		jobj.put("type", u.getType());
+		return jobj;
+	}
+	
+	public static User getUser(String type , String id){
+		CommonDaoService dao = SimpDaoTool.getGlobalCommonDaoService();
+		if(KeyConstants.User_Type_Buyer.equals(type)){
+			return dao.getUnique(Buyer.class, id);
+		}else if(KeyConstants.User_Type_Seller.equals(type)){
+			return dao.getUnique(Seller.class, id);
+		}else if(KeyConstants.User_Type_Admin.equals(type)){
+			return dao.getUnique(Admin.class, Integer.valueOf(id));
+		}
+		return null;
 	}
 }

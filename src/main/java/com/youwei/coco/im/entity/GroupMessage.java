@@ -18,7 +18,7 @@ public class GroupMessage {
 	
 	public Date sendtime;
 	
-	public Integer senderId;
+	public String senderId;
 	
-	public Integer groupId;
+	public String groupId;
 }

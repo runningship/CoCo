@@ -5,11 +5,11 @@
 	  
 	  function layerShowBox(id){
 		  
-	      var $mainId =$("#iframe_oa",window.top.document).contents().find("#"+id);
+	      var $mainId =$("#"+id);
 		  var w = $mainId.width();
 		  var h = $mainId.height();
-		  var winW = $("#iframe_oa",window.top.document).width();
-		  var winH = $("#iframe_oa",window.top.document).height();
+		  var winW = $("body",window.top.document).width();
+		  var winH = $("body",window.top.document).height();
 		  var L = (winW - w)/2;
 		  var T = (winH - h)/2;
 
@@ -58,7 +58,7 @@
 					x = x<=10?10:x;
 					x = x>=$(window).width()-300?$(window).width()-300:x;
 					
-					y = y<=50?50:y;
+					y = y<=10?10:y;
 					y = y>=$(window).height()-100?$(window).height()-100:y;
 					
 					
@@ -116,7 +116,7 @@
 					x = x<=10?10:x;
 					x = x>=$(window).width()-300?$(window).width()-300:x;
 					
-					y = y<=50?50:y;
+					y = y<=10?10:y;
 					y = y>=$(window).height()-100?$(window).height()-100:y;
 					
 					$("#"+id).css({top:y,left:x});//控件新位置  

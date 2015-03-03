@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.bc.sdak.CommonDaoService;
@@ -20,11 +21,17 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import com.youwei.coco.CocoService;
+import com.youwei.coco.IMChatHandler;
+import com.youwei.coco.IMContactHandler;
 import com.youwei.coco.KeyConstants;
+import com.youwei.coco.YjhChatHandler;
+import com.youwei.coco.YjhContactHandler;
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.im.entity.GroupMessage;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.im.entity.UserGroupStatus;
+import com.youwei.coco.user.entity.Buyer;
+import com.youwei.coco.user.entity.Seller;
 import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
 import com.youwei.coco.util.URLUtil;
@@ -32,10 +39,14 @@ import com.youwei.coco.util.URLUtil;
 public class IMServer extends WebSocketServer{
 
 	private static IMServer instance =null;
-	static Map<Integer,WebSocket> conns = new HashMap<Integer,WebSocket>();
+	static Map<String,WebSocket> conns = new HashMap<String,WebSocket>();
 //	static Map<String,Map<Integer,WebSocket>> conns = new HashMap<String,Map<Integer,WebSocket>>();
 	CommonDaoService dao = TransactionalServiceHelper.getTransactionalService(CommonDaoService.class);
 	CocoService cocoService = TransactionalServiceHelper.getTransactionalService(CocoService.class);
+	
+	IMChatHandler chatHandler = TransactionalServiceHelper.getTransactionalService(YjhChatHandler.class);
+	private IMContactHandler contactHandler = TransactionalServiceHelper.getTransactionalService(YjhContactHandler.class);
+	
 	private IMServer() throws UnknownHostException {
 //		super(new InetSocketAddress(Inet4Address.getByName("localhost"), 9099));
 //		super(new InetSocketAddress("192.168.1.125", 9099));
@@ -66,10 +77,11 @@ public class IMServer extends WebSocketServer{
 		System.out.println("web socket connector path is: "+path);
 		try {
 			Map<String, Object> map = URLUtil.parseQuery(path);
-			Integer uid = Integer.valueOf(map.get("uid").toString());
-			User user = SimpDaoTool.getGlobalCommonDaoService().get(User.class, uid);
+			String uid = map.get("uid").toString();
+			String uname = map.get("uname").toString();
+//			String userType = map.get("type").toString();
 			conn.getAttributes().put("uid", uid);
-			conn.getAttributes().put("uname", user.uname);
+			conn.getAttributes().put("uname",uname);
 			conns.put(uid, conn);
 			nofityStatus(conn, KeyConstants.User_Status_Online);
 		} catch (UnsupportedEncodingException e) {
@@ -80,7 +92,7 @@ public class IMServer extends WebSocketServer{
 
 	@Override
 	public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-		Integer uid = (Integer) conn.getAttributes().get("uid");
+		String uid = (String)conn.getAttributes().get("uid");
 		WebSocket removed = conns.remove(uid);
 		if(removed!=null){
 			conns.remove(removed);
@@ -96,9 +108,9 @@ public class IMServer extends WebSocketServer{
 			return;
 		}
 		JSONObject data = JSONObject.fromObject(message);
-		Integer senderId = Integer.valueOf(conn.getAttributes().get("uid").toString());
+		String senderId = conn.getAttributes().get("uid").toString();
 		if("msg".equals(data.getString("type"))){
-			int recvId = data.getInt("contactId");
+			String recvId = data.getString("contactId");
 			//接收人自己的信息没有必要发送，以免混淆
 			data.remove("contactId");
 			data.remove("contactName");
@@ -109,11 +121,11 @@ public class IMServer extends WebSocketServer{
 		}
 	}
 
-	private void onReceiveGroupMsg(JSONObject data , int senderId){
+	private void onReceiveGroupMsg(JSONObject data , String senderId){
 
-		Integer groupId = data.getInt("contactId");
+		String groupId = data.getString("contactId");
 		//get users of group
-		List<Map> list = SimpDaoTool.getGlobalCommonDaoService().listAsMap("select id as uid from User where cid=? or did=?", groupId , groupId);
+		List<Map> list = chatHandler.getGroupMembers(groupId);
 		//save group message
 		GroupMessage gMsg = new GroupMessage();
 		gMsg.conts = data.getString("msg");
@@ -156,15 +168,21 @@ public class IMServer extends WebSocketServer{
 		jobj.put("status", status);
 		jobj.put("contactId", fromUid);
 		jobj.put("contactName", fromUname);
-		for(Map buddy : cocoService.getBuddyList(null)){
-			WebSocket conn = conns.get(buddy.get("id"));
-			if(conn!=null){
-				conn.send(jobj.toString());
+		
+		JSONArray buddyList = contactHandler.getUserTree();
+		for(int i=0;i<buddyList.size();i++){
+			JSONObject buddy = buddyList.getJSONObject(i);
+			if("user".equals(buddy.getString("type"))){
+				WebSocket conn = conns.get(buddy.get("id"));
+				if(conn!=null){
+					conn.send(jobj.toString());
+				}
 			}
+			
 		}
 	}
 
-	private void sendMsg(WebSocket senderSocket ,Integer senderId , Integer recvId , JSONObject data , boolean isGroup) {
+	private void sendMsg(WebSocket senderSocket ,String senderId , String recvId , JSONObject data , boolean isGroup) {
 		if(!isGroup){
 			Message dbMsg = new Message();
 			dbMsg.sendtime = new Date();
@@ -209,7 +227,7 @@ public class IMServer extends WebSocketServer{
 		data.put("contactId", groupId);
 		data.put("senderAvatar", CocoService.AssistantAvatar);
 		data.put("senderName", CocoService.AssistantName);
-		instance.onReceiveGroupMsg(data,CocoService.AssistantUid);
+		instance.onReceiveGroupMsg(data,String.valueOf(CocoService.AssistantUid));
 	}
 
 	/**
@@ -217,7 +235,7 @@ public class IMServer extends WebSocketServer{
 	 * @param userId
 	 * @param msg
 	 */
-	public static void pushMsgToUser(int userId,String msg){
+	public static void pushMsgToUser(String userId,String msg){
 		System.out.println(msg);
 		WebSocket conn = conns.get(userId);
 		if(conn==null){
@@ -235,7 +253,7 @@ public class IMServer extends WebSocketServer{
 		Message dbMsg = new Message();
 		dbMsg.sendtime = new Date();
 		dbMsg.conts = msg;
-		dbMsg.senderId = CocoService.AssistantUid;
+		dbMsg.senderId = String.valueOf(CocoService.AssistantUid);
 		dbMsg.receiverId = userId;
 		dbMsg.hasRead=0;
 		instance.dao.saveOrUpdate(dbMsg);
