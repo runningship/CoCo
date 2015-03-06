@@ -9,16 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="im_usergroupstatus")
-public class UserGroupStatus {
+@Table(name="im_log")
+public class IMLog {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Integer id;
 	
-	public Date lasttime;
+	public String uid;
 	
-	public String receiverId;
+	public Date actiontime;
 	
-	public String groupId;
+	public String utype;
+	
+	public int action;
+	
 }

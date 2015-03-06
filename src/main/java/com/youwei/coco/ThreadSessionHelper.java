@@ -18,11 +18,6 @@ public class ThreadSessionHelper {
     	}
     	User u =  (User)session.getAttribute("user");
     	if(u==null){
-    		// mock a user for test
-//    		u = new User();
-//    		u.avatar=33;
-//    		u.id=2;
-//    		u.uname = "小小";
     		throw new GException(PlatformExceptionType.UserOfflineException , "");
     	}
     	return u;

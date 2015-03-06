@@ -23,6 +23,8 @@ import org.bc.web.WebMethod;
 import org.jsoup.helper.DataUtil;
 
 import com.youwei.coco.cache.ConfigCache;
+import com.youwei.coco.im.IMServer;
+import com.youwei.coco.im.entity.IMLog;
 import com.youwei.coco.user.entity.Buyer;
 import com.youwei.coco.user.entity.RecentContact;
 import com.youwei.coco.user.entity.Seller;
@@ -40,6 +42,7 @@ public class CocoService {
 	public static final String AssistantName="小助手";
 	
 	private IMContactHandler contactHandler = TransactionalServiceHelper.getTransactionalService(YjhContactHandler.class);
+	IMChatHandler chatHandler = TransactionalServiceHelper.getTransactionalService(YjhChatHandler.class);
 	@WebMethod
 	public ModelAndView myProfile(){
 		ModelAndView mv = new ModelAndView();
@@ -52,24 +55,38 @@ public class CocoService {
 	public ModelAndView getSeller(String sellerId){
 		ModelAndView mv = new ModelAndView();
 		Seller po = dao.get(Seller.class, sellerId);
-		mv.data.put("seller", JSONHelper.toJSON(po));
+		mv.data.put("seller", DataHelper.toCommonUser(po));
 		return mv;
 	}
 	
 	@WebMethod
 	public ModelAndView auth(String token){
 		ModelAndView mv = new ModelAndView();
+		User session_user = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
 		Token po = dao.getUniqueByKeyValue(Token.class, "data", token);
 		if(po!=null){
 			User u = DataHelper.getUser(po.userType , po.uid);
 			if(u==null){
 				mv.data.put("result", "-1");
 			}else{
+				if(session_user==null){
+					IMLog imLog = new IMLog();
+					imLog.action = KeyConstants.IM_Action_Login;
+					imLog.uid = u.getId();
+					imLog.utype = u.getType();
+					imLog.actiontime = new Date();
+					dao.saveOrUpdate(imLog);
+				}
+				
 				ThreadSession.getHttpSession().setAttribute(KeyConstants.Session_User, u);
 				mv.data.put("me", DataHelper.toCommonUser(u));
-				List<Map> sellers = dao.listAsMap("select seller.companyName as companyName , seller.sellerId as sellerId "
-						+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId");
-				mv.data.put("sellers", JSONHelper.toJSONArray(sellers));
+				//get recent chat
+				List<Map> contacts = chatHandler.getRecentChats(u.getType(), u.getId());
+				getUserStatus(contacts);
+				mv.data.put("contacts", JSONHelper.toJSONArray(contacts));
+				List<Map> unReadChats = chatHandler.getWebUnReadChats(u.getId());
+				getUserStatus(unReadChats);
+				mv.data.put("unReadChats", JSONHelper.toJSONArray(unReadChats));
 			}
 		}else{
 			mv.data.put("result", "-1");
@@ -77,18 +94,44 @@ public class CocoService {
 		return mv;
 	}
 	
+	private void getUserStatus(List<Map> chats){
+		for(Map chat : chats){
+			String uid = (String) chat.get("uid");
+			chat.put("status" , IMServer.isUserOnline(uid));
+		}
+	}
 	@WebMethod
 	public ModelAndView home(){
 		ModelAndView mv = new ModelAndView();
-//		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
-//		if(u!=null){
-//			mv.jspData.put("me",DataHelper.toCommonUser(u));
-//		}
 		User u = (User)ThreadSessionHelper.getUser();
+		mv.jspData.put("me",DataHelper.toCommonUser(u));
 		mv.jspData.put("depts",getGroupList());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 		return mv;
 	}
+	
+	@WebMethod
+	public ModelAndView yjh(String token,String userType){
+		ModelAndView mv = new ModelAndView();
+		mv.jspData.put("token",token);
+		mv.jspData.put("userType",userType);
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView yjh_buyer(String token){
+		ModelAndView mv = new ModelAndView();
+		mv.jspData.put("token",token);
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView yjh_seller(String token){
+		ModelAndView mv = new ModelAndView();
+		mv.jspData.put("token",token);
+		return mv;
+	}
+	
 	@WebMethod
 	public ModelAndView webchat(String token , String sellerId){
 		ModelAndView mv = new ModelAndView();
@@ -96,6 +139,10 @@ public class CocoService {
 //		Seller seller = dao.get(Seller.class, sellerId);
 //		mv.jspData.put("token", token);
 //		mv.jspData.put("seller", seller);
+		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
+		if(u!=null){
+			mv.jspData.put("myUid", u.getId());
+		}
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 		return mv;
 	}
@@ -112,8 +159,20 @@ public class CocoService {
 			po.uid = uid;
 			po.contactId = contactId;
 			po.lasttime = new Date();
+			po.userType = ThreadSessionHelper.getUser().getType();
 		}
 		dao.saveOrUpdate(po);
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView removeRecentContact(String contactId){
+		ModelAndView mv = new ModelAndView();
+		String uid =ThreadSessionHelper.getUser().getId();
+		RecentContact po = dao.getUniqueByParams(RecentContact.class, new String[]{"uid" , "contactId"}, new Object[]{uid , contactId});
+		if(po!=null){
+			dao.delete(po);
+		}
 		return mv;
 	}
 	
@@ -153,16 +212,6 @@ public class CocoService {
 	}
 	
 	
-	private Map getMyProfile() {
-		
-		Map me = new HashMap();
-		me.put("id", 1);
-		me.put("avatar", 33);
-		me.put("uname", "叶新舟");
-		me.put("domain", "hefei");
-		return me;
-	}
-
 	public List<Map> getBuddyList(Integer parent){
 		List<Map> users = new ArrayList<Map>();
 		Map<String,Object> ass = new HashMap<String,Object>();

@@ -1,4 +1,4 @@
-.user_status_filter_0{-webkit-filter: grayscale(100%);}
+.user_offline_filter{-webkit-filter: grayscale(100%);}
 /*在线*/
 .user_status_1{ width:10px; height:10px; border-radius:8px; background-color:#f46868; position:absolute; right:5px; top:10px;}
 /*离线*/

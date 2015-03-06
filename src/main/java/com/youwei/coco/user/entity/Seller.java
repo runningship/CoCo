@@ -35,7 +35,7 @@ public class Seller implements User{
 	@Column(name="city_id")
 	public String cityId;
 	
-	public transient int avatar;
+	public String avatar;
 
 	@Override
 	public String getId() {
@@ -48,7 +48,7 @@ public class Seller implements User{
 	}
 	
 	@Override
-	public int getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 	

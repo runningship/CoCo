@@ -26,7 +26,7 @@
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>bosh</servlet-name>
-	    <url-pattern>/bosh/*</url-pattern>
+	    <url-pattern>bosh/</url-pattern>
 	</servlet-mapping>
 	
 	<filter>

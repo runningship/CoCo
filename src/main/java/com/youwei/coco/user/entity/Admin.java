@@ -27,7 +27,7 @@ public class Admin implements User{
 	//大区
 	public String area;
 	
-	public transient int avatar;
+	public String avatar;
 
 	@Override
 	public String getId() {
@@ -40,7 +40,7 @@ public class Admin implements User{
 	}
 	
 	@Override
-	public int getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 	

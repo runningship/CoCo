@@ -13,4 +13,10 @@ public class KeyConstants {
 	public static final String User_Type_Seller = "seller";
 	
 	public static final String User_Type_Admin = "admin";
+	
+	public static final String Default_Avatar = "150";
+
+	public static final int IM_Action_Login = 1;
+	
+	public static final int IM_Action_Logout = 0;
 }

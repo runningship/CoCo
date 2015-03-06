@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
 import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.TransactionalServiceHelper;
 import org.bc.web.ThreadSession;
@@ -44,9 +45,9 @@ public class YjhContactHandler implements IMContactHandler{
 		}
 		List<Map> users = new ArrayList<Map>();
 		if(KeyConstants.User_Type_Buyer.equals(user.getType())){
-			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId" );
+			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId" );
 		}else if(KeyConstants.User_Type_Seller.equals(user.getType())){
-			users = dao.listAsMap("select id as uid,name as name from Admin  where area=?",pid );
+			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar from Admin  where area=?",pid );
 		}
 		Random r = new Random();
 		for(Map u : users){
@@ -56,9 +57,12 @@ public class YjhContactHandler implements IMContactHandler{
 			json.put("pId", pid);
 			json.put("name", u.get("name"));
 			json.put("type", "user");
-			json.put("avatar", u.get("avatar"));
 			json.put("status", KeyConstants.User_Status_Online);
-			json.put("avatar", r.nextInt(150));
+			if(StringUtils.isEmpty((String)u.get("avatar"))){
+				json.put("avatar", KeyConstants.Default_Avatar);
+			}else{
+				json.put("avatar", u.get("avatar"));
+			}
 			result.add(json);
 		}
 	}

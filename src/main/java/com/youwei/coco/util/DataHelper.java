@@ -84,7 +84,12 @@ public class DataHelper {
 		}
 		jobj.put("id", u.getId());
 		jobj.put("name", u.getName());
-		jobj.put("avatar", u.getAvatar());
+		if(StringUtils.isEmpty(u.getAvatar())){
+			jobj.put("avatar", KeyConstants.Default_Avatar);
+		}else{
+			jobj.put("avatar", u.getAvatar());
+		}
+		
 		jobj.put("type", u.getType());
 		return jobj;
 	}

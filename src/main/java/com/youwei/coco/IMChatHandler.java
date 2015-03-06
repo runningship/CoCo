@@ -11,4 +11,7 @@ public interface IMChatHandler {
 	
 	public List<Map> getGroupChatUnReads(String userId , String groupId);
 	
+	public List<Map> getWebUnReadChats(String userId);
+	
+	public List<Map> getRecentChats(String userType,String uid);
 }

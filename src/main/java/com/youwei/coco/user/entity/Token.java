@@ -15,6 +15,7 @@ import com.youwei.coco.KeyConstants;
  * 买家
  */
 @Entity
+@Table(name="im_token")
 public class Token {
 
 	@Id

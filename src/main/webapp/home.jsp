@@ -8,21 +8,84 @@
 <meta http-equiv="cache-control" content="no-cache, must-revalidate"> 
 <meta http-equiv="expires" content="0"> 
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>中介宝</title>
+<title>有机会 - 叮铛</title>
 <meta name="description" content="中介宝房源软件系统">
 <meta name="keywords" content="房源软件,房源系统,中介宝">
 <!-- <link href="/style/css.css" rel="stylesheet"> -->
-<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="/style/style.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="style/style.css" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="/oa/style/cocoWindow.css" />
-<link rel="stylesheet" type="text/css" href="/oa/style/cocoWinLayer.css" />
-<link rel="stylesheet" type="text/css" href="/oa/style/cssOa.css" />
-<link rel="stylesheet" type="text/css" href="/oa/style/im.css" />
-<script src="/js/jquery.js" type="text/javascript"></script>
-<script src="/js/buildHtml.js" type="text/javascript"></script>
-<script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="oa/style/cocoWindow.css" />
+<link rel="stylesheet" type="text/css" href="oa/style/cocoWinLayer.css" />
+<link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
+<link rel="stylesheet" type="text/css" href="oa/style/im.css" />
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="bootstrap/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
+try{
+var gui = require('nw.gui');
+var win = gui.Window.get();
+var shell = gui.Shell;
+var winMaxHeight,winMaxWidth;
+}catch (e){}
+
+try{
+	if(win.width<850){
+	win.resizeTo(850,win.height);
+	}
+	if(win.height<850){
+	win.resizeTo(win.width,590);
+	}
+	var xs=screen.width/2-win.width/2,
+	ys=screen.height/2-win.height/2;
+	win.moveTo(xs,ys);
+}catch (e){}
+
+
+function WinClose(){
+	win.close(); 
+}
+function WinMin(){
+	win.minimize();
+}
+function WinMax(){
+	win.setMaximumSize(screen.availWidth + 15, screen.availHeight + 15);
+	win.maximize();
+	winMaxHeight=win.height;
+	winMaxWidth=win.width;
+	WinMaxOrRev(0);
+}
+function WinRevert(){
+	win.restore();
+	if(win.width<850){
+	win.resizeTo(852,win.height);
+	}
+	WinMaxOrRev(1);
+}
+function WinMaxRev(){
+	if(hex.formState==0){
+		WinMax();
+	}else if(hex.formState==2){
+		WinRevert();
+	}
+}
+
+
+$(document).on('click', '.btn', function(event) {
+    var Thi=$(this),
+    ThiType=Thi.data('type');
+    if(ThiType=='winclose'){
+        WinClose();
+    }else if(ThiType=='winmax'){
+        WinMaxRev();
+    }else if(ThiType=='winmin'){
+        WinMin();
+    }
+    event.preventDefault();
+});
+
+
+
 var web_socket_on=false;
 
 $(function(){
@@ -33,7 +96,7 @@ function getMyProfile(){
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: '/c/myProfile',
+	    url: 'c/myProfile',
 	    success:function(data){
 	    	var user = data.me;
 	    	if(user.id){
@@ -55,17 +118,122 @@ function getMyProfile(){
 function startLogin(){
 	openNewWin('login' , '310','270','登录','oa/login.jsp');
 }
-</script>
 
+function cocoWin_resize(){
+	if($('.cocoWin').length>0){
+		var BH=$('body').height(),
+		coTH=$('.cocoWintit').height(),
+		coM=$('.cocoWinContent'),
+		coMi=$('.cocoWinInfoListShow'),
+		coMs=$('.WinInfoSend'),
+		coMqb=$('.qunBox');
+		coM.height(BH-coTH-1);
+		coMi.height(coM.height()-coMs.height())
+		coMqb.height(BH-coTH);
+	}
+}
+$(document).ready(function() {
+	cocoWin_resize();
+});
+$(window).resize(function(event) {
+	cocoWin_resize();
+	/* Act on the event */
+});
+</script>
+<style>
+body{ overflow: hidden;}
+
+.titlebar{-webkit-app-region:drag;}
+.nobar{-webkit-app-region:no-drag;z-index: 9999}
+/* Win窗口边框，需配合js使用，too.js里 */
+.winBoxBorders{ position:absolute; border-width:0;border-style:solid;border-color:#555;top:0; right:0; bottom:0; left: 0; z-index: 9999999;}
+.winBoxBorders.winBoxBorderT{ border-top-width:1px; bottom: auto;}
+.winBoxBorders.winBoxBorderR{ border-right-width:1px; left: auto;}
+.winBoxBorders.winBoxBorderB{ border-bottom-width:1px; top: auto;}
+.winBoxBorders.winBoxBorderL{ border-left-width:1px; right: auto;}/**/
+
+.body{}
+.body .winTools{ position: absolute; top: 1px; right: 1px; z-index: 2147483000;}
+.body .winTools a{}
+.body {-webkit-app-region: drag;}
+.body .winTools{-webkit-app-region: no-drag; float: right;}
+.body .winTools a{ display: inline-block; height: 30px; line-height: 30px; width: 30px; text-align: center; color: #000; font-family: 'microsoft yahei'; text-decoration: none;opacity: 0.5;}
+.body .winTools a.btn_close:hover{opacity: 1;}
+
+
+
+
+
+ body .edui-default .edui-editor{ border: 0;-webkit-border-radius: 0px; 
+-moz-border-radius: 0px;
+ border-radius: 0px;}
+
+.bodys{ height: 490px; overflow: hidden;}
+.rightBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;height: 100%;}
+.qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;}
+
+.qunList{ border-bottom: 1px solid #EEE;}
+.qunList dt{ text-align: center; background: url('oa/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}
+.qunList dd.conts{ padding: 5px;}
+
+.oaTitBgCoco {background-color: #08B3B6;}
+.cocoMainCon{background-color: #f7f7f7;}
+.cocoMainConBox{background: none;width: 100%; }
+.cocoWin{ position: relative; left: 0;padding-left: 216px;}
+.cocoWinContent{ height: 100%;}
+.cocoWinContentLxr{ height: 100%;}
+.WinInfoSend { float: none;position: relative;height: 113px;overflow: hidden;}
+.WinInfoListAppend {}
+.WinInfoListAppend .newsAppend { margin-left: 0; margin-right: 0; display: block; width: 100%; }
+.WinInfoListAppend .newsAppendBox{ margin-left: 70px;}
+.WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;}
+.WinInfoSendWrite{width: auto;float: none;margin-right: 0px;height: auto; margin-left: 0px; /**/}
+.WinInfoSendBtn{position: absolute;right: 0;bottom: 0;height: 30px; z-index: 22222;}
+.WinInfoSendBtnMessage{height: 100%;}
+.WinInfoListShowMainBox{ float: none; margin: 0; height: 100%;}
+
+body .edui-default .edui-editor-toolbarbox {
+position: relative;
+zoom: 1;
+-webkit-box-shadow: 0 0px 0px rgba(204, 204, 204, 0.6);
+-moz-box-shadow: 0 0px 0px rgba(204, 204, 204, 0.6);
+box-shadow: 0 0px 0px rgba(204, 204, 204, 0.6);
+border-top-left-radius: 0px;
+border-top-right-radius: 0px; */
+}
+body .edui-default .edui-editor-toolbarboxouter {
+border-bottom: 0px solid #d4d4d4;
+background: #FFF;
+background-repeat: repeat-x;
+border: 0px solid #d4d4d4;
+border-radius: 0px 0px 0 0;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffffffff', GradientType=0);
+-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.065);
+box-shadow: 0 0px 0px rgba(0, 0, 0, 0.065);
+}
+body #edui1_iframeholder{ height: 50px;}
+</style>
 </head>
 <body>
- <div>
-        <jsp:include page="oa/coco.jsp"></jsp:include>
-    </div>
-    
-<div>
-<jsp:include page="oa/userTree2.jsp"></jsp:include>
+<div class="body titlebar">
+	<div class="winTools">
+		<a href="#" class="btn btn_close" data-type="winmin">_</a>
+		<a href="#" class="btn btn_close" data-type="winmax">□</a>
+		<a href="#" class="btn btn_close" data-type="winclose">X</a>
+	</div>
+
+	<div>
+	    <jsp:include page="oa/coco.jsp"></jsp:include>
+	</div>
+	    
+	<div>
+	<jsp:include page="oa/userTree2.jsp"></jsp:include>
+	</div>
 </div>
 
+<div class="winBoxBorders winBoxBorderT"></div>
+<div class="winBoxBorders winBoxBorderR"></div>
+<div class="winBoxBorders winBoxBorderB"></div>
+<div class="winBoxBorders winBoxBorderL"></div>
 </body>
 </html>

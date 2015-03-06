@@ -54,8 +54,15 @@ public class IMService {
 	public ModelAndView getGroupMembers(String groupId) {
 		ModelAndView mv = new ModelAndView();
 		List<Map> list = chatHandler.getGroupMembers(groupId);
-//		List<Map> list = dao.listAsMap("select id as uid , avatar as avatar , uname as uname from User where (did=? or cid=?) and lock=1", groupId , groupId);
 		mv.data.put("members", JSONHelper.toJSONArray(list));
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView getWebUnReadChats() {
+		ModelAndView mv = new ModelAndView();
+		User me = ThreadSessionHelper.getUser();
+		mv.data.put("unReadChats", JSONHelper.toJSONArray(chatHandler.getWebUnReadChats(me.getId())));
 		return mv;
 	}
 	

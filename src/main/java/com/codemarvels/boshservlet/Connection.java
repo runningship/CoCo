@@ -10,6 +10,7 @@ public class Connection{
 	
 	public String  uid;
 	
+	private boolean flush = false;
 	private boolean close=false;
 	
 	private long lifeStart=0;
@@ -20,9 +21,13 @@ public class Connection{
 		this.uid = uid;
 	}
 	
+	public void flush(){
+		flush = true;
+	}
 	private void respond(){
 		if(resp!=null){
 			try {
+				resp.setContentType("text/html");
 				resp.getOutputStream().write(returnText.getBytes());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -33,6 +38,9 @@ public class Connection{
 	public void start() {
 		lifeStart = System.currentTimeMillis();
 		while(close==false && System.currentTimeMillis()-lifeStart<=30*1000){
+			if(flush){
+				break;
+			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

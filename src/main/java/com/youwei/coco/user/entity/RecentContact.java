@@ -13,6 +13,7 @@ import com.youwei.coco.KeyConstants;
  * 最近联系人,web用
  */
 @Entity
+@Table(name="im_recentcontact")
 public class RecentContact {
 
 	@Id
@@ -22,6 +23,8 @@ public class RecentContact {
 	
 	//账号
 	public String contactId;
+	
+	public String userType;
 	
 	public Date lasttime;
 }

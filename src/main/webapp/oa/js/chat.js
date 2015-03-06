@@ -6,13 +6,24 @@ var ue_text_editor;
 var ws_url;
 var unread_stack = [];
 var chat_conts=[];
+var default_avatar='150';
+//web集成时要提供的来信息时的回调接口
+var web_plugin_message_callback;
+//web或者native,表示在web页面嵌入，还是客户端登录
+var resource;
 //http://pub.idqqimg.com/lib/qqface/0.gif
-function openChat(contactId,contactName,avatar){
+function openChat(contactId,contactName,avatar,updateTitle){
+	if(!avatar){
+		avatar=default_avatar;
+	}
 	//打开聊天面板
 	showBox();
 	//设置zIndex
 	$("#layerBoxDj").css({"z-index":999});
 	$('.chat_title').text('与 '+contactName+'... 聊天中');
+	if(updateTitle){
+		updateTitle('与 '+contactName+'... 聊天中');
+	}
 	// 判断chat是否已经存在
 	if($('#chat_'+contactId).length>0){
 		// $('.cocoWinLxrList li').removeClass('now');
@@ -32,7 +43,7 @@ function openChat(contactId,contactName,avatar){
 	}
 	// 添加联系人
 	var lxrHtml=	'<li type="msg" avatar="'+avatar+'" cname="'+contactName+'" cid="'+contactId+'" id="chat_'+contactId+'" onclick="selectChat(this)">'
-                    +   '<div  class="cocoWinLxrListTx Fleft"><img class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="/oa/images/avatar/'+avatar+'.jpg" /></div>'
+                    +   '<div  class="cocoWinLxrListTx Fleft"><img class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="oa/images/avatar/'+avatar+'.jpg" /></div>'
                     +   '<div class="cocoWinLxrListPerInfo Fleft">'
                     +   '   <p class="name">'+contactName+'</p>'
                     +   '</div>'
@@ -67,21 +78,21 @@ function openChat(contactId,contactName,avatar){
 }
 
 function setSigleChatRead(contactId){
-	YW.ajax({
+	$.ajax({
 		type: 'get',
 		dataType: 'json',
-		url: '/c/im/setSingleChatRead?contactId='+contactId,
-		mysuccess:function(data){
+		url: 'c/im/setSingleChatRead?contactId='+contactId,
+		success:function(data){
 		}
 	});
 }
 
 function setGroupChatRead(groupId){
-	YW.ajax({
+	$.ajax({
 		type: 'get',
 		dataType: 'json',
-		url: '/c/im/setGroupChatRead?groupId='+groupId,
-		mysuccess:function(data){
+		url: 'c/im/setGroupChatRead?groupId='+groupId,
+		success:function(data){
 		}
 	});
 }
@@ -148,7 +159,7 @@ function loadGroupMembers(groupId){
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: '/c/im/getGroupMembers?groupId='+groupId,
+	    url: 'c/im/getGroupMembers?groupId='+groupId,
 	    success:function(data){
 	    	//build group members
 	    	buildGroupMembers(groupId , data.members);
@@ -161,7 +172,7 @@ function buildGroupMembers(groupId,members){
 	ul.empty();
 	for(var i=0;i<members.length;i++){
 		var mem = members[i];
-		ul.append('<li><div class="qunTxImg Fleft"><img class="user_avatar_img_'+mem.uid+'" src="/oa/images/avatar/'+mem.avatar+'.jpg"></div><div class="qunLxrInfo Fleft"><p class="name">'+mem.uname+'</p></div></li>');
+		ul.append('<li><div class="qunTxImg Fleft"><img class="user_avatar_img_'+mem.uid+'" src="oa/images/avatar/'+mem.avatar+'.jpg"></div><div class="qunLxrInfo Fleft"><p class="name">'+mem.uname+'</p></div></li>');
 	}
 }
 
@@ -169,7 +180,7 @@ function loadGroupHistory(groupId , currentPageNo){
   $.ajax({
     type: 'get',
     dataType: 'json',
-    url: '/c/im/getGroupHistory?groupId='+groupId+'&currentPageNo='+currentPageNo,
+    url: 'c/im/getGroupHistory?groupId='+groupId+'&currentPageNo='+currentPageNo,
     success:function(data){
     	buildHistory(data.history,groupId);
     }
@@ -180,7 +191,7 @@ function loadHistory(contactId , currentPageNo){
   $.ajax({
     type: 'get',
     dataType: 'json',
-    url: '/c/im/getHistory?contactId='+contactId+'&currentPageNo='+currentPageNo,
+    url: 'c/im/getHistory?contactId='+contactId+'&currentPageNo='+currentPageNo,
     success:function(data){
     	buildHistory(data.history);
     	if(data.history.length<10){
@@ -231,10 +242,18 @@ function buildHistory(history,groupId){
 
 function getAvatarByUid(uid){
 	var img = $('#user_avatar_'+uid+' img');
+	if(img.size()==0){
+		return default_avatar;
+	}
 	return img.attr('user_avatar_img');
 }
 function getContactNameByUid(uid){
 	var name = $('#lxr_'+uid+' .name');
+	return name.text();
+}
+
+function getRecentContactNameByUid(uid){
+	var name = $('#recent_lxr_'+uid+' .name');
 	return name.text();
 }
 function getGroupNameByGid(gid){
@@ -271,7 +290,11 @@ function sendToServer(chat){
 }
 function selectChat(li,groupId){
 	//保存当前窗口内容
-	var conts = ue_text_editor.getContent();
+	
+	var conts = "";
+	if(UE.Editor.body){
+		conts = ue_text_editor.getContent();
+	}
 	var oldChat = $('.now');
 	if(oldChat.length>0){
 		if(oldChat.attr('type')=='groupmsg'){
@@ -319,7 +342,10 @@ function selectChat(li,groupId){
 	}else{
 		oldConts = getChatConts($(li).attr('cid'), 'chat');
 	}
-	ue_text_editor.setContent(oldConts);
+	if(UE.Editor.body){
+		ue_text_editor.setContent(oldConts);
+	}
+	
 }
 
 function pushChatConts(senderId , type , conts){
@@ -355,7 +381,7 @@ function buildSentMessage(text,time , senderName){
 		senderHtml = '<div class="lxrName pright">'+senderName+'</div>';
 	}
 	var sentMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImgRight"><img src="/oa/images/avatar/'+my_avatar+'.jpg" /></div>'
+                    +     '<div class="txImgRight"><img src="oa/images/avatar/'+my_avatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +     		senderHtml
                     +          '<div class="newsAppendBox Fright">'
@@ -425,7 +451,7 @@ function buildRecvMessage(senderAvatar , msg , time , senderName){
 		senderHtml='<div class="lxrName pleft">'+senderName+'</div>';
 	}
 	var recvMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImg"><img src="/oa/images/avatar/'+senderAvatar+'.jpg" /></div>'
+                    +     '<div class="txImg"><img src="oa/images/avatar/'+senderAvatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +         	senderHtml
                     +          '<div class="newsAppendBox Fleft">'
@@ -498,7 +524,22 @@ function notifyNewChat(contactId,msgCount){
 
 	requestWindowAttention(contactId,'chat');
 }
+
+function addRecentContact(msg){
+	//msg中有联系人的所有信息
+	//添加到数据库
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: 'c/addRecentContact?contactId='+contactId,
+	    success:function(data){
+	    }
+	  });
+	
+	//添加界面元素
+}
 function onReceiveMsg(msg){
+	
 	var data = JSON.parse(msg);
 	if(data.type=='user_status'){
 		setUserStatus(data);
@@ -512,7 +553,23 @@ function onReceiveMsg(msg){
 	if($("#layerBoxDj").css('display')=='none'){
     	requestFoxBarAttention(data.senderId,'chat');
     }
-
+	//判断是否在联系人列表和最近联系人列表中
+	if(resource=='native'){
+		var sender = getContactNameByUid(data.senderId);
+		if(sender.size()==0){
+			//不在联系列表
+			sender = getRecentContactNameByUid(data.senderId);
+			if(!sender || sender.size()==0){
+				//不在最近联系人列表中,添加最近联系人
+				addRecentContact(msg);
+			}
+		}
+	}else{
+		if(web_plugin_message_callback){
+			web_plugin_message_callback(data);
+		}
+	}
+	
 	// 判断是否新会话
 	var chat = $('#chat_'+data.senderId);
 	if(chat.length==0){
@@ -651,11 +708,11 @@ function msgAreaKeyup(event){
 }
 
 function getUnReadChats(){
-	YW.ajax({
+	$.ajax({
 		type: 'get',
 		dataType: 'json',
-		url: '/c/im/getUnReadChats',
-		mysuccess:function(data){
+		url: 'c/im/getUnReadChats',
+		success:function(data){
 			buildSingleChatUnreads(data.unReadSingleChats);
 			buildGroupChatUnreads(data.unReadGroupChats);
 			lxrzaixian('cocoList');
@@ -751,7 +808,7 @@ function recoverChatPanel(){
 		}else{
 			$('.cocoNews').removeClass('cocoNewsAlert');
 		}
-		$("#layerBoxDj").css({"z-index":artDialog.defaults.zIndex++});
+		//$("#layerBoxDj").css({"z-index":artDialog.defaults.zIndex++});
 	}else{
 		if($('.cocoWinLxrList li').length>0){
 			if($("#layerBoxDj").css("display")=='none'){
@@ -791,12 +848,12 @@ function endChangeName(){
 	$('#user_name_div').text($('#user_name_input').val());
 	var a = JSON.parse('{}');
 	a.name=$('#user_name_input').val();
-	YW.ajax({
+	$.ajax({
 		type: 'get',
 		dataType: 'json',
 		data:a,
-		url: '/c/im/setUserName',
-		mysuccess:function(data){
+		url: 'c/im/setUserName',
+		success:function(data){
 
 		}
 	});
@@ -804,11 +861,11 @@ function endChangeName(){
 
 function selectAvatar(i){
 	my_avatar = i;
-	$('#avatarId').attr('src','/oa/images/avatar/'+i+'.jpg');
-    YW.ajax({
+	$('#avatarId').attr('src','oa/images/avatar/'+i+'.jpg');
+    $.ajax({
       type: 'POST',
-      url: '/c/im/setAvatar?avatarId='+i,
-      mysuccess: function(data){
+      url: 'c/im/setAvatar?avatarId='+i,
+      success: function(data){
           alert('操作成功');
       }
     });

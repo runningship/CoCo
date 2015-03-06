@@ -10,7 +10,7 @@ public interface User {
 	
 	public String getName();
 
-	public int getAvatar();
+	public String getAvatar();
 	
 	public String getType();
 }

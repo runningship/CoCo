@@ -2,12 +2,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <head>
-<link href="/style/css.css" rel="stylesheet">
-<link href="/style/style.css" rel="stylesheet">
-<link href="/js/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/oa/style/im.css" />
-<script src="/js/jquery.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
+<link href="js/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="oa/style/im.css" />
+<script type="text/javascript" src="js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
         
 <script type="text/javascript">
 //一次性加载
@@ -36,7 +33,7 @@ function onCheck(event, treeId, treeNode){
 function initUserTree(treeId){
    $.ajax({
      type: 'POST',
-     url: '/c/getUserTree',
+     url: 'c/getUserTree',
      data:'',
      success: function(data){
          var result=JSON.parse(data);
@@ -66,7 +63,7 @@ function addDiyDom(treeId, treeNode) {
 	  var span = '<span class="">'
 	 +'<li id="lxr_'+treeNode.id+'" onclick="openChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
      + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
-     +'<img user_avatar_img="'+treeNode.avatar+'" src="/oa/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
+     +'<img user_avatar_img="'+treeNode.avatar+'" src="oa/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'
      + '<div class="cocoPerInfo Fleft">'
      +    '<p class="name">'+treeNode.name+'</p>'

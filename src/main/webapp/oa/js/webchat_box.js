@@ -14,10 +14,10 @@
 		  var T = (winH - h)/2;
 
 		  T = T<=0?0:T;
-		  //T = T>=winH-200?winH-200:T;
+		  T = T>=winH-200?winH-200:T;
 					
-	      L = L!=216?216:L;
-		  //L = L>=winW-300?winW-300:L;
+	      L = L<=10?10:L;
+		  L = L>=winW-300?winW-300:L;
 		  
 		  $mainId.css("left",L);
 		  $mainId.css("top",T);
@@ -27,7 +27,7 @@
 	  
 	  function showBox(){
 		 
-		 $("#layerBoxDj").css("display","block");
+		 $("#warpper").css("display","block");
 /*		 
 		 	$("#cocoWintit").mouseup(function(){ 
 				_move=false;  
@@ -65,8 +65,8 @@
 					$("#layerBoxDj").css({top:y,left:x});//控件新位置
 				}  
 			});
-			
 			*/
+			
 			
 /*			 $("#cocoWintit").mouseup(function(){  
 				_move=false;  

@@ -1,12 +1,14 @@
 
 
-.cocoWin{ width:660px; height:560px; position:absolute; top:70px; left:100px; box-shadow: #666 0px 0px 10px; border-radius:3px; font-family:"宋体"; z-index:1990;}
+.cocoWin{  height:100%; position:absolute; top:0px; left:216px; right:0;
+/* box-shadow: #666 0px 0px 10px;  */
+border-radius:3px; font-family:"宋体"; z-index:1990;}
 
-.cocoWintit{ width:100%; height:32px; line-height:30px; background:url(/oa/cocoImages/titBg.png) repeat-x; border-radius:3px 3px 0 0; position:relative; cursor:default;}
+.cocoWintit{ width:100%; height:50px; line-height:50px; background:#FFF; border-radius:3px 3px 0 0; position:relative; cursor:default;text-align: center; border-bottom: 1px solid #EEE;}
 
-.cocoWintit span{ color:#006566; font-size:12px; margin-left:15px;}
+.cocoWintit span{ display: block; color:#006566; font-size:12px; margin-left:15px;}
 
-.cocoWintit i.closeBg{ width:20px; height:21px; background:url(/oa/cocoImages/close.png) no-repeat; position:absolute;}
+.cocoWintit i.closeBg{ width:20px; height:21px; background:url(/oa/cocoImages/close.png) no-repeat; position:absolute; display:none;}
 
 .cocoWintit i.closeX{ background-position:0 0; top:6px; right:10px;}
 .cocoWintit i.closeX:hover{ background-position:-25px 0;}
@@ -42,13 +44,15 @@
 
 .cocoQunNewsNum{ height:13px; padding:0 4px; border-radius:8px; background-color:#f55252; text-align:center; line-height:13px; position:absolute; right:5px; top:6px; font-size:12px; color:#ffffff; font-family:"宋体";}
 
+.cocoWinLxrList li .msgClose{display:none}
+
 .cocoWinLxrList li.now .msgClose, .cocoWinLxrList li:hover .msgClose{ display:inline-block; height:13px; width:13px; padding-left:1px; text-align:center; border-radius:8px; background-color:#0c2535; line-height:15px; position:absolute; right:5px; top:7px; font-size:12px; color:#345971;}
 
 .cocoWinLxrList li:hover .msgClose:hover{background-color:#0c2535;  color:#299da3; cursor:pointer;}
 
-.cocoWinInfoListShow{ width:510px; height:100%; float:left; background-color:#ffffff; border-bottom:1px solid #e5e5e5; -webkit-user-select: none;}
+.cocoWinInfoListShow{/*  width:510px; float:left; */ height:100%; background-color:#ffffff; border-bottom:1px solid #e5e5e5; -webkit-user-select: none;}
 
-.WinInfoListShowMainBox{ width:510px; height:400px; float:left; margin:5px 0; overflow:hidden; overflow-y:auto;position: relative;}
+.WinInfoListShowMainBox{/*  width:510px; */ height:400px; float:left; margin:5px 0; overflow:hidden; overflow-y:auto;position: relative;}
 
 .WinInfoListAppend{ width:100%; display:inline-block; position:relative; margin-top:20px;}
 
@@ -87,7 +91,7 @@
 
 
 
-.WinInfoSend{ width:100%; float:left; height:117px; background-color:#efefef; border-top:1px solid #ffffff;}
+.WinInfoSend{ width:100%; float:left; height:117px; background-color:#FFF; border-top:1px solid #ffffff;}
 
 .WinInfoSendWrite{ width:428px; height:117px; margin-left:2px; float:left; background-color:#ffffff; overflow:hidden; font-size:12px;}
 

@@ -24,6 +24,7 @@ import com.youwei.coco.CocoService;
 import com.youwei.coco.IMChatHandler;
 import com.youwei.coco.IMContactHandler;
 import com.youwei.coco.KeyConstants;
+import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.YjhChatHandler;
 import com.youwei.coco.YjhContactHandler;
 import com.youwei.coco.cache.ConfigCache;
@@ -79,7 +80,8 @@ public class IMServer extends WebSocketServer{
 			Map<String, Object> map = URLUtil.parseQuery(path);
 			String uid = map.get("uid").toString();
 			String uname = map.get("uname").toString();
-//			String userType = map.get("type").toString();
+			String userType = map.get("type").toString();
+			conn.getAttributes().put("userType", userType);
 			conn.getAttributes().put("uid", uid);
 			conn.getAttributes().put("uname",uname);
 			conns.put(uid, conn);
@@ -114,7 +116,7 @@ public class IMServer extends WebSocketServer{
 			//接收人自己的信息没有必要发送，以免混淆
 			data.remove("contactId");
 			data.remove("contactName");
-			data.remove("avatar");
+//			data.remove("avatar");
 			sendMsg(conn ,senderId,recvId,data , false);
 		}else if("groupmsg".equals(data.getString("type"))){
 			onReceiveGroupMsg(data,senderId);
@@ -168,7 +170,16 @@ public class IMServer extends WebSocketServer{
 		jobj.put("status", status);
 		jobj.put("contactId", fromUid);
 		jobj.put("contactName", fromUname);
+		List<Map> chats = chatHandler.getRecentChats((String)from.getAttributes().get("userType"), fromUid.toString());
+		for(Map chat : chats){
+			String contactId = (String)chat.get("uid");
+			WebSocket conn = conns.get(contactId);
+			if(conn!=null){
+				conn.send(jobj.toString());
+			}
+		}
 		
+		//TODO此处为常用联系人列表
 		JSONArray buddyList = contactHandler.getUserTree();
 		for(int i=0;i<buddyList.size();i++){
 			JSONObject buddy = buddyList.getJSONObject(i);
@@ -178,8 +189,8 @@ public class IMServer extends WebSocketServer{
 					conn.send(jobj.toString());
 				}
 			}
-			
 		}
+		
 	}
 
 	private void sendMsg(WebSocket senderSocket ,String senderId , String recvId , JSONObject data , boolean isGroup) {
@@ -210,7 +221,7 @@ public class IMServer extends WebSocketServer{
 		ex.printStackTrace();
 	}
 	
-	public static boolean isUserOnline(int userId){
+	public static boolean isUserOnline(String userId){
 		return conns.containsKey(userId);
 	}
 	

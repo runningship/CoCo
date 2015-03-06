@@ -79,7 +79,7 @@ html,body{ height: 100%;font: 100% 微软雅黑, 宋体, 新宋体;}
 
 .userSelectTrue{-webkit-user-select: text;}
 
-.cocoMain{ width:210px; position:absolute; top:0px; right:0; height:100%; background-color:#ffffff;}
+.cocoMain{ width:210px; position:absolute; top:0px; left:0; height:100%; background-color:#ffffff;}
 
 .oaTit{ height:50px; width:50%;}
 
@@ -323,7 +323,7 @@ i.add:hover{ background-position:-38px -100px;}
 
 
 
-.qunBox{ position:absolute; top:0; right:-150px; width:150px; height:561px; background-color:#f6f6f6; border-radius:0 3px 3px 0; box-shadow: #999 3px 0px 8px; z-index:2;}
+.qunBox{ position:absolute; top:50px; right:0px; width:150px; background-color:#f6f6f6; border-radius:0 3px 3px 0; box-shadow: #999 3px 0px 8px; z-index:2;}
 
 .qunBoxTit{ width:100%; height:32px; line-height:32px; background: url(../cocoImages/titBg.png) repeat-x; float:left; font-size:12px; border-radius:3px 3px 0 0;}
 

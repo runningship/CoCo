@@ -8,110 +8,40 @@
 <meta http-equiv="cache-control" content="no-cache, must-revalidate"> 
 <meta http-equiv="expires" content="0"> 
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>中介宝</title>
-<meta name="description" content="中介宝房源软件系统">
-<meta name="keywords" content="房源软件,房源系统,中介宝">
-<!-- <link href="/style/css.css" rel="stylesheet"> -->
-<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="/style/style.css" rel="stylesheet">
+<title>coco</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<!-- <link href="/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
+<!-- <script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script> -->
+<!-- <link href="/style/style.css" rel="stylesheet"> -->
+<link rel="stylesheet" type="text/css" href="oa/style/cocoWindow.css" />
+<!-- <link rel="stylesheet" type="text/css" href="/oa/style/cocoWinLayer.css" /> -->
+<link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
+<link rel="stylesheet" type="text/css" href="oa/style/im.css" />
+<script src="js/jquery.js" type="text/javascript"></script>
 
-<link rel="stylesheet" type="text/css" href="/oa/style/cocoWindow.css" />
-<link rel="stylesheet" type="text/css" href="/oa/style/cocoWinLayer.css" />
-<link rel="stylesheet" type="text/css" href="/oa/style/cssOa.css" />
-<link rel="stylesheet" type="text/css" href="/oa/style/im.css" />
-<script src="/js/jquery.js" type="text/javascript"></script>
-<script src="/js/buildHtml.js" type="text/javascript"></script>
-<script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="/oa/js/messagesBox.js"></script> -->
+<script type="text/javascript" src="oa/js/web_chat.js"></script>
+<script type="text/javascript" src="oa/js/bosh_connection.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
+<!-- <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.js"> </script> -->
+<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
-var web_socket_on=false;
 var valid = false;
+my_uid = '${myUid}';
+var callByArtDialog=false;
+web_plugin_update_title_callback = window.top.updateTitle;
+web_plugin_update_user_status_callback = window.top.updateContactStatus;
 $(function(){
-	//auth('${token}');
-});
-
-function addRecentContact(contactId){
-	$.ajax({
-	    type: 'get',
-	    dataType: 'json',
-	    url: '/c/addRecentContact?contactId='+contactId,
-	    success:function(data){
-	    }
-	  });
-}
-
-function openSeller(sellerId){
-	$.ajax({
-	    type: 'get',
-	    dataType: 'json',
-	    url: '/c/getSeller?sellerId='+sellerId,
-	    success:function(data){
-	    	var seller = data.seller;
-	    	openChat(seller.sellerId , seller.companyName , seller.avatar);
-	    }
-	  });
-}
-function openChats(sellers){
-	for(var i=0;i<sellers.length;i++){
-		var seller = sellers[i];
-		openChat(seller.sellerId , seller.companyName , seller.avatar);
+	if(my_uid){
+		valid=true;
 	}
-}
-function auth(token , success, error){
-	$.ajax({
-	    type: 'get',
-	    dataType: 'json',
-	    url: '/c/auth?token='+token,
-	    success:function(data){
-	    	var user = data.me;
-	    	if(user.id){
-	    		my_uid=user.id;
-		    	my_avatar=user.avatar;
-		    	my_name = user.name;
-		    	ws_url = 'ws://${domainName}:9099?uid='+user.id+'&type='+user.type+'&uname='+user.name;
-		    	valid = true;
-		    	connectWebSocket();
-		    	//通知调用页面
-		    	if(success){
-		    		success();
-		    	}
-		    	//addRecentContact('${seller.sellerId}');
-		    	//openChat('${seller.sellerId}' , '${seller.companyName}' , ${seller.avatar});
-		    	if(data.sellers){
-		    		openChats(data.sellers);
-		    	}
-	    	}else{
-	    		if(error){
-	    			
-	    		}
-	    		 //startLogin();
-	    		 //通知调用页面，登录失败
-	    	}
-	    }
-	  });
-}
-function startLogin(){
-	openNewWin('login' , '310','270','登录','oa/login.jsp');
-}
-</script>
-
-</head>
-<body>
- <div> 
-
-<script type="text/javascript" src="/oa/js/messagesBox.js"></script>
-<script type="text/javascript" src="/oa/js/chat.js"></script>
-<script type="text/javascript" src="/oa/js/select.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ueditor1_4_3/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="/js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
-<!--<script type="text/javascript" charset="utf-8" src="/js/ueditor1_4_3/ueditor.all.js"> </script>-->
-<script type="text/javascript" charset="utf-8" src="/js/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
-<script type="text/javascript">
-
-$(function(){
-    ue_text_editor = UE.getEditor('editor', {
+	ue_text_editor = UE.getEditor('editor', {
         toolbars: [
             ['simpleupload','emotion','spechars','forecolor']
         ],
+        theme:'default',
         autoHeightEnabled: false
     });
     ue_text_editor.addListener( 'ready', function( editor ) {
@@ -124,11 +54,195 @@ $(function(){
         };
     });
 
-    //getUnReadChats();
-    heartBeat();
 });
 
+
+function selectFirstChatIfNoOneSelected(){
+	var current = $('.now');
+	if(current.length==0){
+		var lis = $('.cocoWinLxrList li');
+		if(lis.length>0){
+			selectChat($(lis[0]).attr('cid'),true);
+		}
+	}
+}
+function isContactOpen(contactId){
+	if($('#chat_'+contactId).size()>0){
+		return true;
+	}else{
+		return false;
+	}
+}
+function addWebRecentContact(contactId){
+	//判断用户是否已经在最近历史会话中
+	if(isContactOpen(contactId)){
+		return;
+	}
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: 'c/addRecentContact?contactId='+contactId,
+	    success:function(data){
+	    }
+	  });
+}
+
+//买家点击卖家时
+//卖家收到买家信息时
+function openContact(contactId, name , avatar,status){
+	if(!contactId){
+		return;
+	}
+	addWebRecentContact(contactId);
+	openChat(contactId , name , avatar);
+}
+function openChats(contacts){
+	for(var i=0;i<contacts.length;i++){
+		var contact = contacts[i];
+		openChat(contact.uid , contact.name , contact.avatar,contact.status);
+	}
+}
+function select_chat(contactId){
+	selectChat(contactId);
+}
+function auth(token , success, error){
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: 'c/auth?token='+token,
+	    success:function(data){
+	    	var user = data.me;
+	    	if(user.id){
+	    		my_uid=user.id;
+		    	my_avatar=user.avatar;
+		    	my_name = user.name;
+		    	valid = true;
+		    	startBosh();
+		    	
+		    	
+		    	//历史会话
+		    	//
+		    	if(data.contacts){
+		    		openChats(data.contacts);
+		    	}
+		    	if(data.unReadChats.length>1){
+		    		for(var i=0;i<data.unReadChats.length;i++){
+		    			var chat = data.unReadChats[i];
+		    			if(!isContactOpen(chat.senderId)){
+		    				openContact(chat.senderId,chat.senderName,chat.senderAvatar , chat.status);
+		    			}
+		    			//设置未读消息数量
+		    			var jmsgCount = $('#chat_'+chat.senderId).find('.new_msg_count');
+		    			jmsgCount.text(chat.total);
+		    			jmsgCount.addClass('cocoWinNewsNum');
+		    		}
+		    		//闪动提醒
+		    		window.top.shandong();
+		    		//通知调用页面
+			    	if(success){
+			    		success();
+			    	}
+		    	}
+	    	}else{
+	    		if(error){
+	    			
+	    		}
+	    	}
+	    }
+	  });
+}
+
+
+
+
+(function () {
+  var ie = !!(window.attachEvent && !window.opera);
+  var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525);
+  var fn = [];
+  var run = function () { for (var i = 0; i < fn.length; i++) fn[i](); };
+  var d = document;
+  d.ready = function (f) {
+    if (!ie && !wk && d.addEventListener)
+      return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+      (function () {
+        try { d.documentElement.doScroll('left'); run(); }
+        catch (err) { setTimeout(arguments.callee, 0); }
+      })();
+    else if (wk)
+      var t = setInterval(function () {
+        if (/^(loaded|complete)$/.test(d.readyState))
+          clearInterval(t), run();
+      }, 0);
+  };
+})();
+
+document.ready(function(){
+  $('#edui1_iframeholder').height('510px');
+  //alert(0)
+});
+//alert(1)
+
 </script>
+<style>
+    .title{background: #ff6600; padding:10px; color: #FFF;} 
+    .title .logobox{ border-right: 1px solid #000; padding-right: 20px; margin: 20px;}
+
+
+ body .edui-default .edui-editor{ border: 0;-webkit-border-radius: 0px; 
+-moz-border-radius: 0px;
+ border-radius: 0px;}
+
+.bodys{ height: 490px; overflow: hidden;}
+.rightBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;height: 100%;}
+.qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;}
+
+.qunList{ border-bottom: 1px solid #EEE;}
+.qunList dt{ text-align: center; background: url('oa/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}
+.qunList dd.conts{ padding: 5px;}
+
+.cocoWin{ position: relative; left: 0;}
+.cocoWinContent{ height: 100%;}
+.cocoWinContentLxr{ height: 100%;}
+.WinInfoSend { float: none;position: relative;}
+.WinInfoListAppend {}
+.WinInfoListAppend .newsAppend { margin-left: 0; margin-right: 0; display: block; width: 100%; }
+.WinInfoListAppend .newsAppendBox{ margin-left: 70px;}
+.WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;}
+.WinInfoSendWrite{width: auto;float: none;margin-right: 0px;}
+.WinInfoSendBtn{position: absolute;right: 0;bottom: 0;height: 30px; z-index: 22222;}
+.WinInfoSendBtnMessage{height: 100%;}
+.WinInfoListShowMainBox{ float: none; margin: 0; height: 100%;}
+
+body .edui-default .edui-editor-toolbarbox {
+position: relative;
+zoom: 1;
+-webkit-box-shadow: 0 0px 0px rgba(204, 204, 204, 0.6);
+-moz-box-shadow: 0 0px 0px rgba(204, 204, 204, 0.6);
+box-shadow: 0 0px 0px rgba(204, 204, 204, 0.6);
+border-top-left-radius: 0px;
+border-top-right-radius: 0px; */
+}
+body .edui-default .edui-editor-toolbarboxouter {
+border-bottom: 0px solid #d4d4d4;
+background: #FFF;
+background-repeat: repeat-x;
+border: 0px solid #d4d4d4;
+border-radius: 0px 0px 0 0;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffffffff', GradientType=0);
+-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.065);
+box-shadow: 0 0px 0px rgba(0, 0, 0, 0.065);
+}
+body #edui1_iframeholder{ height: 50px;}
+</style>
+</head>
+<body>
+<div class="title">
+    <a href="#" class="logobox"><img src="style/images/logo_white.png" alt=""></a>
+    某某店
+</div>
+<div class="bodys"> 
 
 
 
@@ -137,27 +251,41 @@ $(function(){
            <div class="mask"></div>  
 <div class="cocoWin" id="layerBoxDj" style="position:initial">
 <!-- 聊天窗口，可多人 -->
-     <div class="cocoWintit" id="cocoWintit" style="-webkit-user-select:none;" >
-	     <span class="chat_title Fleft"></span><i class="closeBg none" onclick="closeBox()" title="最小化"></i>
-	     <i class="closeBg closeX" onclick="closeBox(closeAllChat)" title="关闭"></i>
-     </div>
+<!--      <div class="cocoWintit" id="cocoWintit" style="-webkit-user-select:none;" > -->
+<!-- 	     <span class="chat_title Fleft"></span><i class="closeBg none" onclick="closeBox()" title="最小化"></i> -->
+<!-- 	     <i class="closeBg closeX" onclick="closeBox(closeAllChat)" title="关闭"></i> -->
+<!--      </div> -->
      
      <div class="cocoWinContent">
+           
+           
+           <div class="rightBox " style="display:">
+
+                <dl class="qunList shangpinBox">
+                    <dt class="">商品详情</dt>
+                    <dd class="conts">
+                        <jsp:include page="product.jsp"></jsp:include>
+                    </dd>
+                </dl>
+                <div class="qunBox">
+                    <dl class="qunList qunListBox">
+                        <dt class="">群组成员</dt>
+                        <dd class="qunBoxList"><ul></ul></dd>
+                    </dl>
+                </div>
+
+          </div>
      
           <div class="cocoWinContentLxr" style="-webkit-user-select:none;">
                <!-- 左侧聊天人列表 -->
                <ul class="cocoWinLxrList">
                                     
                </ul>
-               
           </div>
           
-          <div style=" width:510px; float:left; height:100%;-webkit-user-select:text;">
+          <div style=" margin-left:150px; margin-right:201px; height:100%;-webkit-user-select:text;">
           	  <!-- 聊天记录区 -->
-              <div class="cocoWinInfoListShow" style="height:411px;">
-              
-                   
-                   
+              <div class="cocoWinInfoListShow" style="height:377px;">
               
               </div>
               <!-- 消息发送区 -->
@@ -168,29 +296,11 @@ $(function(){
                     </div>
                     
                     <div class="WinInfoSendBtn">
-                    
-                         <button class="WinInfoSendBtnAddPhoto Fleft" title=""></button>
                          <button title="ctrl+enter 直接发送" class="WinInfoSendBtnMessage Fleft" onclick="send();">发送</button>
-                    
                     </div>
                
                </div>
            </div>
-           
-           
-           <div class="qunBox" style="display:none">
-               
-               <div class="qunBoxTit"><span>群组成员</span></div>
-                <div class="qunBoxList">
-
-                   <ul>
-                   
-                   </ul>
-
-                </div>
-
-          
-          </div>
 
      </div>
 
@@ -200,7 +310,6 @@ $(function(){
 
 
 </div>
-    
 
 </body>
 </html>

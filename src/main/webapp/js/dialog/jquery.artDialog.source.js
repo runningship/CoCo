@@ -1192,7 +1192,7 @@ _use = function (event) {
 				left = Math.max(limit.minX, Math.min(limit.maxX, x + startLeft)),
 				top = Math.max(limit.minY, Math.min(limit.maxY, y + startTop));
 			if(top<=50){
-				top=50;
+				//top=50;
 			}
 			style.left = left  + 'px';
 			style.top = top + 'px';

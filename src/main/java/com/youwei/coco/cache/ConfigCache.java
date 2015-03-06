@@ -13,7 +13,7 @@ public class ConfigCache {
 
 	private static Properties props = new Properties();
 	
-	private static final String confFilePath = "D:\\conf\\zjb.properties";
+	private static final String confFilePath = "D:\\conf\\coco.properties";
 	static{
 		load();
 	}
@@ -23,7 +23,7 @@ public class ConfigCache {
 			if(file.exists()){
 				props.load(FileUtils.openInputStream(file));
 			}else{
-				InputStream is = ConfigCache.class.getResourceAsStream("zjb.properties");
+				InputStream is = ConfigCache.class.getResourceAsStream("coco.properties");
 				props.load(is);
 				is.close();
 			}

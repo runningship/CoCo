@@ -13,7 +13,7 @@ public class OutMessageManager extends Thread{
 	
 	private List<JSONObject> msgs = new ArrayList<JSONObject>();
 
-	private static final int timeoutSeconds = 30; 
+	private static final int timeoutSeconds = 5; 
 	@Override
 	public void run() {
 		while(true){
