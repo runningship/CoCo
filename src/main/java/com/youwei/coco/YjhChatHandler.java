@@ -57,10 +57,10 @@ public class YjhChatHandler implements IMChatHandler{
 		List<Map> contacts = null;
 		if(KeyConstants.User_Type_Buyer.equals(userType)){
 			contacts = dao.listAsMap("select seller.companyName as name , seller.sellerId as uid "
-					+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId and rc.userType=? and rc.uid=?" ,KeyConstants.User_Type_Seller,uid);
+					+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId  and rc.uid=?" ,uid);
 		}else{
 			contacts = dao.listAsMap("select buyer.name as name , buyer.buyerId as uid "
-					+ "from RecentContact rc ,Buyer buyer where rc.contactId=buyer.buyerId and rc.userType=? and rc.uid=? " ,KeyConstants.User_Type_Buyer,uid);
+					+ "from RecentContact rc ,Buyer buyer where rc.contactId=buyer.buyerId and rc.uid=? " ,uid);
 		}
 		return contacts;
 	}

@@ -1,8 +1,13 @@
 
 var web_chat_inited;
+var dialog_width=561;
+var dialog_height=362;
 $(function(){
 
  //init();
+	if(token){
+		init();
+	}
 	
 	
 });
@@ -14,17 +19,19 @@ function init(callback){
 		return;
 	}
 	web_chat_inited = true;
-	webchat_dialog = art.dialog.open('webchat.jsp', {title: '' ,width: 561, height: 362,
+	webchat_dialog = art.dialog.open('webchat.jsp', {title: '' ,width: dialog_width, height: dialog_height,
 		init: function () {
 	    	iframe = this.iframe.contentWindow;
 	    	iframe.web_plugin_message_callback = onMessage;
 	    	if(token){
-	    		iframe.auth(token);
+	    		iframe.auth(token,function(){
+	    			if(callback){
+	    	    		callback();
+	    	    	}
+	    		});
 	    	}
 	    	//resizeDialog();
-	    	if(callback){
-	    		callback();
-	    	}
+	    	
 		},
 		close:function(){
 			webchat_dialog.hide();
@@ -32,7 +39,7 @@ function init(callback){
 			return false;
 		}
 	});
-	//webchat_dialog.hide();
+	webchat_dialog.hide();
 }
 function onMessage(msg){
 	//把消息保存在消息盒子中,闪动提醒,点击闪动图标时，才打开消息盒子中的所有信息
@@ -47,16 +54,23 @@ function notifyNewMessage(msg){
 	if(!iframe.isContactOpen(msg.senderId) || web_dialog_show==false){
 		if(!shan_dong_interval){
 			shan_dong_interval = setInterval(function(){
-				if(allow_coco_doudong==false){
-					$('#coco').removeClass('hide');	
-				}else{
-					$('#coco').toggleClass('hide');	
-				}
+				shandong();
 			},300);
 		}	
 	}
 }
-
+function shandong(){
+	if(!shan_dong_interval){
+		shan_dong_interval = setInterval(function(){
+			if(allow_coco_doudong==false){
+				$('#coco').removeClass('hide');	
+			}else{
+				$('#coco').toggleClass('hide');	
+			}
+			
+		},300);
+	}
+}
 function openChat(contactId , name ,avatar){
 	if(!token){
 		//go to login
@@ -89,6 +103,7 @@ function openChat(contactId , name ,avatar){
 
 function doOpenChat(contactId , name ,avatar){
 	webchat_dialog.show();
+	webchat_dialog.size(dialog_width,dialog_height);
 	$('iframe').css('display','');
 	iframe.openContact(contactId ,name , avatar);
 	//select chat
@@ -98,7 +113,7 @@ function doOpenChat(contactId , name ,avatar){
 		iframe.selectFirstChatIfNoOneSelected();
 	}
 	web_dialog_show= true;
-	
+	resizeDialog();
 }
 
 function updateTitle(title){

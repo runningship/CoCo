@@ -25,6 +25,7 @@ import org.jsoup.helper.DataUtil;
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.im.IMServer;
 import com.youwei.coco.im.entity.IMLog;
+import com.youwei.coco.user.entity.Admin;
 import com.youwei.coco.user.entity.Buyer;
 import com.youwei.coco.user.entity.RecentContact;
 import com.youwei.coco.user.entity.Seller;
@@ -184,6 +185,8 @@ public class CocoService {
 			u = dao.getUniqueByKeyValue(Buyer.class, "loginCode", name);
 		}else if(KeyConstants.User_Type_Seller.equals(type)){
 			u = dao.getUniqueByKeyValue(Seller.class, "loginCode", name);
+		}else if(KeyConstants.User_Type_Admin.equals(type)){
+			u = dao.getUniqueByKeyValue(Admin.class, "username", name);
 		}
 		
 		if(u==null){
@@ -199,7 +202,7 @@ public class CocoService {
 	public ModelAndView getUserTree(){
 		ModelAndView mv = new ModelAndView();
 		JSONArray result = contactHandler.getUserTree();
-		mv.data.put("result", result.toArray());
+		mv.data.put("result", JSONHelper.toJSONArray(result));
 		return mv;
 	}
 	

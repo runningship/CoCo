@@ -45,8 +45,10 @@ public class YjhContactHandler implements IMContactHandler{
 		}
 		List<Map> users = new ArrayList<Map>();
 		if(KeyConstants.User_Type_Buyer.equals(user.getType())){
-			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId" );
+			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId and city.bigareaId=?",pid );
 		}else if(KeyConstants.User_Type_Seller.equals(user.getType())){
+			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar from Admin  where area=?",pid );
+		}else if(KeyConstants.User_Type_Admin.equals(user.getType())){
 			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar from Admin  where area=?",pid );
 		}
 		Random r = new Random();

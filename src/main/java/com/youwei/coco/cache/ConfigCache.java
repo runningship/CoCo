@@ -14,6 +14,7 @@ public class ConfigCache {
 	private static Properties props = new Properties();
 	
 	private static final String confFilePath = "D:\\conf\\coco.properties";
+//	private static final String confFilePath = "/home/b2btest/coco/coco.properties";
 	static{
 		load();
 	}

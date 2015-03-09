@@ -1,6 +1,7 @@
-
+var dialog_width=561;
+var dialog_height=362;
 $(function(){
-	webchat_dialog = art.dialog.open('webchat.jsp', {title: '' ,width: 661, height: 562,
+	webchat_dialog = art.dialog.open('webchat.jsp', {title: '' ,width: dialog_width, height: dialog_height,
 		left:'auto',
 		init: function () {
 	    	iframe = this.iframe.contentWindow;
@@ -12,7 +13,7 @@ $(function(){
     				$('#coco').removeClass('user_offline_filter');
     			});	
     		}
-	    	resizeDialog();
+//	    	resizeDialog();
 		},
 		close:function(){
 			webchat_dialog.hide();
@@ -91,10 +92,11 @@ function openChat(){
 
 function doOpenChat(){
 	webchat_dialog.show();
-	webchat_dialog.size(861, 562);
+	webchat_dialog.size(dialog_width, dialog_height);
 	$('iframe').css('display','');
 	web_dialog_show= true;
 	iframe.selectFirstChatIfNoOneSelected();
+	resizeDialog();
 }
 
 function updateTitle(title){

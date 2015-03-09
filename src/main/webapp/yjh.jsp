@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="js/jquery.js" type="text/javascript"></script>
-<script src="js/dialog/jquery.artDialog.source.js?skin=win8s" type="text/javascript"></script>
+<script src="js/dialog/jquery.artDialog.source.js?skin=twitter" type="text/javascript"></script>
 <script src="js/dialog/plugins/iframeTools.source.js" type="text/javascript"></script>
 <script type="text/javascript">
 var j_dialogShow=false;
@@ -42,13 +42,17 @@ function resizeDialog(){
 }
 
 window.onresize = function(){
-j_dialogShow=false;resizeDialog();
+j_dialogShow=false;
+//resizeDialog();
 };
 </script>
 <script type="text/javascript" src="oa/${userType }.js"></script>
 <style type="text/css">
 .hide{display:none}
 .user_offline_filter{-webkit-filter: grayscale(100%);}
+
+.aui_nw,.aui_w,.aui_sw,.aui_ne,.aui_e,.aui_se{ width: 0;}
+.aui_sw,.aui_s,.aui_se{ height: 0;}
 </style>
 </head>
 <body>

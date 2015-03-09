@@ -37,6 +37,7 @@ public class BoshXmppServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String message = getStringParam("json" , request);
+		System.out.println("收到:"+message);
 		JSONObject data = JSONObject.fromObject(message);
     	String type = data.getString("type");
     	String uid = data.getString("myUid");
@@ -57,6 +58,7 @@ public class BoshXmppServlet extends HttpServlet{
     	if(oldConn!=null){
     		//replace old one
 //    		oldConn.respond("New_Connection_Received");
+    		System.out.println("New_Connection_Received");
     		oldConn.close();
     	}
     	OutMessageManager.conns.put(uid, conn);

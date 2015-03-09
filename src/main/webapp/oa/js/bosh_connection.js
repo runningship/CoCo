@@ -4,14 +4,12 @@ var connection = null;
 function sendByBosh(data)
 {
 	data.myUid=my_uid;
-	console.log('send:'+JSON.stringify(data));
-	data = 'json='+JSON.stringify(data);
+	data = 'json='+encodeURIComponent(JSON.stringify(data));
 	$.ajax({
 	      type: 'post',
 	      url: 'bosh',
 	      data: data,
 	      success: function(data){
-	          console.log(data);
 	          if('new_connection_received'==data){
 	        	  return;
 	          }
@@ -20,8 +18,13 @@ function sendByBosh(data)
 		    		  nextRound();
 	    		  },0);
 	        	  return;
+	          }else{
+	        	  onReceiveMsg(data);
+		          setTimeout(function(){
+		    		  nextRound();
+	    		  },0);  
 	          }
-	          onReceiveMsg(data);
+	          
 	      }
     });
 }
@@ -34,7 +37,7 @@ function startConnection(){
 	
 }
 function nextRound(){
-	var data = JSON.parse('{}');
+	var data = jQuery.parseJSON('{}');
 	data.type="ping";
 	sendByBosh(data);
 }

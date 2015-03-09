@@ -7,7 +7,6 @@
 <meta http-equiv="pragram" content="no-cache"> 
 <meta http-equiv="cache-control" content="no-cache, must-revalidate"> 
 <meta http-equiv="expires" content="0"> 
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>coco</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
@@ -21,6 +20,7 @@
 <script src="js/jquery.js" type="text/javascript"></script>
 
 <!-- <script type="text/javascript" src="/oa/js/messagesBox.js"></script> -->
+<script type="text/javascript" src="oa/js/json2.js"></script>
 <script type="text/javascript" src="oa/js/web_chat.js"></script>
 <script type="text/javascript" src="oa/js/bosh_connection.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.config.js"></script>
@@ -125,7 +125,7 @@ function auth(token , success, error){
 		    	if(data.contacts){
 		    		openChats(data.contacts);
 		    	}
-		    	if(data.unReadChats.length>1){
+		    	if(data.unReadChats.length>0){
 		    		for(var i=0;i<data.unReadChats.length;i++){
 		    			var chat = data.unReadChats[i];
 		    			if(!isContactOpen(chat.senderId)){
@@ -177,25 +177,37 @@ function auth(token , success, error){
       }, 0);
   };
 })();
-
+function rewin(){
+    var bH=$('.bodys').height(),
+    uH,
+    sH=$('.WinInfoSend').height();
+    $('.cocoWinInfoListShow').height(bH-sH-3);
+    $('.cocoWinContentLxr').height(bH);
+    $('#edui1_iframeholder').height(80);
+}
 document.ready(function(){
   $('#edui1_iframeholder').height('510px');
   //alert(0)
 });
 //alert(1)
-
+$(document).ready(function() {
+    rewin();
+});
+$(window).resize(function() {
+    rewin();
+});
 </script>
 <style>
-    .title{background: #ff6600; padding:10px; color: #FFF;} 
+    .title{display:none;background: #ff6600; padding:10px; color: #FFF;} 
     .title .logobox{ border-right: 1px solid #000; padding-right: 20px; margin: 20px;}
-
+	.aui_title{text-align:center}
 
  body .edui-default .edui-editor{ border: 0;-webkit-border-radius: 0px; 
 -moz-border-radius: 0px;
  border-radius: 0px;}
 
-.bodys{ height: 490px; overflow: hidden;}
-.rightBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;height: 100%;}
+.bodys{ height: 490px; overflow: hidden; height: 100%;}
+.rightBox{ display: none; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;height: 100%;}
 .qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;}
 
 .qunList{ border-bottom: 1px solid #EEE;}
@@ -204,12 +216,13 @@ document.ready(function(){
 
 .cocoWin{ position: relative; left: 0;}
 .cocoWinContent{ height: 100%;}
-.cocoWinContentLxr{ height: 100%;}
-.WinInfoSend { float: none;position: relative;}
+.cocoWinContentLxr{ height: 100%;width: 58px;}
+.WinInfoSend { float: none;position: relative; background: none; border: 0;}
 .WinInfoListAppend {}
 .WinInfoListAppend .newsAppend { margin-left: 0; margin-right: 0; display: block; width: 100%; }
 .WinInfoListAppend .newsAppendBox{ margin-left: 70px;}
-.WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;}
+.WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;padding: 4px 8px;}
+.WinInfoListAppend .newsAppendBox .conTime{ margin-top: 2px;}
 .WinInfoSendWrite{width: auto;float: none;margin-right: 0px;}
 .WinInfoSendBtn{position: absolute;right: 0;bottom: 0;height: 30px; z-index: 22222;}
 .WinInfoSendBtnMessage{height: 100%;}
@@ -267,12 +280,6 @@ body #edui1_iframeholder{ height: 50px;}
                         <jsp:include page="product.jsp"></jsp:include>
                     </dd>
                 </dl>
-                <div class="qunBox">
-                    <dl class="qunList qunListBox">
-                        <dt class="">群组成员</dt>
-                        <dd class="qunBoxList"><ul></ul></dd>
-                    </dl>
-                </div>
 
           </div>
      
@@ -282,8 +289,8 @@ body #edui1_iframeholder{ height: 50px;}
                                     
                </ul>
           </div>
-          
-          <div style=" margin-left:150px; margin-right:201px; height:100%;-webkit-user-select:text;">
+          <!--  margin-left:150px; -->
+          <div style=" margin-right:0px; height:100%;-webkit-user-select:text;">
           	  <!-- 聊天记录区 -->
               <div class="cocoWinInfoListShow" style="height:377px;">
               

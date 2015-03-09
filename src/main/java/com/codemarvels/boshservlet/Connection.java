@@ -28,7 +28,9 @@ public class Connection{
 		if(resp!=null){
 			try {
 				resp.setContentType("text/html");
-				resp.getOutputStream().write(returnText.getBytes());
+				resp.setCharacterEncoding("utf-8");
+				resp.getOutputStream().write(returnText.getBytes("utf-8"));
+				close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -47,11 +49,14 @@ public class Connection{
 				e.printStackTrace();
 			}
 		}
+		if(flush){
+			respond();
+		}
 		if(close){
 			//timeout
 			returnText = "new_connection_received";
 		}
-		respond();
+		
 	}
 	
 	public void close(){

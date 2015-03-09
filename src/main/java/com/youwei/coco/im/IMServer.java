@@ -170,6 +170,8 @@ public class IMServer extends WebSocketServer{
 		jobj.put("status", status);
 		jobj.put("contactId", fromUid);
 		jobj.put("contactName", fromUname);
+		
+		//最近联系人
 		List<Map> chats = chatHandler.getRecentChats((String)from.getAttributes().get("userType"), fromUid.toString());
 		for(Map chat : chats){
 			String contactId = (String)chat.get("uid");
@@ -180,16 +182,16 @@ public class IMServer extends WebSocketServer{
 		}
 		
 		//TODO此处为常用联系人列表
-		JSONArray buddyList = contactHandler.getUserTree();
-		for(int i=0;i<buddyList.size();i++){
-			JSONObject buddy = buddyList.getJSONObject(i);
-			if("user".equals(buddy.getString("type"))){
-				WebSocket conn = conns.get(buddy.get("id"));
-				if(conn!=null){
-					conn.send(jobj.toString());
-				}
-			}
-		}
+//		JSONArray buddyList = contactHandler.getUserTree();
+//		for(int i=0;i<buddyList.size();i++){
+//			JSONObject buddy = buddyList.getJSONObject(i);
+//			if("user".equals(buddy.getString("type"))){
+//				WebSocket conn = conns.get(buddy.get("id"));
+//				if(conn!=null){
+//					conn.send(jobj.toString());
+//				}
+//			}
+//		}
 		
 	}
 

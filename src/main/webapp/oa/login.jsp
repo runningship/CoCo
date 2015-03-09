@@ -16,6 +16,15 @@
 <script src="../js/jquery.js" type="text/javascript"></script>
 <script src="../bootstrap/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
+try{
+var gui = require('nw.gui');
+var win = gui.Window.get();
+var shell = gui.Shell;
+}catch (e){}
+
+function openurl(url){
+    shell.openExternal(url);
+}
 function login(){
 	$.ajax({
 	    type: 'get',
@@ -49,7 +58,7 @@ body{ }
 
 /*客户端的样式*/
 
-    .form_login li{ margin-bottom: 10px;}
+    .form_login li{ margin-bottom: 0px;}
 
     .form_login{ display:inline-block; margin: 30px 0px 0px; width: 100%; }
     .form_login .labU,.form_login .labP{ border:0; border-bottom: 1px solid #CCC; width: 100%; height: 40px; overflow: hidden; position: relative; background: #FFF no-repeat 5px center; line-height: 40px; padding-left: 10px;}
@@ -57,6 +66,10 @@ body{ }
     .form_login .labP{ background:none;}
     .form_login .labU .inputbox,.form_login .labP .inputbox{ position: absolute; top: 0; right:0; bottom: 0; left: 50px;}
     .form_login .labU .input,.form_login .labP .input{width: 100%;height: 100%;border: 0; padding-left: 5px;font-weight: normal; background: none; height: 40px;padding-top: 10px;padding-bottom: 10px;line-height: 1.5em;}
+    .form_login .selectbox{ border:0;}
+    .form_login .selectbox .select{width: 100%;height: 30px; padding: 0 5px; border-width:0; background: none;}
+    .form_login .selectbox .select:hover{background: rgba(255,255,255,0.7);}
+    .form_login .selectbox .select:focus{ border-width:1px; background: #FFF;}
     .btn { display: inline-block; background: #EEE; color: #000; height: 40px; line-height: 30px; width: 100%; margin-top: 10px}
     .btn:hover{ color: #FFF;}
     .btn_submit{ background:#FF6600; color: #FFF; }
@@ -67,6 +80,7 @@ body{ }
 
     .logoBox{ margin: 20px auto 0; width: 80px; display: block;}
     .logoBox img{ width: 100%; height: auto;}
+
 </style>
 </head>
 <body style="overflow: hidden">
@@ -90,18 +104,16 @@ body{ }
                         <div class="inputbox"><input type="text" class="input" id="idPassword" placeholder="密码"></div>
                     </label>
                 </li>
-                <li style="display:none;">
-                    <label class="labP">
-                        <div class="inputbox">
-                        <select name="idType" id="idType" class="input">
-                            <option value="buyer">买家</option>
-                            <option value="seller">卖家</option>
-                        </select></div>
-                    </label>
+                <li style="display:;">
+                    <div class="selectbox">
+                    <select name="idType" id="idType" class="select">
+                        <option value="buyer">买家</option>
+                        <option value="seller">卖家</option>
+                    </select></div>
                 </li>
                 <li>
                     <a href="#" class="btn btn_submit" onclick="login();">登 陆</a>
-                    <a href="http://365ji.com/register.action" target="_blank" class="btn btn_reg btn_link">注 册</a>
+                    <a href="javascript:openurl('http://365ji.com/register.action')" target="_blank" class="btn btn_reg btn_link">注 册</a>
                 </li>
             </ul>
         </div>

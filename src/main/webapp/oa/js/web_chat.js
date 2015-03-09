@@ -32,9 +32,9 @@ function openChat(contactId,contactName,avatar , status){
 	}
 	// 添加联系人
 	var lxrHtml=	'<li type="msg" avatar="'+avatar+'" cname="'+contactName+'" cid="'+contactId+'" id="chat_'+contactId+'" onclick="selectChat(\''+contactId+'\' ,true)">'
-                    +   '<div  class="cocoWinLxrListTx Fleft"><img class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="oa/images/avatar/'+avatar+'.jpg" /></div>'
+                    +   '<div  class="cocoWinLxrListTx Fleft"><img title="'+contactName+'" class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="oa/images/avatar/'+avatar+'.jpg" /></div>'
                     +   '<div class="cocoWinLxrListPerInfo Fleft">'
-                    +   '   <p class="name">'+contactName+'</p>'
+                    +   '   <p class="name" style="display:none">'+contactName+'</p>'
                     +   '</div>'
                     +	'<div class="new_msg_count"></div>'
 					+	'<div class="msgClose" onclick="closeChat('+contactId+')">×</div>'
@@ -219,7 +219,7 @@ function pushChatConts(senderId , type , conts){
 			return;
 		}
 	}
-	var json = JSON.parse('{}');
+	var json = jQuery.parseJSON('{}');
 	json.senderId = senderId;
 	json.type = type;
 	json.conts = conts;
@@ -355,7 +355,7 @@ function notifyNewChat(contactId,msgCount){
 
 function onReceiveMsg(msg){
 	
-	var data = JSON.parse(msg);
+	var data = jQuery.parseJSON(msg);
 	if(data.type=='user_status'){
 		setUserStatus(data);
 		return;
@@ -403,7 +403,7 @@ function scrollToLatestNews(){
 }
 function getCurrentChat(){
 	var li = $('.now');
-	var chat = JSON.parse('{}');
+	var chat = jQuery.parseJSON('{}');
 	chat.contactId=li.attr('cid');
 	chat.type=li.attr('type');
 	chat.contactName=li.attr('cname');
@@ -482,7 +482,7 @@ function endChangeName(){
 	$('#user_name_div').css('display','');
 	$('#user_name_input').css('display','none');
 	$('#user_name_div').text($('#user_name_input').val());
-	var a = JSON.parse('{}');
+	var a = jQuery.parseJSON('{}');
 	a.name=$('#user_name_input').val();
 	$.ajax({
 		type: 'get',
