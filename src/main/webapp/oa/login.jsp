@@ -26,11 +26,14 @@ function openurl(url){
     shell.openExternal(url);
 }
 function login(){
+    var dlbtn=$('.btn_submit');
+    dlbtn.text('登陆中...');
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
 	    url: '../c/login?name='+$('#idName').val()+'&pwd='+$('#idPassword').val()+'&type='+$('#idType').val(),
 	    success:function(data){
+            dlbtn.text('成功...');
 	    	window.top.location='../home.jsp';
 	    },
 	    error:function(data){
@@ -63,14 +66,14 @@ body{ }
     .form_login{ display:inline-block; margin: 30px 0px 0px; width: 100%; }
     .form_login .labU,.form_login .labP{ border:0; border-bottom: 1px solid #CCC; width: 100%; height: 40px; overflow: hidden; position: relative; background: #FFF no-repeat 5px center; line-height: 40px; padding-left: 10px;}
     .form_login .labU,
-    .form_login .labP{ background:none;}
+    .form_login .labP{ background:none;display: block;}
     .form_login .labU .inputbox,.form_login .labP .inputbox{ position: absolute; top: 0; right:0; bottom: 0; left: 50px;}
-    .form_login .labU .input,.form_login .labP .input{width: 100%;height: 100%;border: 0; padding-left: 5px;font-weight: normal; background: none; height: 40px;padding-top: 10px;padding-bottom: 10px;line-height: 1.5em;}
-    .form_login .selectbox{ border:0;}
-    .form_login .selectbox .select{width: 100%;height: 30px; padding: 0 5px; border-width:0; background: none;}
+    .form_login .labU .input,.form_login .labP .input{width: 100%;height: 100%;border: 0; padding-left: 5px;font-weight: normal; background: none; height: 40px;line-height: 1.5em;}
+    .form_login .selectbox{ border:0; margin-top: 10px;}
+    .form_login .selectbox .select{width: 100%;height: 30px; padding: 0 7px; border-width:0; background: none; font-family: 'microsoft yahei';}
     .form_login .selectbox .select:hover{background: rgba(255,255,255,0.7);}
     .form_login .selectbox .select:focus{ border-width:1px; background: #FFF;}
-    .btn { display: inline-block; background: #EEE; color: #000; height: 40px; line-height: 30px; width: 100%; margin-top: 10px}
+    .btn { display: inline-block; background: #EEE; color: #000; height: 40px; line-height: 40px; width: 100%; margin-top: 10px; text-align: center; border-radius: 2px;}
     .btn:hover{ color: #FFF;}
     .btn_submit{ background:#FF6600; color: #FFF; }
     .btn_submit:hover{ background:#FF4400; }

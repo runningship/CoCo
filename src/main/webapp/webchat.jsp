@@ -30,6 +30,7 @@
 <script type="text/javascript">
 var valid = false;
 my_uid = '${myUid}';
+var resource = '${resource}';
 var callByArtDialog=false;
 web_plugin_update_title_callback = window.top.updateTitle;
 web_plugin_update_user_status_callback = window.top.updateContactStatus;
@@ -183,10 +184,10 @@ function rewin(){
     sH=$('.WinInfoSend').height();
     $('.cocoWinInfoListShow').height(bH-sH-3);
     $('.cocoWinContentLxr').height(bH);
-    $('#edui1_iframeholder').height(80);
+    $('#edui1_iframeholder').height(60);
 }
 document.ready(function(){
-  $('#edui1_iframeholder').height('510px');
+  //$('#edui1_iframeholder').height('510px');
   //alert(0)
 });
 //alert(1)
@@ -216,7 +217,10 @@ $(window).resize(function() {
 
 .cocoWin{ position: relative; left: 0;}
 .cocoWinContent{ height: 100%;}
-.cocoWinContentLxr{ height: 100%;width: 58px;}
+.cocoWinContentLxr{ height: 100%;width: 60px;}
+.cocoWinLxrListTx{ width: 38px; height: 38px;}
+.cocoWinLxrListTx img{ width: 100%; height: 100%;}
+.cocoWinLxrList li{padding: 5px 0 10px; height: auto;}
 .WinInfoSend { float: none;position: relative; background: none; border: 0;}
 .WinInfoListAppend {}
 .WinInfoListAppend .newsAppend { margin-left: 0; margin-right: 0; display: block; width: 100%; }

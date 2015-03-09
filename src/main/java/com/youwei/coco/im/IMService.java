@@ -42,6 +42,13 @@ public class IMService {
 	}
 	
 	@WebMethod
+	public ModelAndView getUserStatus(String contactId) {
+		ModelAndView mv = new ModelAndView();
+		
+		return mv;
+	}
+	
+	@WebMethod
 	public ModelAndView getGroupHistory(Page<Message> page , String groupId) {
 		ModelAndView mv = new ModelAndView();
 		page.setPageSize(10);

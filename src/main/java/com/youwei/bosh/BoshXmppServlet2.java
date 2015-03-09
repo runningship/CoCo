@@ -1,8 +1,9 @@
-package com.codemarvels.boshservlet;
+package com.youwei.bosh;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,19 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.bc.sdak.GException;
 import org.bc.sdak.SimpDaoTool;
 import org.bc.web.PlatformExceptionType;
 import org.bc.web.ServletHelper;
 import org.bc.web.ThreadSession;
 
+import com.codemarvels.boshservlet.Connection;
+import com.codemarvels.boshservlet.OutMessageManager;
 import com.youwei.coco.KeyConstants;
 import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
 
-public class BoshXmppServlet extends HttpServlet{
+public class BoshXmppServlet2 extends HttpServlet{
 
 	private static final long serialVersionUID = -6582356799296606455L;
 
@@ -37,40 +41,36 @@ public class BoshXmppServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String message = getStringParam("json" , request);
-		System.out.println("收到:"+message);
+//		System.out.println("收到:"+message);
 		JSONObject data = JSONObject.fromObject(message);
     	String type = data.getString("type");
     	String uid = data.getString("myUid");
-//    	if("ping".equals(type)){
-//    		
-//    	}else
-		if("msg".equals(type)){
+    	String res = data.getString("resource");
+    	if(StringUtils.isEmpty(res)){
+    		res = UUID.randomUUID().toString();
+    	}
+    	BoshConnection oldConn = BoshConnectionManager.get(uid+"-"+res);
+    	if(oldConn!=null){
+    		//客户端主动发来新请求,要结束掉老的请求
+    		oldConn.finish();
+    	}else{
+    		//有可能页面刷新
+    	}
+    	if("msg".equals(type)){
+    		//有消息发消息
 			data.put("senderId", uid);
 			sendMsg(data);
-//    		return;
-    	}else if("status".equals(type)){
-    		return;
-    	}else if("open".equals(type)){
-    		Connection oldConn = OutMessageManager.conns.get(uid);
-    		if(oldConn!=null){
-    			oldConn.terminate();
-    		}else{
-    			System.out.println("没有要关闭的session");
-    		}
-    		return;
     	}
-    	
-    	Connection conn = new Connection(uid);
-    	conn.resp = response;
-    	Connection oldConn = OutMessageManager.conns.get(uid);
-    	if(oldConn!=null){
-    		//replace old one
-//    		oldConn.respond("New_Connection_Received");
-    		System.out.println("New_Connection_Received");
-    		oldConn.close();
-    	}
-    	OutMessageManager.conns.put(uid, conn);
-    	conn.start();
+    	BoshConnection newConn = new BoshConnection(res,uid);
+    	newConn.resp = response;
+    	try {
+    		//等待oldConn.finish();完成
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	BoshConnectionManager.put(uid+"-"+res, newConn);
+    	newConn.hold();
     }
 
     @Override
@@ -90,9 +90,6 @@ public class BoshXmppServlet extends HttpServlet{
     }
     
     private void sendMsg( JSONObject data){
-//    	String contactId = data.getString("contactId");
-    	data.put("sendtime", DataHelper.sdf4.format(new Date()));
-//    	Connection conn = OutMessageManager.conns.get(contactId);
     	Message dbMsg = new Message();
 		dbMsg.sendtime = new Date();
 		dbMsg.conts = data.getString("msg");
@@ -104,10 +101,22 @@ public class BoshXmppServlet extends HttpServlet{
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-//    	if(conn!=null){
-//    		conn.returnText = data.toString();
-//    		conn.flush();
-//    	}
-		OutMessageManager.pushMsg(data);
+		
+    	String contactId = data.getString("contactId");
+    	data.put("sendtime", DataHelper.sdf4.format(new Date()));
+//    	MessagePool.pushMsg(data);
+    	boolean send=false;
+    	for(String key : BoshConnectionManager.conns.keySet()){
+    		if(key.startsWith(contactId)){
+    			BoshConnection target = BoshConnectionManager.conns.get(key);
+    			target.returnText = data.toString();
+    			target.flush();
+    			send=true;
+    		}
+    	}
+    	if(!send){
+    		System.out.println("没有找到对方的connection ...");
+    	}
+//		OutMessageManager.pushMsg(data);
     }
 }

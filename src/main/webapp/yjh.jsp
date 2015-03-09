@@ -53,12 +53,13 @@ j_dialogShow=false;
 
 .aui_nw,.aui_w,.aui_sw,.aui_ne,.aui_e,.aui_se{ width: 0;}
 .aui_sw,.aui_s,.aui_se{ height: 0;}
+.aui_title{text-align: center;}
 </style>
 </head>
 <body>
-<!-- <a href="#" onclick="openChat('1','合肥供应商','')">合肥供应商</a> -->
-<!-- <a href="#" onclick="openChat('2','南京供应商','')">南京供应商</a> -->
-<!-- <a href="#" onclick="openChat('3','杭州供应商','')">杭州供应商</a> -->
+<a href="#" onclick="openChat('1','合肥供应商','')">合肥供应商</a>
+<a href="#" onclick="openChat('2','南京供应商','')">南京供应商</a>
+<a href="#" onclick="openChat('3','杭州供应商','')">杭州供应商</a>
 
 <span onclick="openChat();"><img id="coco"  onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='oa/images/ww.jpg' style="width:16px;height:16px;position: absolute;bottom: 10px;right: 20px;cursor:pointer"/></span>
 </body>

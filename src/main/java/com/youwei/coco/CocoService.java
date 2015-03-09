@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -144,6 +145,7 @@ public class CocoService {
 		if(u!=null){
 			mv.jspData.put("myUid", u.getId());
 		}
+		mv.jspData.put("resource", UUID.randomUUID().toString());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 		return mv;
 	}

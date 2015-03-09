@@ -15,6 +15,9 @@ import org.bc.web.ModuleManager;
 import org.bc.web.PublicFieldSupportingELResolver;
 import org.hibernate.cfg.AvailableSettings;
 
+import com.codemarvels.boshservlet.OutMessageManager;
+import com.youwei.bosh.BoshConnectionManager;
+import com.youwei.bosh.MessagePool;
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.im.IMServer;
 
@@ -35,6 +38,8 @@ public class StartUpListener implements ServletContextListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		BoshConnectionManager bcm = new BoshConnectionManager();
+		bcm.start();
 	}
 
 	private void initModule() {

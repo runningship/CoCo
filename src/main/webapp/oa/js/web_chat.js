@@ -37,7 +37,7 @@ function openChat(contactId,contactName,avatar , status){
                     +   '   <p class="name" style="display:none">'+contactName+'</p>'
                     +   '</div>'
                     +	'<div class="new_msg_count"></div>'
-					+	'<div class="msgClose" onclick="closeChat('+contactId+')">×</div>'
+					+	'<div class="msgClose" onclick="closeChat(\''+contactId+'\')">×</div>'
                     +'</li>';
 	
 	// 添加聊天内容窗口
@@ -66,8 +66,20 @@ function openChat(contactId,contactName,avatar , status){
 	//reCacuUnreadStack(contactId,'chat');
 	//设置已读,只在select chat的时候设置已读
 	//setSigleChatRead(contactId);
+	if(!status){
+		getUserStatus();
+	}
 }
 
+function getUserStatus(){
+	$.ajax({
+		type: 'get',
+		dataType: 'json',
+		url: 'c/im/getUserStatus?contactId='+contactId,
+		success:function(data){
+		}
+	});
+}
 function setSigleChatRead(contactId){
 	$.ajax({
 		type: 'get',
@@ -104,11 +116,11 @@ function buildHistory(history){
 		
 		if(msg.senderId==my_uid){
 			//我发送的消息
-			var html = buildSentMessage(msg.conts,msg.sendtime);
+			var html = buildSentMessage(msg.conts,msg.sendtime,'',my_uid);
 			container.prepend(html);
 		}else{
 			var senderAvatar = getAvatarByUid(msg.senderId);
-			var html = buildRecvMessage(senderAvatar,msg.conts , msg.sendtime , senderName);
+			var html = buildRecvMessage(senderAvatar,msg.conts , msg.sendtime , '',msg.senderId);
 			container.prepend(html);
 		}
 		var top = container.children()[0];
@@ -235,13 +247,18 @@ function getChatConts(senderId , type){
 	}
 	return "";
 }
-function buildSentMessage(text,time , senderName){
+function buildSentMessage(text,time , senderName,senderId){
 	var senderHtml = "";
-	if(senderName){
-		senderHtml = '<div class="lxrName pright">'+senderName+'</div>';
-	}
+//	if(senderName){
+//		senderHtml = '<div class="lxrName pright">'+senderName+'</div>';
+//	}
+//	var avatar_img = $('#chat_'+senderId).find('img');
+//	var user_status_class='';
+//	if(avatar_img.hasClass('user_offline_filter')){
+//		user_status_class = 'user_offline_filter';
+//	}
 	var sentMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImgRight"><img src="oa/images/avatar/'+my_avatar+'.jpg" /></div>'
+                    +     '<div class="txImgRight"><img class=" user_avatar_img_'+senderId+'" src="oa/images/avatar/'+my_avatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +     		senderHtml
                     +          '<div class="newsAppendBox Fright">'
@@ -305,13 +322,18 @@ function showBigAvatar(img,event){
     $("#avatarBigSee").css("top",parent.position().top + event.clientY);
 }
 
-function buildRecvMessage(senderAvatar , msg , time , senderName){
+function buildRecvMessage(senderAvatar , msg , time , senderName , senderId){
 	var senderHtml="";
-	if(senderName){
-		senderHtml='<div class="lxrName pleft">'+senderName+'</div>';
+//	if(senderName){
+//		senderHtml='<div class="lxrName pleft">'+senderName+'</div>';
+//	}
+	var avatar_img = $('#chat_'+senderId).find('img');
+	var user_status_class='';
+	if(avatar_img.hasClass('user_offline_filter')){
+		user_status_class = 'user_offline_filter';
 	}
 	var recvMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImg"><img src="oa/images/avatar/'+senderAvatar+'.jpg" /></div>'
+                    +     '<div class="txImg"><img class="'+user_status_class+' user_avatar_img_'+senderId+'" src="oa/images/avatar/'+senderAvatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +         	senderHtml
                     +          '<div class="newsAppendBox Fleft">'
@@ -330,7 +352,7 @@ function buildRecvMessage(senderAvatar , msg , time , senderName){
 function onSendMsg(text,chat){
 	var now = new Date();
 	var time = now.getMonth()+1+'-'+now.getDate()+' ' + now.getHours()+':'+now.getMinutes() + ':'+now.getSeconds();
-	$('#msgContainer_'+chat.contactId).append(buildSentMessage(text,time));	
+	$('#msgContainer_'+chat.contactId).append(buildSentMessage(text,time,'',my_uid));	
 }
 
 function notifyNewChat(contactId,msgCount){
@@ -372,7 +394,7 @@ function onReceiveMsg(msg){
 		notifyNewChat(data.senderId);
 		return;
 	}
-    $('#msgContainer_'+data.senderId).append(buildRecvMessage(data.senderAvatar,data.msg , data.sendtime));
+    $('#msgContainer_'+data.senderId).append(buildRecvMessage(data.senderAvatar,data.msg , data.sendtime,'' ,data.senderId));
 
     //判断是否当前会话
     var curr = getCurrentChat();
@@ -393,6 +415,10 @@ function onReceiveMsg(msg){
 
     //设置已读,TODO,注意，此处可能要调整
     setSigleChatRead(data.senderId);
+    
+    data.status=1;
+    setUserStatus(data);
+    //
 }
 
 function scrollToLatestNews(){
@@ -427,10 +453,10 @@ function nextPage(){
 function setUserStatus(json){
 	if(json.status==0){
 		//离线
-		$('.user_avatar_img_'+json.contactId).addClass('user_offline_filter');
+		$('.user_avatar_img_'+json.senderId).addClass('user_offline_filter');
 	}else if(json.status==1){
 		// 在线
-		$('.user_avatar_img_'+json.contactId).removeClass('user_offline_filter');
+		$('.user_avatar_img_'+json.senderId).removeClass('user_offline_filter');
 	}
 	console.log(json.contactName+'状态: '+json.status);
 	//lxrzaixian('cocoList');
@@ -447,7 +473,7 @@ function msgAreaKeyup(event){
 
 function closeChat(contactId){
 	if($('.cocoWinLxrList li').length<=1){
-		closeBox(closeAllChat);
+		//closeBox(closeAllChat);
 		return;
 	}
 	var next;
@@ -457,7 +483,7 @@ function closeChat(contactId){
 	//如果删除的是当前聊天，重新选择下一个聊天为当前聊天，如果没有其他聊天，关闭聊天面板
 	event.cancelBubble=true;
 	if(next.length>0){
-		selectChat(next[0]);	
+		selectChat(contactId);	
 	}
 	removeWebRecentContact(contactId);
 }

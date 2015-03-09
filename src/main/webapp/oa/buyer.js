@@ -52,11 +52,7 @@ function onMessage(msg){
 function notifyNewMessage(msg){
 	//会话没有打开，或者聊天窗口关闭状态下，给闪动提醒
 	if(!iframe.isContactOpen(msg.senderId) || web_dialog_show==false){
-		if(!shan_dong_interval){
-			shan_dong_interval = setInterval(function(){
-				shandong();
-			},300);
-		}	
+		shandong();
 	}
 }
 function shandong(){
@@ -76,6 +72,8 @@ function openChat(contactId , name ,avatar){
 		//go to login
 		return;
 	}
+	clearInterval(shan_dong_interval);
+	shan_dong_interval=null;
 	init(function(){
 		clearInterval(shan_dong_interval);
 		shan_dong_interval=null;
