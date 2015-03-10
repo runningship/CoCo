@@ -15,6 +15,7 @@ import org.bc.web.ModelAndView;
 import org.bc.web.Module;
 import org.bc.web.WebMethod;
 
+import com.youwei.bosh.BoshConnectionManager;
 import com.youwei.coco.IMChatHandler;
 import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.YjhChatHandler;
@@ -44,7 +45,8 @@ public class IMService {
 	@WebMethod
 	public ModelAndView getUserStatus(String contactId) {
 		ModelAndView mv = new ModelAndView();
-		
+		mv.data.put("senderId", contactId);
+		mv.data.put("status", DataHelper.getUserStatus(contactId));
 		return mv;
 	}
 	

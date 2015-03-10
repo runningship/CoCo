@@ -67,16 +67,17 @@ function openChat(contactId,contactName,avatar , status){
 	//设置已读,只在select chat的时候设置已读
 	//setSigleChatRead(contactId);
 	if(!status){
-		getUserStatus();
+		getUserStatus(contactId);
 	}
 }
 
-function getUserStatus(){
+function getUserStatus(contactId){
 	$.ajax({
 		type: 'get',
 		dataType: 'json',
 		url: 'c/im/getUserStatus?contactId='+contactId,
 		success:function(data){
+			setUserStatus(data);
 		}
 	});
 }
@@ -84,7 +85,7 @@ function setSigleChatRead(contactId){
 	$.ajax({
 		type: 'get',
 		dataType: 'json',
-		url: 'c/im/setSingleChatRead?contactId='+contactId,
+		url: 'c/im/setSingleChatRead?contactId='+contactId+'&'+Math.random(),
 		success:function(data){
 		}
 	});
@@ -95,10 +96,10 @@ function loadHistory(contactId , currentPageNo){
   $.ajax({
     type: 'get',
     dataType: 'json',
-    url: 'c/im/getHistory?contactId='+contactId+'&currentPageNo='+currentPageNo,
+    url: 'c/im/getHistory?contactId='+contactId+'&currentPageNo='+currentPageNo+'&'+Math.random(),
     success:function(data){
     	buildHistory(data.history);
-    	if(data.history.length<=10){
+    	if(data.history.length<10){
     		$('#msgContainer_'+contactId+' .msg_more').css('display','none');
     	}
     }
@@ -302,11 +303,14 @@ function layerBoxCenter(id){//漂浮层居中
 
 
 function showBigImg(img){
-	
-	$("#imgBigSee").remove();
-	var htmlText = "<div id='imgBigSee' onclick='$(this).remove()' style='display:block; position:absolute; background-color:#ffffff; z-index:9999999999; box-shadow:#666 0px 0px 10px; border-radius:3px; font-family:'宋体'; background-color:#ffffff;'>"+ img.outerHTML +"</div>";
-	$("body").append(htmlText);
-	layerBoxCenter("imgBigSee");
+	if($(img).parent().hasClass('txImg') || $(img).parent().hasClass('txImgRight')){
+		$("#imgBigSee").remove();
+		var htmlText = "<div id='imgBigSee' onclick='$(this).remove()' style='display:block; position:absolute; background-color:#ffffff; z-index:9999999999; box-shadow:#666 0px 0px 10px; border-radius:3px; font-family:'宋体'; background-color:#ffffff;'>"+ img.outerHTML +"</div>";
+		$("body").append(htmlText);
+		layerBoxCenter("imgBigSee");
+	}else{
+		window.open("http://localhost:8088/."+$(img).attr('src'), "_blank");
+	}
 }
 
 function showBigAvatar(img,event){

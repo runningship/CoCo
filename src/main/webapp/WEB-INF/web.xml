@@ -22,7 +22,7 @@
 	 
 	<servlet>
         <servlet-name>bosh</servlet-name>
-        <servlet-class>com.youwei.bosh.BoshXmppServlet2</servlet-class>
+        <servlet-class>com.youwei.bosh.BoshServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>bosh</servlet-name>

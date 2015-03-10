@@ -7,17 +7,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.jsp.JspFactory;
 
-import org.bc.sdak.MutilSessionFactoryBuilder;
-import org.bc.sdak.SQL2008Dialect;
 import org.bc.sdak.SessionFactoryBuilder;
-import org.bc.sdak.SessionFactoryMapper;
 import org.bc.web.ModuleManager;
 import org.bc.web.PublicFieldSupportingELResolver;
 import org.hibernate.cfg.AvailableSettings;
 
-import com.codemarvels.boshservlet.OutMessageManager;
 import com.youwei.bosh.BoshConnectionManager;
-import com.youwei.bosh.MessagePool;
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.im.IMServer;
 
@@ -27,6 +22,8 @@ public class StartUpListener implements ServletContextListener{
 	}
 
 	public void contextInitialized(ServletContextEvent event) {
+		System.setProperty("log4j.configuration", ConfigCache.get("log4j.dir", ""));
+		//file:E:/project/j2se/src/com/logger/log4j.properties
 		initDataSource();
 		initModule();
 		JspFactory.getDefaultFactory()

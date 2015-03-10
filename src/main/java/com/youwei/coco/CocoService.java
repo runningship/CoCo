@@ -64,6 +64,7 @@ public class CocoService {
 	@WebMethod
 	public ModelAndView auth(String token){
 		ModelAndView mv = new ModelAndView();
+		System.out.println("auth:"+token);
 		User session_user = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
 		Token po = dao.getUniqueByKeyValue(Token.class, "data", token);
 		if(po!=null){
@@ -99,7 +100,7 @@ public class CocoService {
 	private void getUserStatus(List<Map> chats){
 		for(Map chat : chats){
 			String uid = (String) chat.get("uid");
-			chat.put("status" , IMServer.isUserOnline(uid));
+			chat.put("status" , DataHelper.getUserStatus(uid));
 		}
 	}
 	@WebMethod

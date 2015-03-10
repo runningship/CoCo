@@ -15,7 +15,9 @@ import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.SimpDaoTool;
 import org.bc.sdak.utils.LogUtil;
 
+import com.youwei.bosh.BoshConnectionManager;
 import com.youwei.coco.KeyConstants;
+import com.youwei.coco.im.IMServer;
 import com.youwei.coco.user.entity.Admin;
 import com.youwei.coco.user.entity.Buyer;
 import com.youwei.coco.user.entity.Seller;
@@ -104,5 +106,21 @@ public class DataHelper {
 			return dao.get(Admin.class, Integer.valueOf(id));
 		}
 		return null;
+	}
+	
+	public static int getUserStatus(String contactId){
+		boolean webSocketOn = IMServer.isUserOnline(contactId);
+		boolean boshOn=false;
+		for(String key : BoshConnectionManager.conns.keySet()){
+			if(key.startsWith(contactId)){
+				boshOn = true;
+				break;
+			}
+		}
+		if(webSocketOn || boshOn){
+			return KeyConstants.User_Status_Online;
+		}else{
+			return KeyConstants.User_Status_Offline;
+		}
 	}
 }

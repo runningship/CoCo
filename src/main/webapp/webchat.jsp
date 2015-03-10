@@ -18,14 +18,14 @@
 <link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
 <link rel="stylesheet" type="text/css" href="oa/style/im.css" />
 <script src="js/jquery.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="oa/js/jquery.hotkeys-0.7.9.js"></script>
 <!-- <script type="text/javascript" src="/oa/js/messagesBox.js"></script> -->
 <script type="text/javascript" src="oa/js/json2.js"></script>
 <script type="text/javascript" src="oa/js/web_chat.js"></script>
 <script type="text/javascript" src="oa/js/bosh_connection.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
-<!-- <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.js"> </script> -->
+<!-- <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script> -->
+<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.js"> </script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 var valid = false;
@@ -40,21 +40,27 @@ $(function(){
 	}
 	ue_text_editor = UE.getEditor('editor', {
         toolbars: [
-            ['simpleupload','emotion','spechars','forecolor']
+            ['simpleupload','emotion','forecolor']
         ],
         theme:'default',
         autoHeightEnabled: false
     });
     ue_text_editor.addListener( 'ready', function( editor ) {
-        ue_text_editor.document.onkeyup=function(e){
-          msgAreaKeyup(e);
-        };
+    	//$(ue_text_editor.document).bind('keyup','ctrl+enter', function(){ send();});
+        //ue_text_editor.document.onkeyup=function(e){
+        //  msgAreaKeyup(e);
+        //};
+        
+        UE.dom.domUtils.on(ue_text_editor.body,"keyup",function(e){
+        	msgAreaKeyup(e);
+        });
         ue_text_editor.document.onpaste=function(e){
           // onPasteHandler(ue,e);
           console.log(e);
         };
     });
 
+    //$(document).bind('keyup','ctrl+enter', function(){ send();}); 
 });
 
 
@@ -110,7 +116,7 @@ function auth(token , success, error){
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: 'c/auth?token='+token,
+	    url: 'c/auth?token='+token+'&'+Math.random(),
 	    success:function(data){
 	    	var user = data.me;
 	    	if(user.id){

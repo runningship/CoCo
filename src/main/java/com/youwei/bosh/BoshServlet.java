@@ -2,7 +2,6 @@ package com.youwei.bosh;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -16,18 +15,11 @@ import org.apache.commons.lang.StringUtils;
 import org.bc.sdak.GException;
 import org.bc.sdak.SimpDaoTool;
 import org.bc.web.PlatformExceptionType;
-import org.bc.web.ServletHelper;
-import org.bc.web.ThreadSession;
 
-import com.codemarvels.boshservlet.Connection;
-import com.codemarvels.boshservlet.OutMessageManager;
-import com.youwei.coco.KeyConstants;
-import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.im.entity.Message;
-import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
 
-public class BoshXmppServlet2 extends HttpServlet{
+public class BoshServlet extends HttpServlet{
 
 	private static final long serialVersionUID = -6582356799296606455L;
 
