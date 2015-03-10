@@ -26,7 +26,7 @@ $(function(){
           console.log(e);
         };
     });
-
+    getRecentChats();
     getUnReadChats();
     heartBeat();
 });

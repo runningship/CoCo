@@ -37,6 +37,8 @@ function login(){
 	    	window.top.location='../home.jsp';
 	    },
 	    error:function(data){
+	    	var json = JSON.parse(data.responseText);
+	    	dlbtn.text(json.msg);
 	    	console.log(data);
 	    }
     });

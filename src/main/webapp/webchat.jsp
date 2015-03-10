@@ -18,14 +18,13 @@
 <link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
 <link rel="stylesheet" type="text/css" href="oa/style/im.css" />
 <script src="js/jquery.js" type="text/javascript"></script>
-<script type="text/javascript" src="oa/js/jquery.hotkeys-0.7.9.js"></script>
 <!-- <script type="text/javascript" src="/oa/js/messagesBox.js"></script> -->
 <script type="text/javascript" src="oa/js/json2.js"></script>
 <script type="text/javascript" src="oa/js/web_chat.js"></script>
 <script type="text/javascript" src="oa/js/bosh_connection.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.config.js"></script>
-<!-- <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script> -->
-<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.js"> </script>
+<script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
+<!-- <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.js"> </script> -->
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 var valid = false;

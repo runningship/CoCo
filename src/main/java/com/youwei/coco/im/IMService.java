@@ -138,4 +138,12 @@ public class IMService {
 		dao.saveOrUpdate(ugs);
 		return mv;
 	}
+	
+	@WebMethod
+	public ModelAndView getRecentChats(){
+		ModelAndView mv = new ModelAndView();
+		User u = (User)ThreadSessionHelper.getUser();
+		mv.jspData.put("recentChats", chatHandler.getRecentChats(u.getType(), u.getId()));
+		return mv;
+	}
 }

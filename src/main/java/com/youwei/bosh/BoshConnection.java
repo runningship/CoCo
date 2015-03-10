@@ -8,6 +8,7 @@ public class BoshConnection {
 
 	public String uid;
 	
+	public static final int Poll_Interval_In_Seconds = 60;
 	public HttpServletResponse resp;
 	
 	public String resource;
@@ -50,7 +51,7 @@ public class BoshConnection {
 	
 	public void hold() {
 		lifeStart = System.currentTimeMillis();
-		while(System.currentTimeMillis()-lifeStart<=30*1000){
+		while(System.currentTimeMillis()-lifeStart<=Poll_Interval_In_Seconds*1000){
 			if(flush){
 				break;
 			}

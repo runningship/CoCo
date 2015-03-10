@@ -15,7 +15,9 @@ import org.apache.commons.lang.StringUtils;
 import org.bc.sdak.GException;
 import org.bc.sdak.SimpDaoTool;
 import org.bc.web.PlatformExceptionType;
+import org.java_websocket.WebSocket;
 
+import com.youwei.coco.im.IMServer;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.util.DataHelper;
 
@@ -96,6 +98,10 @@ public class BoshServlet extends HttpServlet{
 		
     	String contactId = data.getString("contactId");
     	data.put("sendtime", DataHelper.sdf4.format(new Date()));
+    	if(IMServer.isUserOnline(contactId)){
+    		WebSocket userSocket = IMServer.getUserSocket(contactId);
+    		userSocket.send(data.toString());
+    	}
 //    	MessagePool.pushMsg(data);
     	boolean send=false;
     	for(String key : BoshConnectionManager.conns.keySet()){

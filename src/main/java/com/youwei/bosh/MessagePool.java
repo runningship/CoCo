@@ -13,6 +13,7 @@ import com.youwei.coco.im.IMServer;
 
 import net.sf.json.JSONObject;
 
+//暂时不用
 public class MessagePool extends Thread{
 
 	private IMChatHandler chatHandler = TransactionalServiceHelper.getTransactionalService(YjhChatHandler.class);

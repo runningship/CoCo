@@ -1,5 +1,6 @@
 package com.youwei.bosh;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class BoshConnectionManager extends Thread{
 
 	@Override
 	public void run() {
+		//监控用户状态
 		while(true){
 			try {
 				Thread.sleep(30000);
@@ -44,7 +46,7 @@ public class BoshConnectionManager extends Thread{
 			}
 			for(String key: connectionStatus.keySet()){
 				Long lastActive = connectionStatus.get(key);
-				if(System.currentTimeMillis()-lastActive>=60*1000){
+				if(System.currentTimeMillis()-lastActive>=BoshConnection.Poll_Interval_In_Seconds*1000){
 					//最近联系人
 					String offlineUid = key.split("-")[0];
 					List<Map> chats = chatHandler.getRecentChats("", offlineUid);
@@ -56,6 +58,16 @@ public class BoshConnectionManager extends Thread{
 				}
 			}
 		}
+	}
+	
+	public static List<BoshConnection> getBoshConnections(String uid){
+		List<BoshConnection> result = new ArrayList<BoshConnection>();
+		for(String key : BoshConnectionManager.conns.keySet()){
+    		if(key.startsWith(uid)){
+    			result.add(BoshConnectionManager.conns.get(key));
+    		}
+    	}
+		return result;
 	}
 
 	private void notifyUserOffline(String cid, String offlineUid) {

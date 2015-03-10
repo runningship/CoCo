@@ -20,6 +20,9 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import com.youwei.bosh.BoshConnection;
+import com.youwei.bosh.BoshConnectionManager;
+import com.youwei.bosh.MessagePool;
 import com.youwei.coco.CocoService;
 import com.youwei.coco.IMChatHandler;
 import com.youwei.coco.IMContactHandler;
@@ -48,12 +51,16 @@ public class IMServer extends WebSocketServer{
 	IMChatHandler chatHandler = TransactionalServiceHelper.getTransactionalService(YjhChatHandler.class);
 	private IMContactHandler contactHandler = TransactionalServiceHelper.getTransactionalService(YjhContactHandler.class);
 	
+	
 	private IMServer() throws UnknownHostException {
 //		super(new InetSocketAddress(Inet4Address.getByName("localhost"), 9099));
 //		super(new InetSocketAddress("192.168.1.125", 9099));
 		super(new InetSocketAddress(ConfigCache.get("domainName" , "www.zhongjiebao.com"), 9099));
 	}
 
+	public static WebSocket getUserSocket(String uid){
+		return conns.get(uid);
+	}
 	public static void startUp() throws Throwable{
 		if(instance!=null){
 			instance.stop();
@@ -214,6 +221,10 @@ public class IMServer extends WebSocketServer{
 		data.put("senderId", senderId);
 		if(recv!=null){
 			recv.send(data.toString());
+		}
+		for(BoshConnection boshConn : BoshConnectionManager.getBoshConnections(recvId)){
+			boshConn.returnText = data.toString();
+			boshConn.flush();
 		}
 	}
 

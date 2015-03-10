@@ -113,6 +113,8 @@ public class CocoService {
 		return mv;
 	}
 	
+	
+	
 	@WebMethod
 	public ModelAndView yjh(String token,String userType){
 		ModelAndView mv = new ModelAndView();
@@ -185,11 +187,11 @@ public class CocoService {
 		//type :buyer,seller,admin
 		User u  = null;
 		if(KeyConstants.User_Type_Buyer.equals(type)){
-			u = dao.getUniqueByKeyValue(Buyer.class, "loginCode", name);
+			u = dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
 		}else if(KeyConstants.User_Type_Seller.equals(type)){
-			u = dao.getUniqueByKeyValue(Seller.class, "loginCode", name);
+			u = dao.getUniqueByParams(Seller.class, new String[]{"loginCode" , "pwd"}, new Object[]{name,pwd});
 		}else if(KeyConstants.User_Type_Admin.equals(type)){
-			u = dao.getUniqueByKeyValue(Admin.class, "username", name);
+			u = dao.getUniqueByParams(Admin.class, new String[]{"username" , "password"}, new Object[]{name , pwd});
 		}
 		
 		if(u==null){

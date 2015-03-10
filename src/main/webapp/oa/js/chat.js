@@ -12,7 +12,7 @@ var web_plugin_message_callback;
 //web或者native,表示在web页面嵌入，还是客户端登录
 var resource;
 //http://pub.idqqimg.com/lib/qqface/0.gif
-function openChat(contactId,contactName,avatar,updateTitle){
+function openChat(contactId,contactName,avatar){
 	if(!avatar){
 		avatar=default_avatar;
 	}
@@ -21,9 +21,7 @@ function openChat(contactId,contactName,avatar,updateTitle){
 	//设置zIndex
 	$("#layerBoxDj").css({"z-index":999});
 	$('.chat_title').text('与 '+contactName+'... 聊天中');
-	if(updateTitle){
-		updateTitle('与 '+contactName+'... 聊天中');
-	}
+	
 	// 判断chat是否已经存在
 	if($('#chat_'+contactId).length>0){
 		// $('.cocoWinLxrList li').removeClass('now');
@@ -504,7 +502,7 @@ function notifyGroupNews(groupId,msgCount){
 	// $('#user_avatar_img_'+groupId).addClass('doudong');
 	requestWindowAttention(groupId,'group');
 }
-function notifyNewChat(contactId,msgCount){
+function notifyNewChat(contactId,msgCount , contactName){
 	var jmsgCount = $('#lxr_'+contactId).find('.new_msg_count');
 	if(msgCount){
 		jmsgCount.text(msgCount);
@@ -522,7 +520,7 @@ function notifyNewChat(contactId,msgCount){
 
 	$('.user_avatar_img_'+contactId).addClass('doudong');
 
-	requestWindowAttention(contactId,'chat');
+	requestWindowAttention(contactId,'chat' , contactName);
 }
 
 function addRecentContact(msg){
@@ -531,7 +529,7 @@ function addRecentContact(msg){
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: 'c/addRecentContact?contactId='+contactId,
+	    url: 'c/addRecentContact?contactId='+msg.senderId,
 	    success:function(data){
 	    }
 	  });
@@ -551,22 +549,16 @@ function onReceiveMsg(msg){
 	}
 
 	if($("#layerBoxDj").css('display')=='none'){
-    	requestFoxBarAttention(data.senderId,'chat');
+    	requestFoxBarAttention(data.senderId,'chat',data.senderName);
     }
 	//判断是否在联系人列表和最近联系人列表中
-	if(resource=='native'){
-		var sender = getContactNameByUid(data.senderId);
-		if(sender.size()==0){
-			//不在联系列表
-			sender = getRecentContactNameByUid(data.senderId);
-			if(!sender || sender.size()==0){
-				//不在最近联系人列表中,添加最近联系人
-				addRecentContact(msg);
-			}
-		}
-	}else{
-		if(web_plugin_message_callback){
-			web_plugin_message_callback(data);
+	var sender = getContactNameByUid(data.senderId);
+	if(!sender){
+		//不在联系列表
+		sender = getRecentContactNameByUid(data.senderId);
+		if(!sender){
+			//不在最近联系人列表中,添加最近联系人
+			addRecentContact(msg);
 		}
 	}
 	
@@ -574,7 +566,7 @@ function onReceiveMsg(msg){
 	var chat = $('#chat_'+data.senderId);
 	if(chat.length==0){
 		//给消息提醒
-		notifyNewChat(data.senderId);
+		notifyNewChat(data.senderId ,'', data.senderName);
 		return;
 	}
     $('#msgContainer_'+data.senderId).append(buildRecvMessage(data.senderAvatar,data.msg , data.sendtime));
@@ -707,6 +699,22 @@ function msgAreaKeyup(event){
 	}
 }
 
+function getRecentChats(){
+	$.ajax({
+		type: 'get',
+		dataType: 'json',
+		url: 'c/im/getRecentChats',
+		success:function(data){
+			if(data.recentChats){
+				for(var i=0;i<data.recentChats.length;i++){
+					var chat = data.recentChats[i];
+					openChat(contactId,contactName,avatar)
+				}
+			}
+			console.log(data);
+		}
+	});
+}
 function getUnReadChats(){
 	$.ajax({
 		type: 'get',
@@ -871,7 +879,7 @@ function selectAvatar(i){
     });
 }
 
-function requestFoxBarAttention(senderId , type){
+function requestFoxBarAttention(senderId , type , contactName){
 	//判断是否重复
 	for(var i=0;i<unread_stack.length;i++){
 		var tmp = unread_stack[i];
@@ -880,11 +888,16 @@ function requestFoxBarAttention(senderId , type){
 		}
 	}
 	var senderName = "";
-	if('chat'==type){
-		senderName = getContactNameByUid(senderId);	
+	if(contactName){
+		senderName=contactName;
 	}else{
-		senderName = getGroupNameByGid(senderId);
+		if('chat'==type){
+			senderName = getContactNameByUid(senderId);	
+		}else{
+			senderName = getGroupNameByGid(senderId);
+		}
 	}
+	
 	var json = JSON.parse('{}');
 	json.senderId = senderId;
 	json.senderName = senderName;
@@ -896,8 +909,8 @@ function requestFoxBarAttention(senderId , type){
 		$('.cocoNews span').text(senderName+'...的新消息');
 	// }
 }
-function requestWindowAttention(senderId , type){
-	requestFoxBarAttention(senderId,type);
+function requestWindowAttention(senderId , type, senderName){
+	requestFoxBarAttention(senderId,type , senderName);
 	try{
 		var win = gui.Window.get();
 		if(!win.isFocus){
