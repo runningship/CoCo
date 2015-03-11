@@ -21,13 +21,35 @@ var gui = require('nw.gui');
 var win = gui.Window.get();
 var shell = gui.Shell;
 }catch (e){}
-
+var dlbtn,
+dltimeout;
 function openurl(url){
     shell.openExternal(url);
 }
+function login_shakeTip(){
+    var timerId;
+    var p=[4,-10,20,-20,14,-10,6,-4,0];
+    var fxs = function () {
+        var ps=p.shift();
+        dlbtn.css({'margin-left':ps+'px'});
+        if (p.length <= 0) {
+            dlbtn.css({'margin-left':'0px'});
+            clearInterval(timerId);
+        };
+    };
+    timerId = setInterval(fxs, 100);
+}
+function login_chearTip(){
+    dlbtn.text('登 陆');
+}
+function login_tip(str){
+    clearInterval(dltimeout);
+    dlbtn.text(str);
+    dltimeout=setTimeout('login_chearTip();',1500);
+}
 function login(){
-    var dlbtn=$('.btn_submit');
-    dlbtn.text('登陆中...');
+    dlbtn=$('.btn_submit');
+    login_tip('登陆中...');
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
@@ -39,6 +61,7 @@ function login(){
 	    error:function(data){
 	    	var json = JSON.parse(data.responseText);
 	    	dlbtn.text(json.msg);
+            login_shakeTip();
 	    	console.log(data);
 	    }
     });
@@ -61,12 +84,13 @@ body{ }
 
 
 
-/*客户端的样式*/
+/*客户端的样式     padding: 10px 20px 0;*/
 
+    .form_login {margin: 10px 20px 0px;}
     .form_login li{ margin-bottom: 0px;}
 
-    .form_login{ display:inline-block; margin: 30px 0px 0px; width: 100%; }
-    .form_login .labU,.form_login .labP{ border:0; border-bottom: 1px solid #CCC; width: 100%; height: 40px; overflow: hidden; position: relative; background: #FFF no-repeat 5px center; line-height: 40px; padding-left: 10px;}
+    .form_login{ display:block;margin: 10px 20px 0px;width: auto; }
+    .form_login .labU,.form_login .labP{ border:0; border-bottom: 1px solid #CCC; width: 100%; height: 40px; overflow: hidden; position: relative; background: #FFF no-repeat 5px center; line-height: 40px; text-indent: 10px;}
     .form_login .labU,
     .form_login .labP{ background:none;display: block;}
     .form_login .labU .inputbox,.form_login .labP .inputbox{ position: absolute; top: 0; right:0; bottom: 0; left: 50px;}
@@ -80,7 +104,7 @@ body{ }
     .btn_submit{ background:#FF6600; color: #FFF; }
     .btn_submit:hover{ background:#FF4400; }
     .btn_reg{ background:#28A9D8; color: #FFF; }
-    .btn_link{ background:none; color: #436895; margin-top: 10px; }
+    .btn_link{ background:none; color: #436895; margin-top: 0px; }
     .btn_link:hover{ color: #09F;}
 
     .logoBox{ margin: 20px auto 0; width: 80px; display: block;}
