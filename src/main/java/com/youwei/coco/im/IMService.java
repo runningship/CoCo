@@ -7,13 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.Page;
+import org.bc.sdak.SimpDaoTool;
 import org.bc.sdak.TransactionalServiceHelper;
 import org.bc.sdak.utils.JSONHelper;
 import org.bc.web.ModelAndView;
 import org.bc.web.Module;
 import org.bc.web.WebMethod;
+import org.java_websocket.WebSocket;
 
 import com.youwei.bosh.BoshConnectionManager;
 import com.youwei.coco.IMChatHandler;
@@ -143,7 +147,38 @@ public class IMService {
 	public ModelAndView getRecentChats(){
 		ModelAndView mv = new ModelAndView();
 		User u = (User)ThreadSessionHelper.getUser();
-		mv.jspData.put("recentChats", chatHandler.getRecentChats(u.getType(), u.getId()));
+		mv.data.put("recentChats", JSONHelper.toJSONArray(chatHandler.getRecentChats(u.getType(), u.getId())));
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView pushMsgToUser(String msg,String contactId , String senderId , String senderName,String senderAvatar){
+		ModelAndView mv = new ModelAndView();
+		JSONObject jobj = new JSONObject();
+		jobj.put("type", "msg");
+		jobj.put("msg", msg);
+		jobj.put("senderId", senderId);
+		jobj.put("senderName", senderName);
+		jobj.put("senderAvatar", senderAvatar);
+		jobj.put("sendtime", DataHelper.sdf4.format(new Date()));
+		
+		Message dbMsg = new Message();
+		dbMsg.sendtime = new Date();
+		dbMsg.conts = msg;
+		dbMsg.senderId = senderId;
+		dbMsg.receiverId = contactId;
+		dbMsg.hasRead=0;
+		try{
+			SimpDaoTool.getGlobalCommonDaoService().saveOrUpdate(dbMsg);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		WebSocket targetConn = IMServer.getUserSocket(contactId);
+		if(targetConn!=null){
+			targetConn.send(jobj.toString());
+		}
+		DataHelper.sendToBosh(contactId, jobj);
 		return mv;
 	}
 }

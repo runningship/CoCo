@@ -19,4 +19,6 @@ public class KeyConstants {
 	public static final int IM_Action_Login = 1;
 	
 	public static final int IM_Action_Logout = 0;
+	
+	public static final String Connection_Resource_Separator="-";
 }

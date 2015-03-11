@@ -15,6 +15,7 @@ import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.SimpDaoTool;
 import org.bc.sdak.utils.LogUtil;
 
+import com.youwei.bosh.BoshConnection;
 import com.youwei.bosh.BoshConnectionManager;
 import com.youwei.coco.KeyConstants;
 import com.youwei.coco.im.IMServer;
@@ -108,11 +109,29 @@ public class DataHelper {
 		return null;
 	}
 	
+	public static User getPropUser(String id){
+		CommonDaoService dao = SimpDaoTool.getGlobalCommonDaoService();
+		User u = dao.get(Buyer.class, id);
+		if(u!=null){
+			return u;
+		}
+		u = dao.get(Seller.class, id);
+		if(u!=null){
+			return u;
+		}
+		u = dao.get(Admin.class, Integer.valueOf(id));
+		if(u!=null){
+			return u;
+		}
+		return null;
+	}
+	
 	public static int getUserStatus(String contactId){
 		boolean webSocketOn = IMServer.isUserOnline(contactId);
 		boolean boshOn=false;
 		for(String key : BoshConnectionManager.conns.keySet()){
-			if(key.startsWith(contactId)){
+			String target = key.split(KeyConstants.Connection_Resource_Separator)[0];
+			if(target.equals(contactId)){
 				boshOn = true;
 				break;
 			}
@@ -123,4 +142,21 @@ public class DataHelper {
 			return KeyConstants.User_Status_Offline;
 		}
 	}
+	
+	public static void sendToBosh(String contactId , JSONObject msg){
+		boolean send=false;
+    	for(String key : BoshConnectionManager.conns.keySet()){
+    		String targetUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
+    		if(targetUid.equals(contactId)){
+    			BoshConnection target = BoshConnectionManager.conns.get(key);
+    			target.returnText = msg.toString();
+    			target.flush();
+    			send=true;
+    		}
+    	}
+    	if(!send){
+    		System.out.println("没有找到对方的connection ...");
+    	}
+	}
+	
 }

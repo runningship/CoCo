@@ -39,7 +39,7 @@ $(function(){
 	}
 	ue_text_editor = UE.getEditor('editor', {
         toolbars: [
-            ['simpleupload','emotion','forecolor']
+            ['simpleupload','forecolor']
         ],
         theme:'default',
         autoHeightEnabled: false
@@ -55,11 +55,11 @@ $(function(){
         });
         ue_text_editor.document.onpaste=function(e){
           // onPasteHandler(ue,e);
-          console.log(e);
+          //console.log(e);
         };
+        
     });
 
-    //$(document).bind('keyup','ctrl+enter', function(){ send();}); 
 });
 
 
@@ -118,6 +118,10 @@ function auth(token , success, error){
 	    url: 'c/auth?token='+token+'&'+Math.random(),
 	    success:function(data){
 	    	var user = data.me;
+	    	if(data.result=='-1'){
+	    		window.top.cocoLoginFail('用户信息不正确');
+	    		return;
+	    	}
 	    	if(user.id){
 	    		my_uid=user.id;
 		    	my_avatar=user.avatar;
@@ -149,11 +153,10 @@ function auth(token , success, error){
 			    		success();
 			    	}
 		    	}
-	    	}else{
-	    		if(error){
-	    			
-	    		}
 	    	}
+	    },
+	    error:function(){
+	    	window.top.cocoLoginFail('登录失败');
 	    }
 	  });
 }
@@ -189,7 +192,7 @@ function rewin(){
     sH=$('.WinInfoSend').height();
     $('.cocoWinInfoListShow').height(bH-sH-3);
     $('.cocoWinContentLxr').height(bH);
-    $('#edui1_iframeholder').height(60);
+    $('#edui1_iframeholder').height(85);
 }
 document.ready(function(){
   //$('#edui1_iframeholder').height('510px');
@@ -232,7 +235,7 @@ $(window).resize(function() {
 .WinInfoListAppend .newsAppendBox{ margin-left: 70px;}
 .WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;padding: 4px 8px;}
 .WinInfoListAppend .newsAppendBox .conTime{ margin-top: 2px;}
-.WinInfoSendWrite{width: auto;float: none;margin-right: 0px;}
+.WinInfoSendWrite{width: auto;float: none;margin-right: 80px;}
 .WinInfoSendBtn{position: absolute;right: 0;bottom: 0;height: 30px; z-index: 22222;}
 .WinInfoSendBtnMessage{height: 100%;}
 .WinInfoListShowMainBox{ float: none; margin: 0; height: 100%;}
@@ -299,7 +302,7 @@ body #edui1_iframeholder{ height: 50px;}
                </ul>
           </div>
           <!--  margin-left:150px; -->
-          <div style=" margin-right:0px; height:100%;-webkit-user-select:text;">
+          <div style=" margin-right:0px; height:100%;-webkit-user-select:text;margin-left: 60px;">
           	  <!-- 聊天记录区 -->
               <div class="cocoWinInfoListShow" style="height:377px;">
               

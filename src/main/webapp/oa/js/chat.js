@@ -60,9 +60,11 @@ function openChat(contactId,contactName,avatar){
 	// $('.cocoWinLxrList li').removeClass('now');
 	$('.cocoWinLxrList').prepend(lxrHtml);
 	$('.qunBox').css('display','none');
-	selectChat($('#chat_'+contactId));
+	
+	//在select chat中加载历史聊天信息
+//	selectChat($('#chat_'+contactId));
 
-	loadHistory(contactId,1);
+//	loadHistory(contactId,1);
 	// $('.msgContainer').css('display','');
 	// 清空当前联系人未读消息提醒
 	var jmsgCount = $('#lxr_'+contactId).find('.new_msg_count');
@@ -72,7 +74,7 @@ function openChat(contactId,contactName,avatar){
 
 	reCacuUnreadStack(contactId,'chat');
 	//设置已读
-	setSigleChatRead(contactId);
+//	setSigleChatRead(contactId);
 }
 
 function setSigleChatRead(contactId){
@@ -303,7 +305,6 @@ function selectChat(li,groupId){
 	}
 	
 
-
 	var msgContainer;
 	if(groupId){
 		 msgContainer = $('#msgContainer_group_'+groupId);
@@ -343,7 +344,7 @@ function selectChat(li,groupId){
 	if(UE.Editor.body){
 		ue_text_editor.setContent(oldConts);
 	}
-	
+	loadHistory($(li).attr('cid'),1);
 }
 
 function pushChatConts(senderId , type , conts){
@@ -708,7 +709,10 @@ function getRecentChats(){
 			if(data.recentChats){
 				for(var i=0;i<data.recentChats.length;i++){
 					var chat = data.recentChats[i];
-					openChat(contactId,contactName,avatar)
+					openChat(chat.uid,chat.name);
+				}
+				if(data.recentChats.length>0){
+					selectChat($('#chat_'+data.recentChats[data.recentChats.length-1].uid) );
 				}
 			}
 			console.log(data);

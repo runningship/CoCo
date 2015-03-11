@@ -48,7 +48,7 @@ public class BoshConnectionManager extends Thread{
 				Long lastActive = connectionStatus.get(key);
 				if(System.currentTimeMillis()-lastActive>=BoshConnection.Poll_Interval_In_Seconds*1000){
 					//最近联系人
-					String offlineUid = key.split("-")[0];
+					String offlineUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
 					List<Map> chats = chatHandler.getRecentChats("", offlineUid);
 					for(Map chat : chats){
 						String cid = (String)chat.get("uid");

@@ -17,6 +17,7 @@ import org.bc.sdak.SimpDaoTool;
 import org.bc.web.PlatformExceptionType;
 import org.java_websocket.WebSocket;
 
+import com.youwei.coco.KeyConstants;
 import com.youwei.coco.im.IMServer;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.util.DataHelper;
@@ -43,7 +44,7 @@ public class BoshServlet extends HttpServlet{
     	if(StringUtils.isEmpty(res)){
     		res = UUID.randomUUID().toString();
     	}
-    	BoshConnection oldConn = BoshConnectionManager.get(uid+"-"+res);
+    	BoshConnection oldConn = BoshConnectionManager.get(uid+KeyConstants.Connection_Resource_Separator+res);
     	if(oldConn!=null){
     		//客户端主动发来新请求,要结束掉老的请求
     		oldConn.finish();
@@ -63,7 +64,7 @@ public class BoshServlet extends HttpServlet{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    	BoshConnectionManager.put(uid+"-"+res, newConn);
+    	BoshConnectionManager.put(uid+KeyConstants.Connection_Resource_Separator+res, newConn);
     	newConn.hold();
     }
 
@@ -103,18 +104,7 @@ public class BoshServlet extends HttpServlet{
     		userSocket.send(data.toString());
     	}
 //    	MessagePool.pushMsg(data);
-    	boolean send=false;
-    	for(String key : BoshConnectionManager.conns.keySet()){
-    		if(key.startsWith(contactId)){
-    			BoshConnection target = BoshConnectionManager.conns.get(key);
-    			target.returnText = data.toString();
-    			target.flush();
-    			send=true;
-    		}
-    	}
-    	if(!send){
-    		System.out.println("没有找到对方的connection ...");
-    	}
+    	DataHelper.sendToBosh(contactId, data);
 //		OutMessageManager.pushMsg(data);
     }
 }

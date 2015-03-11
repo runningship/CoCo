@@ -165,7 +165,10 @@ public class CocoService {
 			po.uid = uid;
 			po.contactId = contactId;
 			po.lasttime = new Date();
-			po.userType = ThreadSessionHelper.getUser().getType();
+			User u = DataHelper.getPropUser(contactId);
+			if(u!=null){
+				po.userType = u.getType();
+			}
 		}
 		dao.saveOrUpdate(po);
 		return mv;

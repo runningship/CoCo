@@ -331,6 +331,9 @@ function buildRecvMessage(senderAvatar , msg , time , senderName , senderId){
 //	if(senderName){
 //		senderHtml='<div class="lxrName pleft">'+senderName+'</div>';
 //	}
+	if(!senderAvatar){
+		senderAvatar = default_avatar;
+	}
 	var avatar_img = $('#chat_'+senderId).find('img');
 	var user_status_class='';
 	if(avatar_img.hasClass('user_offline_filter')){
@@ -462,7 +465,11 @@ function setUserStatus(json){
 		// 在线
 		$('.user_avatar_img_'+json.senderId).removeClass('user_offline_filter');
 	}
-	console.log(json.contactName+'状态: '+json.status);
+	try{
+		console.log(json.contactName+'状态: '+json.status);
+	}catch(e){
+		
+	}
 	//lxrzaixian('cocoList');
 }
 
@@ -487,7 +494,7 @@ function closeChat(contactId){
 	//如果删除的是当前聊天，重新选择下一个聊天为当前聊天，如果没有其他聊天，关闭聊天面板
 	event.cancelBubble=true;
 	if(next.length>0){
-		selectChat(contactId);	
+		selectChat(next.attr('cid'));	
 	}
 	removeWebRecentContact(contactId);
 }

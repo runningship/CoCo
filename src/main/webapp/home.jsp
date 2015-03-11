@@ -12,7 +12,7 @@
 <meta name="description" content="中介宝房源软件系统">
 <meta name="keywords" content="房源软件,房源系统,中介宝">
 <!-- <link href="/style/css.css" rel="stylesheet"> -->
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<!-- <link href="bootstrap/css/bootstrap.css" rel="stylesheet"> -->
 <link href="style/style.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="oa/style/cocoWindow.css" />
@@ -20,7 +20,7 @@
 <link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
 <link rel="stylesheet" type="text/css" href="oa/style/im.css" />
 <script src="js/jquery.js" type="text/javascript"></script>
-<script src="bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<!-- <script src="bootstrap/js/bootstrap.js" type="text/javascript"></script> -->
 <script type="text/javascript">
 try{
 var gui = require('nw.gui');

@@ -5,14 +5,23 @@ function sendByBosh(data)
 {
 	data.myUid=my_uid;
 	data.resource = resource;
-	console.log('send:'+JSON.stringify(data));
+	try{
+		console.log('send:'+JSON.stringify(data));
+	}catch(e){
+		
+	}
+	
 	data = 'json='+encodeURIComponent(JSON.stringify(data));
 	$.ajax({
 	      type: 'post',
 	      url: 'bosh',
 	      data: data,
 	      success: function(data){
-	    	  console.log('data='+data);
+	    	  try{
+	    		  console.log('data='+data);
+	    	  }catch(e){
+	    		  
+	    	  }
 	          if('finished'==data || 'finishedfinished'==data){
 	        	  //老的请求没有结束，又有了新的请求
 	        	  return;

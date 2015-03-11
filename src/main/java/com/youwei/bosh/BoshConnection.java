@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.youwei.coco.KeyConstants;
+
 public class BoshConnection {
 
 	public String uid;
@@ -37,7 +39,7 @@ public class BoshConnection {
 					resp.setContentType("text/html");
 					resp.setCharacterEncoding("utf-8");
 					resp.getOutputStream().write(returnText.getBytes("utf-8"));
-					BoshConnectionManager.remove(uid+"-"+resource);
+					BoshConnectionManager.remove(uid+KeyConstants.Connection_Resource_Separator+resource);
 //					System.out.println("send:"+returnText);
 					returned = true;
 				} catch (IOException e) {

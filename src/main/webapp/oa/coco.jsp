@@ -64,7 +64,8 @@ function showSearchPanel(){
   };
 })();
 document.ready(function(){
-  selBoxCge('lxrList')
+  //selBoxCge('lxrList');
+  selBoxCge('outList');
 });
 
 
