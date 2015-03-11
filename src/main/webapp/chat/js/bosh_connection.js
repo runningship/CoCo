@@ -39,8 +39,11 @@ function sendByBosh(data)
 	          }
 	          
 	      },
-	      error:function(){
-	    	  
+	      error:function(data){
+	    	  console.log('掉线了');
+	    	  setTimeout(function(){
+	    		  nextRound();
+    		  },30*1000);
 	      }
     });
 }

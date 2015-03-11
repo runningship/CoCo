@@ -46,7 +46,7 @@ j_dialogShow=false;
 //resizeDialog();
 };
 </script>
-<script type="text/javascript" src="oa/${userType }.js"></script>
+<script type="text/javascript" src="chat/${userType }.js"></script>
 <style type="text/css">
 .hide{display:none}
 .user_offline_filter{-webkit-filter: grayscale(100%);}
@@ -61,6 +61,6 @@ j_dialogShow=false;
 <a href="#" onclick="openChat('2','南京供应商','')">南京供应商</a>
 <a href="#" onclick="openChat('3','杭州供应商','')">杭州供应商</a>
 
-<span onclick="openChat();"><img id="coco"  onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='oa/images/ww.jpg' style="width:16px;height:16px;position: absolute;bottom: 10px;right: 20px;cursor:pointer"/></span>
+<span onclick="openChat();"><img id="coco"  onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='chat/images/ww.jpg' style="width:16px;height:16px;position: absolute;bottom: 10px;right: 20px;cursor:pointer"/></span>
 </body>
 </html>

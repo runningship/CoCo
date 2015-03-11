@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript" src="oa/js/messagesBox.js"></script>
-<script type="text/javascript" src="oa/js/chat.js"></script>
-<script type="text/javascript" src="oa/js/select.js"></script>
+<script type="text/javascript" src="chat/js/messagesBox.js"></script>
+<script type="text/javascript" src="chat/js/chat.js"></script>
+<script type="text/javascript" src="chat/js/select.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
 <!--<script type="text/javascript" charset="utf-8" src="/js/ueditor1_4_3/ueditor.all.js"> </script>-->
@@ -78,13 +78,13 @@ document.ready(function(){
          <div class="tr w100">
 
               <div class="td cocoMainTit oaTitBgCoco titlebar">
-                <div class=""><img src="oa/images/avatar/${me.avatar}.jpg" class="user_offline_filter" id="avatarId" onclick="openNewWin('changeAvatar','695','500','修改头像','oa/avatar.jsp');" />
+                <div class=""><img src="chat/images/avatar/${me.avatar}.jpg" class="user_offline_filter" id="avatarId" onclick="openNewWin('changeAvatar','695','500','修改头像','chat/avatar.jsp');" />
                     <div title="" class="mainInfo mainName" id="user_name_div">${me.name}</div>
                     <input id="user_name_input" style="display:none;margin-top:5px;" onblur="endChangeName();" />
                     <div class="mainInfo mainabout">${dname}</div>
                     <div class="turnLit" style="display:none;" onclick="$('.cocoMain').toggleClass('hide');">-</div>
                 </div>
-                <!-- <img src="oa/images/coco.png" /> -->
+                <!-- <img src="chat/images/coco.png" /> -->
             </div>
          </div>
          <div class="tr w100">
@@ -125,7 +125,7 @@ document.ready(function(){
                             		<li id="group_${dept.did}" onclick="openGroupChat(${dept.did},'${dept.dname }')">
 	                                 <div id="group_avatar_${dept.did}" class="qunTx Fleft">
                                         <c:forEach items="${dept.users}" var="user">
-                                            <img src="oa/images/avatar/${user.avatar}.jpg">
+                                            <img src="chat/images/avatar/${user.avatar}.jpg">
                                         </c:forEach>
                                      </div>
 	                                 <div class="cocoQunInfo Fleft">

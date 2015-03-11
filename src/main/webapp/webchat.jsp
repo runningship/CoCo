@@ -13,15 +13,16 @@
 <!-- <link href="/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
 <!-- <script src="/bootstrap/js/bootstrap.js" type="text/javascript"></script> -->
 <!-- <link href="/style/style.css" rel="stylesheet"> -->
-<link rel="stylesheet" type="text/css" href="oa/style/cocoWindow.css" />
-<!-- <link rel="stylesheet" type="text/css" href="/oa/style/cocoWinLayer.css" /> -->
-<link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
-<link rel="stylesheet" type="text/css" href="oa/style/im.css" />
-<script src="js/jquery.js" type="text/javascript"></script>
-<!-- <script type="text/javascript" src="/oa/js/messagesBox.js"></script> -->
-<script type="text/javascript" src="oa/js/json2.js"></script>
-<script type="text/javascript" src="oa/js/web_chat.js"></script>
-<script type="text/javascript" src="oa/js/bosh_connection.js"></script>
+<link rel="stylesheet" type="text/css" href="chat/style/cocoWindow.css" />
+<!-- <link rel="stylesheet" type="text/css" href="/chat/style/cocoWinLayer.css" /> -->
+<link rel="stylesheet" type="text/css" href="chat/style/cssOa.css" />
+<link rel="stylesheet" type="text/css" href="chat/style/im.css" />
+<!-- <script src="js/jquery.js" type="text/javascript"></script> -->
+<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="/chat/js/messagesBox.js"></script> -->
+<script type="text/javascript" src="chat/js/json2.js"></script>
+<script type="text/javascript" src="chat/js/web_chat.js"></script>
+<script type="text/javascript" src="chat/js/bosh_connection.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
 <!-- <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.js"> </script> -->
@@ -220,7 +221,7 @@ $(window).resize(function() {
 .qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;}
 
 .qunList{ border-bottom: 1px solid #EEE;}
-.qunList dt{ text-align: center; background: url('oa/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}
+.qunList dt{ text-align: center; background: url('chat/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}
 .qunList dd.conts{ padding: 5px;}
 
 .cocoWin{ position: relative; left: 0;}

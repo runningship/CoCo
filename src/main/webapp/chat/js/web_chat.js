@@ -32,7 +32,7 @@ function openChat(contactId,contactName,avatar , status){
 	}
 	// 添加联系人
 	var lxrHtml=	'<li type="msg" avatar="'+avatar+'" cname="'+contactName+'" cid="'+contactId+'" id="chat_'+contactId+'" onclick="selectChat(\''+contactId+'\' ,true)">'
-                    +   '<div  class="cocoWinLxrListTx Fleft"><img title="'+contactName+'" class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="oa/images/avatar/'+avatar+'.jpg" /></div>'
+                    +   '<div  class="cocoWinLxrListTx Fleft"><img title="'+contactName+'" class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="chat/images/avatar/'+avatar+'.jpg" /></div>'
                     +   '<div class="cocoWinLxrListPerInfo Fleft">'
                     +   '   <p class="name" style="display:none">'+contactName+'</p>'
                     +   '</div>'
@@ -259,7 +259,7 @@ function buildSentMessage(text,time , senderName,senderId){
 //		user_status_class = 'user_offline_filter';
 //	}
 	var sentMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImgRight"><img class=" user_avatar_img_'+senderId+'" src="oa/images/avatar/'+my_avatar+'.jpg" /></div>'
+                    +     '<div class="txImgRight"><img class=" user_avatar_img_'+senderId+'" src="chat/images/avatar/'+my_avatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +     		senderHtml
                     +          '<div class="newsAppendBox Fright">'
@@ -340,7 +340,7 @@ function buildRecvMessage(senderAvatar , msg , time , senderName , senderId){
 		user_status_class = 'user_offline_filter';
 	}
 	var recvMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImg"><img class="'+user_status_class+' user_avatar_img_'+senderId+'" src="oa/images/avatar/'+senderAvatar+'.jpg" /></div>'
+                    +     '<div class="txImg"><img class="'+user_status_class+' user_avatar_img_'+senderId+'" src="chat/images/avatar/'+senderAvatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +         	senderHtml
                     +          '<div class="newsAppendBox Fleft">'

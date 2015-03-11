@@ -8,7 +8,7 @@ border-radius:3px; font-family:"宋体"; z-index:1990;}
 
 .cocoWintit span{ display: block; color:#006566; font-size:12px; margin-left:15px;}
 
-.cocoWintit i.closeBg{ width:20px; height:21px; background:url(/oa/cocoImages/close.png) no-repeat; position:absolute; display:none;}
+.cocoWintit i.closeBg{ width:20px; height:21px; background:url(/chat/cocoImages/close.png) no-repeat; position:absolute; display:none;}
 
 .cocoWintit i.closeX{ background-position:0 0; top:6px; right:10px;}
 .cocoWintit i.closeX:hover{ background-position:-25px 0;}
@@ -80,7 +80,7 @@ border-radius:3px; font-family:"宋体"; z-index:1990;}
 
 .WinInfoListAppend .newsAppendBox .conTime{ width:100%; font-size:12px; color:#a8b6be; margin-top:10px;-webkit-user-select: text;}
 
-.WinInfoListAppend .newsAppendBox .conTime i.clock{ float:left; margin-right:5px; width:13px; height:13px; background:url(/oa/cocoImages/timeClock.png) no-repeat;}
+.WinInfoListAppend .newsAppendBox .conTime i.clock{ float:left; margin-right:5px; width:13px; height:13px; background:url(/chat/cocoImages/timeClock.png) no-repeat;}
 
 .WinInfoListAppend .newsAppendBox .sanjiaoLeft{ position:absolute; z-index:10; top:8px; left:-8px; width:0; height:0; border-top: 5px solid transparent;border-right: 8px solid #efefef; border-bottom: 5px solid transparent;}
 

@@ -2,47 +2,71 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <head>
-<link href="js/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="oa/style/im.css" />
-<script type="text/javascript" src="js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
+<link href="/style/css.css" rel="stylesheet">
+<link href="/style/style.css" rel="stylesheet">
+<link href="/js/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/chat/style/im.css" />
+<script src="/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
         
 <script type="text/javascript">
-//一次性加载
 var setting = {
   view: {
     showIcon: false,
     addDiyDom: addDiyDom,
     showLine:false,
+    dblClickExpand: true,
   },
   data: {
     simpleData: {
       enable: true
     }
   },
+  async: {
+	enable: true,
+	url: "/c/getChildren",
+	autoParam: ["id", "type"]
+  },
   callback: {
     // onRightClick: OnRightClick
     // onClick: onClick
     // onCheck: onCheck
+    beforeExpand: beforeExpand
   }
 };
 
 function onCheck(event, treeId, treeNode){
   console.log(treeNode.id);
 }
+function beforeExpand(treeId, treeNode) {
+  if(treeNode.zAsync){
+    return;
+  }
+  if (!treeNode.isAjaxing) {
+    startTime = new Date();
+    treeNode.times = 1;
+    var zTree = $.fn.zTree.getZTreeObj(treeId);
+    // ajaxGetNodes(treeNode, "refresh");
+    zTree.reAsyncChildNodes(treeNode, 'refresh', true);
+    return true;
+  } else {
+    alert("zTree 正在下载数据中，请稍后展开节点。。。");
+    return false;
+  }
+}
 
 function initUserTree(treeId){
-   $.ajax({
-     type: 'POST',
-     url: 'c/getUserTree',
-     data:'',
-     success: function(data){
-         var result=JSON.parse(data);
-         $.fn.zTree.init($("#"+treeId), setting, result.result);
-         var treeObj = $.fn.zTree.getZTreeObj(treeId); 
-         treeObj.expandAll(true);
-         treeObj.expandAll(false); 
-     }
-   });
+	$.fn.zTree.init($("#"+treeId), setting ,null);
+	//递归加载子节点
+  // $.ajax({
+  //   type: 'POST',
+  //   url: '/c/getChildren?parent=-1',
+  //   data:'',
+  //   success: function(data){
+  //       var result=JSON.parse(data);
+  //       $.fn.zTree.init($("#"+treeId), setting, result.result);
+  //   }
+  // });
 }
 
 
@@ -61,9 +85,9 @@ function addDiyDom(treeId, treeNode) {
 	  var li = $("#" + treeNode.tId);
 	  li.empty();
 	  var span = '<span class="">'
-	 +'<li id="lxr_'+treeNode.id+'" onclick="openChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
+	 +'<li id="lxr_'+treeNode.id+'" onclick="openChat('+treeNode.uid+',\''+treeNode.name+'\','+treeNode.avatar+')">'
      + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
-     +'<img user_avatar_img="'+treeNode.avatar+'" src="oa/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
+     +'<img user_avatar_img="'+treeNode.avatar+'" src="/chat/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'
      + '<div class="cocoPerInfo Fleft">'
      +    '<p class="name">'+treeNode.name+'</p>'

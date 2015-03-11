@@ -15,10 +15,10 @@
 <!-- <link href="bootstrap/css/bootstrap.css" rel="stylesheet"> -->
 <link href="style/style.css" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="oa/style/cocoWindow.css" />
-<link rel="stylesheet" type="text/css" href="oa/style/cocoWinLayer.css" />
-<link rel="stylesheet" type="text/css" href="oa/style/cssOa.css" />
-<link rel="stylesheet" type="text/css" href="oa/style/im.css" />
+<link rel="stylesheet" type="text/css" href="chat/style/cocoWindow.css" />
+<link rel="stylesheet" type="text/css" href="chat/style/cocoWinLayer.css" />
+<link rel="stylesheet" type="text/css" href="chat/style/cssOa.css" />
+<link rel="stylesheet" type="text/css" href="chat/style/im.css" />
 <script src="js/jquery.js" type="text/javascript"></script>
 <!-- <script src="bootstrap/js/bootstrap.js" type="text/javascript"></script> -->
 <script type="text/javascript">
@@ -109,14 +109,14 @@ function getMyProfile(){
 	    	}else{
 	    		 //$('.cocoMain').toggleClass('hide');
 	    		 //startLogin();
-	    		 window.location='oa/login.jsp';
+	    		 window.location='chat/login.jsp';
 	    	}
 	    }
 	  });
 }
 
 function startLogin(){
-	openNewWin('login' , '310','270','登录','oa/login.jsp');
+	openNewWin('login' , '310','270','登录','chat/login.jsp');
 }
 
 function cocoWin_resize(){
@@ -173,7 +173,7 @@ body{ overflow: hidden;}
 .qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;}
 
 .qunList{ border-bottom: 1px solid #EEE;}
-.qunList dt{ text-align: center; background: url('oa/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}
+.qunList dt{ text-align: center; background: url('chat/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}
 .qunList dd.conts{ padding: 5px;}
 
 .oaTitBgCoco {background-color: #08B3B6;}
@@ -223,11 +223,11 @@ body #edui1_iframeholder{ height: 50px;}
 	</div>
 
 	<div>
-	    <jsp:include page="oa/coco.jsp"></jsp:include>
+	    <jsp:include page="chat/coco.jsp"></jsp:include>
 	</div>
 	    
 	<div>
-	<jsp:include page="oa/userTree2.jsp"></jsp:include>
+	<jsp:include page="chat/userTree2.jsp"></jsp:include>
 	</div>
 </div>
 

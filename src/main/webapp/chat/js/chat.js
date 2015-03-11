@@ -41,7 +41,7 @@ function openChat(contactId,contactName,avatar){
 	}
 	// 添加联系人
 	var lxrHtml=	'<li type="msg" avatar="'+avatar+'" cname="'+contactName+'" cid="'+contactId+'" id="chat_'+contactId+'" onclick="selectChat(this)">'
-                    +   '<div  class="cocoWinLxrListTx Fleft"><img class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="oa/images/avatar/'+avatar+'.jpg" /></div>'
+                    +   '<div  class="cocoWinLxrListTx Fleft"><img class="'+imgFilterClass+' user_avatar_img_'+contactId+'" src="chat/images/avatar/'+avatar+'.jpg" /></div>'
                     +   '<div class="cocoWinLxrListPerInfo Fleft">'
                     +   '   <p class="name">'+contactName+'</p>'
                     +   '</div>'
@@ -172,7 +172,7 @@ function buildGroupMembers(groupId,members){
 	ul.empty();
 	for(var i=0;i<members.length;i++){
 		var mem = members[i];
-		ul.append('<li><div class="qunTxImg Fleft"><img class="user_avatar_img_'+mem.uid+'" src="oa/images/avatar/'+mem.avatar+'.jpg"></div><div class="qunLxrInfo Fleft"><p class="name">'+mem.uname+'</p></div></li>');
+		ul.append('<li><div class="qunTxImg Fleft"><img class="user_avatar_img_'+mem.uid+'" src="chat/images/avatar/'+mem.avatar+'.jpg"></div><div class="qunLxrInfo Fleft"><p class="name">'+mem.uname+'</p></div></li>');
 	}
 }
 
@@ -380,7 +380,7 @@ function buildSentMessage(text,time , senderName){
 		senderHtml = '<div class="lxrName pright">'+senderName+'</div>';
 	}
 	var sentMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImgRight"><img src="oa/images/avatar/'+my_avatar+'.jpg" /></div>'
+                    +     '<div class="txImgRight"><img src="chat/images/avatar/'+my_avatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +     		senderHtml
                     +          '<div class="newsAppendBox Fright">'
@@ -450,7 +450,7 @@ function buildRecvMessage(senderAvatar , msg , time , senderName){
 		senderHtml='<div class="lxrName pleft">'+senderName+'</div>';
 	}
 	var recvMsgHtml='<div class="WinInfoListAppend">'
-                    +     '<div class="txImg"><img src="oa/images/avatar/'+senderAvatar+'.jpg" /></div>'
+                    +     '<div class="txImg"><img src="chat/images/avatar/'+senderAvatar+'.jpg" /></div>'
                     +     '<div class="newsAppend">'
                     +         	senderHtml
                     +          '<div class="newsAppendBox Fleft">'
@@ -873,7 +873,7 @@ function endChangeName(){
 
 function selectAvatar(i){
 	my_avatar = i;
-	$('#avatarId').attr('src','oa/images/avatar/'+i+'.jpg');
+	$('#avatarId').attr('src','chat/images/avatar/'+i+'.jpg');
     $.ajax({
       type: 'POST',
       url: 'c/im/setAvatar?avatarId='+i,
