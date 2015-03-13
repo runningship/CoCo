@@ -25,6 +25,7 @@ import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.YjhChatHandler;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.im.entity.UserGroupStatus;
+import com.youwei.coco.im.entity.UserSign;
 import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
 
@@ -142,7 +143,23 @@ public class IMService {
 		dao.saveOrUpdate(ugs);
 		return mv;
 	}
-	
+
+	@WebMethod
+	public  ModelAndView updateUserSign(String uid , String sign,String type){
+		UserSign us = dao.getUniqueByParams(UserSign.class, new String[]{"uid"}, new Object[]{uid});
+		User me = ThreadSessionHelper.getUser();
+		if(us==null){
+			us = new UserSign();
+			us.uid = me.getId();
+			us.userType = me.getType();
+			us.sign = sign;
+		}else{
+			us.sign = sign;
+		}
+		dao.saveOrUpdate(us);
+		ModelAndView mv = new ModelAndView();
+		return mv;
+	}
 	@WebMethod
 	public ModelAndView getRecentChats(){
 		ModelAndView mv = new ModelAndView();

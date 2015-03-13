@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script type="text/javascript" src="chat/js/buildHtml.js"></script>
+<script type="text/javascript" src="chat/js/jquery.artDialog.source.js"></script>
+<script type="text/javascript" src="chat/js/jquery.artDialog.js"></script>
+<script type="text/javascript" src="chat/js/artDialog.source.js"></script>
+<script type="text/javascript" src="chat/js/artDialog.js"></script>
+<script type="text/javascript" src="chat/js/jquery.j.tool.v2.js"></script>
 <script type="text/javascript" src="chat/js/messagesBox.js"></script>
 <script type="text/javascript" src="chat/js/chat.js"></script>
 <script type="text/javascript" src="chat/js/select.js"></script>
@@ -40,6 +46,31 @@ function showSearchPanel(){
 }
 
 
+function endChangeSign(){
+  var a=$('form[name=form1]').serialize();
+  var b = $('#user_sign_input').val();
+  YW.ajax({
+    type: 'POST',
+    url: '/coco/c/im/updateUserSign',
+    data:a,
+    mysuccess: function(data){
+      $('#user_sign_input').css('display','none');
+        $('#sign').css('display','');
+      if (b!="") {
+        $('#sign').html(b);
+      }else {
+        $('#sign').html("我的个性签名");
+      }
+    }
+  });
+}
+
+function editSign(){
+  $('.mainabout').attr('style','display:none');
+  $('#user_sign_input').attr('style','width:152px;');
+  $('#user_sign_input').focus();
+}
+
 /*document.ready*/
 (function () {
   var ie = !!(window.attachEvent && !window.opera);
@@ -77,15 +108,20 @@ document.ready(function(){
         
          <div class="tr w100">
 
+            <form class="form1" name="form1" role="form" onsubmit="submits();return false;">
               <div class="td cocoMainTit oaTitBgCoco titlebar">
-                <div class=""><img src="chat/images/avatar/${me.avatar}.jpg" class="user_offline_filter" id="avatarId" onclick="openNewWin('changeAvatar','695','500','修改头像','chat/avatar.jsp');" />
+                <div class=""><img src="chat/images/avatar/${me.avatar}.jpg" class="user_offline_filter" id="avatarId" onclick="openNewWin('changeAvatar','695','500','修改头像','oa/avatar.jsp');" />
+                    <input name="uid" value="${me.id}" style="display:none;"/>
                     <div title="" class="mainInfo mainName" id="user_name_div">${me.name}</div>
-                    <input id="user_name_input" style="display:none;margin-top:5px;" onblur="endChangeName();" />
-                    <div class="mainInfo mainabout">${dname}</div>
+                    <input id="user_name_input" style="display:none;width:152px;" onblur="endChangeName();" />
+                    <c:if test="${sign==null||sign==''}"><div class="mainInfo mainabout" onclick="editSign();">我的个性签名</div></c:if>
+                    <div class="mainInfo mainabout" id="sign" onclick="editSign();">${sign}</div>
+                    <input id="user_sign_input" style="display:none;width:152px;" value="${sign}" name="sign" onblur="endChangeSign();" />
                     <div class="turnLit" style="display:none;" onclick="$('.cocoMain').toggleClass('hide');">-</div>
                 </div>
-                <!-- <img src="chat/images/coco.png" /> -->
+                <!-- <img src="oa/images/coco.png" /> -->
             </div>
+            </form>
          </div>
          <div class="tr w100">
               <div class="td cocoMainSelect" id="cocoMainSelectId">

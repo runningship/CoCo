@@ -26,6 +26,7 @@ import org.jsoup.helper.DataUtil;
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.im.IMServer;
 import com.youwei.coco.im.entity.IMLog;
+import com.youwei.coco.im.entity.UserSign;
 import com.youwei.coco.user.entity.Admin;
 import com.youwei.coco.user.entity.Buyer;
 import com.youwei.coco.user.entity.RecentContact;
@@ -110,6 +111,8 @@ public class CocoService {
 		mv.jspData.put("me",DataHelper.toCommonUser(u));
 		mv.jspData.put("depts",getGroupList());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
+		UserSign sign = dao.getUniqueByKeyValue(UserSign.class, "uid", u.getId());
+		mv.jspData.put("sign",sign.sign);
 		return mv;
 	}
 	
