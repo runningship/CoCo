@@ -16,10 +16,16 @@
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 
+function isGetOutLxr(){
+	if($('.cocoWinLxrList').children('li').length>0){
+		$('#outListBtn').click();
+	}
+}
+
 $(function(){
     ue_text_editor = UE.getEditor('editor', {
         toolbars: [
-            ['simpleupload','emotion','spechars','forecolor']
+            ['simpleupload','spechars','forecolor']
         ],
         autoHeightEnabled: false
     });
@@ -32,19 +38,28 @@ $(function(){
           console.log(e);
         };
     });
-    getRecentChats();
+    getRecentChats(isGetOutLxr());
     getUnReadChats();
     heartBeat();
 });
 
 function showSearchPanel(){
 	$('#searchResult ul').empty();
-	$('#searchResult ul').append($('#lxrList .a_user'));
+	$('#searchResult ul').append($('#lxrList .a_user').clone());
 	$('#searchResult').css('display','');
 	selBoxCge('searchResult');
 	
 }
 
+var searchHandler;
+function prepareSearch(){
+	if(!searchHandler){
+		searchHandler= setTimeout(doSearchContact,300);	
+	}else{
+		clearTimeout(searchHandler);
+		searchHandler= setTimeout(doSearchContact,300);
+	}
+}
 
 function endChangeSign(){
   var a=$('form[name=form1]').serialize();
@@ -71,6 +86,21 @@ function editSign(){
   $('#user_sign_input').focus();
 }
 
+function doSearchContact(){
+	clearTimeout(searchHandler);
+	searchHandler=null;
+	var st = $('#search_input').val();
+	console.log('search text : '+st);
+	$('#searchResult ul .search_clone').each(function(index,obj){
+		var py = $(obj).attr('py');
+		var pyshort = $(obj).attr('pyshort');
+		if(py.indexOf(st)>-1 || pyshort.indexOf(st)>-1){
+			$(obj).css('display' , '');
+		}else{
+			$(obj).css('display' , 'none');
+		}
+	});
+}
 /*document.ready*/
 (function () {
   var ie = !!(window.attachEvent && !window.opera);
@@ -94,10 +124,7 @@ function editSign(){
       }, 0);
   };
 })();
-document.ready(function(){
-  //selBoxCge('lxrList');
-  selBoxCge('outList');
-});
+
 
 
 
@@ -125,16 +152,16 @@ document.ready(function(){
          </div>
          <div class="tr w100">
               <div class="td cocoMainSelect" id="cocoMainSelectId">
-                   <span class="sle" onclick="selBoxCge('lxrList')"><i class="Bg lxr"></i></span>
-                   <span onclick="selBoxCge('qunList')"><i class="Bg qun"></i><em id="qunbox_dot" class=""></em></span>
-                   <span onclick="selBoxCge('outList')"><i class="Bg ldq"></i></span>
+                   <span class="sle" onclick="selBoxCge('lxrList')" id="lxrListBtn"><i class="Bg lxr"></i></span>
+                   <span onclick="selBoxCge('qunList')" id="qunListBtn"><i class="Bg qun"></i><em id="qunbox_dot" class=""></em></span>
+                   <span onclick="selBoxCge('outList')" id="outListBtn"><i class="Bg ldq"></i></span>
               </div>
          </div>
          
          <div class="tr w100">
               <div class="td cocoMainSearch">
               
-                   <input type="text" class="cocoMainSearchBox" placeholder="搜索联系人"  onfocus="showSearchPanel()"/>
+                   <input type="text" id="search_input" class="cocoMainSearchBox" placeholder="搜索联系人"  onkeyup="prepareSearch();" onfocus="showSearchPanel()"/>
               
               </div>
          </div>
@@ -205,9 +232,10 @@ document.ready(function(){
 
 </div>
 
-<div style=" position:absolute; bottom:1px; left:165px;cursor:pointer;width:30px; height:30px; overflow:hidden; z-index:99999992;">
-     <span><img onclick=" $('.cocoMain').toggleClass('hide');" src="style/images/litFox.png" width="32" /></span>
-</div>
+<!-- <div style=" position:absolute; bottom:1px; left:165px;cursor:pointer;width:30px; height:30px; overflow:hidden; z-index:99999992;"> -->
+<!--      <span><img onclick=" $('.cocoMain').toggleClass('hide');" src="style/images/litFox.png" width="32" /></span> -->
+<!-- </div> -->
+
 <div style="position:absolute; bottom:0; left:0px; width:201px; height:36px; z-index:99999991;" onselectstart="return false;">
      <div onclick="recoverChatPanel();" class="cocoNews " style="text-align:center; margin-top:0;"><span class="name chat_title">CoCo 聊天</span></div>
 </div>
