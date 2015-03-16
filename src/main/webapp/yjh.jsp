@@ -51,16 +51,29 @@ j_dialogShow=false;
 .hide{display:none}
 .user_offline_filter{-webkit-filter: grayscale(100%);}
 
-.aui_nw,.aui_w,.aui_sw,.aui_ne,.aui_e,.aui_se{ width: 0;}
-.aui_sw,.aui_s,.aui_se{ height: 0;}
-.aui_title{text-align: center;}
+
+/*9CDDF5*/
+.aui_nw,.aui_w,.aui_sw,.aui_ne,.aui_e,.aui_se,
+.aui_n,
+.aui_nw,.aui_n,.aui_ne,
+.aui_sw,.aui_s,.aui_se{background-color: #EEE; border-color:#EEE; border-style: solid; border-width: 0; }
+
+
+.aui_outer{ border: 0;}
+.aui_nw,.aui_w,.aui_sw,.aui_ne,.aui_e,.aui_se{ width:3px;background: ;}
+.aui_n{ border-bottom-width: 1px;background: #FFF;background: #F6F6F6;}
+.aui_nw,.aui_n,.aui_ne{border-top-width: 3px;}
+.aui_sw,.aui_s,.aui_se{ height: 0;border-top-width: 3px;}
+.aui_title{text-align: center;color: #555;text-shadow:none;}
+.aui_close{ color: #EEE; background: none;}
+.aui_close:hover{background: #EEE;color: #C72015; border: none;}
 </style>
 </head>
 <body>
 <a href="#" onclick="openChat('1','合肥供应商','')">合肥供应商</a>
 <a href="#" onclick="openChat('2','南京供应商','')">南京供应商</a>
 <a href="#" onclick="openChat('3','杭州供应商','')">杭州供应商</a>
-
-<span onclick="openChat();"><img id="coco"  onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='chat/images/ww.jpg' style="width:16px;height:16px;position: absolute;bottom: 10px;right: 20px;cursor:pointer"/></span>
+<div style="height:2000px;"></div>
+<span onclick="openChat();"><img id="coco"  onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='chat/cocoImages/coco_256.gif' style="width:16px;height:16px;position: fixed;bottom: 10px;right: 20px;cursor:pointer"/></span>
 </body>
 </html>

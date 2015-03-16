@@ -78,8 +78,11 @@ public class YjhChatHandler implements IMChatHandler{
 				+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId  and rc.uid=?" ,uid);
 		List<Map> buyers = dao.listAsMap("select buyer.name as name , buyer.buyerId as uid "
 				+ "from RecentContact rc ,Buyer buyer where rc.contactId=buyer.buyerId and rc.uid=? " ,uid);
+		List<Map> admins = dao.listAsMap("select admin.name as name , admin.id as uid "
+				+ "from RecentContact rc ,Admin admin where rc.contactId=admin.id and rc.uid=? " ,uid);
 		contacts.addAll(sellers);
 		contacts.addAll(buyers);
+		contacts.addAll(admins);
 		return contacts;
 	}
 

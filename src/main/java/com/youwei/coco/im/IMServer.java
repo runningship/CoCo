@@ -181,7 +181,7 @@ public class IMServer extends WebSocketServer{
 		//最近联系人
 		List<Map> chats = chatHandler.getRecentChats((String)from.getAttributes().get("userType"), fromUid.toString());
 		for(Map chat : chats){
-			String contactId = (String)chat.get("uid");
+			String contactId = chat.get("uid").toString();
 			WebSocket conn = conns.get(contactId);
 			if(conn!=null){
 				conn.send(jobj.toString());

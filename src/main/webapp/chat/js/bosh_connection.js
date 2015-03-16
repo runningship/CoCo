@@ -1,5 +1,6 @@
 var connection = null;
 var terminated=false;
+var lastActiveTime;
 //send('type=msg&xx='+$('#jid').val()+'&bb=22');
 function sendByBosh(data)
 {
@@ -40,7 +41,6 @@ function sendByBosh(data)
 	          
 	      },
 	      error:function(data){
-	    	  console.log('掉线了');
 	    	  setTimeout(function(){
 	    		  nextRound();
     		  },30*1000);
@@ -52,13 +52,23 @@ function startBosh(){
 	var data = jQuery.parseJSON('{}');
 	data.type="open";
 	sendByBosh(data);
+	heartBeat();
 }
 
-function startConnection(){
-	
-}
 function nextRound(){
 	var data = jQuery.parseJSON('{}');
 	data.type="ping";
 	sendByBosh(data);
+}
+
+function heartBeat(){
+	setTimeout(function(){
+		var now = new Date().getTime();
+		if(now-lastActiveTime>=65*1000){
+			//断网
+			window.top.cocoFail();
+			nextRound();
+		}
+		heartBeat();
+	},70*1000);
 }

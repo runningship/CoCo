@@ -13,14 +13,21 @@ public class ConfigCache {
 
 	private static Properties props = new Properties();
 	
-	private static final String confFilePath = "D:\\conf\\coco.properties";
-//	private static final String confFilePath = "/home/b2btest/coco/conf/coco.properties";
+//	private static final String confFilePath = "D:\\conf\\coco.properties";
+	private static final String defaultConfigPath = "/home/coco/conf/coco.properties";
 	static{
 		load();
 	}
 	private static void load(){
 		try {
-			File file = new File(confFilePath);
+			String path = System.getProperty("im_config");
+			if(StringUtils.isEmpty(path)){
+				path = System.getenv("im_config");
+			}
+			if(StringUtils.isEmpty(path)){
+				path = defaultConfigPath;
+			}
+			File file = new File(path);
 			if(file.exists()){
 				props.load(FileUtils.openInputStream(file));
 			}else{

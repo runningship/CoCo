@@ -61,7 +61,7 @@ function addDiyDom(treeId, treeNode) {
 	  var li = $("#" + treeNode.tId);
 	  li.empty();
 	  var span = '<span class="">'
-	 +'<li id="lxr_'+treeNode.id+'" onclick="openChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
+	 +'<li class="search_clone" py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
      + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
      +'<img user_avatar_img="'+treeNode.avatar+'" src="chat/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'

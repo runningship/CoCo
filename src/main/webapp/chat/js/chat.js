@@ -46,7 +46,7 @@ function openChat(contactId,contactName,avatar){
                     +   '   <p class="name">'+contactName+'</p>'
                     +   '</div>'
                     +	'<div class="new_msg_count"></div>'
-					+	'<div class="msgClose" onclick="closeChat('+contactId+')">×</div>'
+					+	'<div class="msgClose" onclick="closeChat(\''+contactId+'\')">×</div>'
                     +'</li>';
 	
 	// 添加聊天内容窗口
@@ -75,8 +75,13 @@ function openChat(contactId,contactName,avatar){
 	reCacuUnreadStack(contactId,'chat');
 	//设置已读
 //	setSigleChatRead(contactId);
+	addRecentContact(contactId);
 }
 
+function openAndSelectChat(contactId,contactName,avatar){
+	openChat(contactId , contactName , avatar);
+	selectChat($('#chat_'+contactId));
+}
 function setSigleChatRead(contactId){
 	$.ajax({
 		type: 'get',
@@ -290,7 +295,7 @@ function sendToServer(chat){
 }
 function selectChat(li,groupId){
 	//保存当前窗口内容
-	
+	selBoxCge('outList');
 	var conts = "";
 	if(UE.Editor.body){
 		conts = ue_text_editor.getContent();
@@ -524,19 +529,34 @@ function notifyNewChat(contactId,msgCount , contactName){
 	requestWindowAttention(contactId,'chat' , contactName);
 }
 
-function addRecentContact(msg){
+function addRecentContact(senderId){
 	//msg中有联系人的所有信息
 	//添加到数据库
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: 'c/addRecentContact?contactId='+msg.senderId,
+	    url: 'c/addRecentContact?contactId='+senderId,
 	    success:function(data){
 	    }
 	  });
 	
 	//添加界面元素
 }
+
+function removeRecentContact(contactId){
+	//msg中有联系人的所有信息
+	//添加到数据库
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: 'c/removeRecentContact?contactId='+contactId,
+	    success:function(data){
+	    }
+	  });
+	
+	//添加界面元素
+}
+
 function onReceiveMsg(msg){
 	
 	var data = JSON.parse(msg);
@@ -559,7 +579,7 @@ function onReceiveMsg(msg){
 		sender = getRecentContactNameByUid(data.senderId);
 		if(!sender){
 			//不在最近联系人列表中,添加最近联系人
-			addRecentContact(msg);
+			addRecentContact(msg.senderId);
 		}
 	}
 	
@@ -700,7 +720,7 @@ function msgAreaKeyup(event){
 	}
 }
 
-function getRecentChats(){
+function getRecentChats(success){
 	$.ajax({
 		type: 'get',
 		dataType: 'json',
@@ -716,6 +736,9 @@ function getRecentChats(){
 				}
 			}
 			console.log(data);
+			if(success){
+				success();
+			}
 		}
 	});
 }
@@ -775,9 +798,10 @@ function closeChat(contactId,groupId){
 		}else{
 			selectChat(next[0]);	
 		}
-		
 	}
 	
+	//remove recent chat
+	removeRecentContact(contactId);
 }
 function closeAllChat(){
 	$('.cocoWinLxrList').empty();
@@ -810,6 +834,7 @@ function recoverChatPanel(){
 		var json = unread_stack.pop();
 		if(json.type=='chat'){
 		 	openChat(json.senderId,json.senderName , getAvatarByUid(json.senderId));
+		 	selectChat(json.senderId);
 		}else{
 			openGroupChat(json.senderId , json.senderName);
 		}
@@ -822,14 +847,15 @@ function recoverChatPanel(){
 		}
 		//$("#layerBoxDj").css({"z-index":artDialog.defaults.zIndex++});
 	}else{
-		if($('.cocoWinLxrList li').length>0){
-			if($("#layerBoxDj").css("display")=='none'){
-				showBox();
-				$("#layerBoxDj").css({"z-index":artDialog.defaults.zIndex++});
-			}else{
-				closeBox();
-			}
-		}
+		showBox();
+//		if($('.cocoWinLxrList li').length>0){
+//			if($("#layerBoxDj").css("display")=='none'){
+//				showBox();
+////				$("#layerBoxDj").css({"z-index":artDialog.defaults.zIndex++});
+//			}else{
+//				closeBox();
+//			}
+//		}
 	}
 	
 }

@@ -12,6 +12,9 @@ function selBoxCge(id){
 	if(id=='qunList'){
 		$('#qunbox_dot').removeClass('alertDot');
 	}
+	
+	$('#cocoMainSelectId span').removeClass('sle');
+	$('#'+id+'Btn').addClass('sle');
 }
 	 
 /*	 $("button").click(function(){
@@ -23,14 +26,12 @@ function selBoxCge(id){
   });
 }); 
  */
-$(function(){
-	
-	  $("#cocoMainSelectId").children("span").click(function(){
-		 $(this).siblings().removeClass("sle");
-		 $(this).addClass("sle");
-	  });
-	  /*
-	$(this).addClass("sle");*/
-	
-});  
+//$(function(){
+//	
+//	  $("#cocoMainSelectId").children("span").click(function(){
+//		 $(this).siblings().removeClass("sle");
+//		 $(this).addClass("sle");
+//	  });
+//	
+//});  
 

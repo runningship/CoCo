@@ -34,6 +34,7 @@ import com.youwei.coco.user.entity.Seller;
 import com.youwei.coco.user.entity.Token;
 import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
+import com.youwei.coco.util.SecurityHelper;
 
 @Module(name="/")
 public class CocoService {
@@ -112,7 +113,7 @@ public class CocoService {
 		mv.jspData.put("depts",getGroupList());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 		UserSign sign = dao.getUniqueByKeyValue(UserSign.class, "uid", u.getId());
-		mv.jspData.put("sign",sign.sign);
+		mv.jspData.put("sign",sign);
 		return mv;
 	}
 	
@@ -177,6 +178,7 @@ public class CocoService {
 		return mv;
 	}
 	
+	
 	@WebMethod
 	public ModelAndView removeRecentContact(String contactId){
 		ModelAndView mv = new ModelAndView();
@@ -191,14 +193,21 @@ public class CocoService {
 	@WebMethod
 	public ModelAndView login(String name , String pwd ,String type){
 		//type :buyer,seller,admin
-		User u  = null;
-		if(KeyConstants.User_Type_Buyer.equals(type)){
-			u = dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
-		}else if(KeyConstants.User_Type_Seller.equals(type)){
+		pwd = SecurityHelper.Md5(pwd);
+		User u  =  dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
+		if(u==null){
 			u = dao.getUniqueByParams(Seller.class, new String[]{"loginCode" , "pwd"}, new Object[]{name,pwd});
-		}else if(KeyConstants.User_Type_Admin.equals(type)){
+		}
+		if(u==null){
 			u = dao.getUniqueByParams(Admin.class, new String[]{"username" , "password"}, new Object[]{name , pwd});
 		}
+//		if(KeyConstants.User_Type_Buyer.equals(type)){
+//			u = dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
+//		}else if(KeyConstants.User_Type_Seller.equals(type)){
+//			u = dao.getUniqueByParams(Seller.class, new String[]{"loginCode" , "pwd"}, new Object[]{name,pwd});
+//		}else if(KeyConstants.User_Type_Admin.equals(type)){
+//			u = dao.getUniqueByParams(Admin.class, new String[]{"username" , "password"}, new Object[]{name , pwd});
+//		}
 		
 		if(u==null){
 			throw new GException(PlatformExceptionType.BusinessException, "用户或密码错误");

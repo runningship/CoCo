@@ -226,10 +226,12 @@ $(window).resize(function() {
 
 .cocoWin{ position: relative; left: 0;}
 .cocoWinContent{ height: 100%;}
-.cocoWinContentLxr{ height: 100%;width: 60px;}
+.cocoWinContentLxr{ height: 100%;width: 60px;background-color:#EEE;/*border-right: 1px solid #DDD;*/}
 .cocoWinLxrListTx{ width: 38px; height: 38px;}
 .cocoWinLxrListTx img{ width: 100%; height: 100%;}
 .cocoWinLxrList li{padding: 5px 0 10px; height: auto;}
+.cocoWinLxrList li:hover {background-color: #CCC;}
+.cocoWinLxrList li.now {background-color: #FFF;}/**/
 .WinInfoSend { float: none;position: relative; background: none; border: 0;}
 .WinInfoListAppend {}
 .WinInfoListAppend .newsAppend { margin-left: 0; margin-right: 0; display: block; width: 100%; }
@@ -237,8 +239,8 @@ $(window).resize(function() {
 .WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;padding: 4px 8px;}
 .WinInfoListAppend .newsAppendBox .conTime{ margin-top: 2px;}
 .WinInfoSendWrite{width: auto;float: none;margin-right: 80px;}
-.WinInfoSendBtn{position: absolute;right: 0;bottom: 0;height: 30px; z-index: 22222;}
-.WinInfoSendBtnMessage{height: 100%;}
+.WinInfoSendBtn{position: absolute;right: 2px;bottom: 0;height: 30px; z-index: 22222;}
+.WinInfoSendBtnMessage{height: 100%;background: #FF6600;}
 .WinInfoListShowMainBox{ float: none; margin: 0; height: 100%;}
 
 body .edui-default .edui-editor-toolbarbox {

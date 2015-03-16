@@ -11,10 +11,8 @@
 <meta name="description" content="中介宝房源软件系统">
 <meta name="keywords" content="房源软件,房源系统,中介宝">
 <link href="../style/css.css" rel="stylesheet">
-<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="../style/style.css" rel="stylesheet">
 <script src="../js/jquery.js" type="text/javascript"></script>
-<script src="../bootstrap/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
 try{
 var gui = require('nw.gui');
@@ -66,6 +64,9 @@ function login(){
 	    }
     });
 }
+$(document).ready(function() {
+    $('#idName').focus();
+});
 </script>
 <style>
  input,button,select,textarea{outline:none}
@@ -86,10 +87,9 @@ body{ }
 
 /*客户端的样式     padding: 10px 20px 0;*/
 
-    .form_login {margin: 10px 20px 0px;}
+    .form_login{ display:block;margin: 30px 20px 0px;width: auto; }
     .form_login li{ margin-bottom: 0px;}
 
-    .form_login{ display:block;margin: 10px 20px 0px;width: auto; }
     .form_login .labU,.form_login .labP{ border:0; border-bottom: 1px solid #CCC; width: 100%; height: 40px; overflow: hidden; position: relative; background: #FFF no-repeat 5px center; line-height: 40px; text-indent: 10px;}
     .form_login .labU,
     .form_login .labP{ background:none;display: block;}
@@ -118,7 +118,7 @@ body{ }
     <div class="bodyer">
         <div class="mainer bd ">
                     <span class="logoBox">
-                        <img src="images/dd.png" alt="" class="">
+                        <img src="cocoImages/coco_256.png" alt="" class="">
                     </span>
             <ul class="form_login">
                 <li>
@@ -130,10 +130,10 @@ body{ }
                 <li>
                     <label class="labP">
                         密码
-                        <div class="inputbox"><input type="text" class="input" id="idPassword" placeholder="密码"></div>
+                        <div class="inputbox"><input type="password" class="input" id="idPassword" placeholder="密码"></div>
                     </label>
                 </li>
-                <li style="display:;">
+                <li style="display:none;">
                     <div class="selectbox">
                     <select name="idType" id="idType" class="select">
                         <option value="buyer">买家</option>

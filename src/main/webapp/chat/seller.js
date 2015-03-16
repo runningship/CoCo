@@ -91,6 +91,8 @@ function openChat(){
 }
 
 function doOpenChat(){
+	var top = (window.screen.height-dialog_height)/2+$(document).scrollTop()/2;
+	$('.aui_state_focus').css('top',top+'px');
 	webchat_dialog.show();
 	webchat_dialog.size(dialog_width, dialog_height);
 	$('iframe').css('display','');
@@ -103,4 +105,8 @@ function updateTitle(title){
 	if(webchat_dialog){
 		webchat_dialog.title(title);	
 	}
+}
+
+function cocoFail(){
+	$('#coco').addClass('user_offline_filter');
 }
