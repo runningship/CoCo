@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 不用了，在用户表里分别加入signature字段,查询是方便
+ */
 @Entity
 @Table(name="im_UserSign")
 public class UserSign {

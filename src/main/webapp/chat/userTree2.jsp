@@ -40,7 +40,8 @@ function initUserTree(treeId){
          $.fn.zTree.init($("#"+treeId), setting, result.result);
          var treeObj = $.fn.zTree.getZTreeObj(treeId); 
          treeObj.expandAll(true);
-         treeObj.expandAll(false); 
+         //treeObj.expandAll(false); 
+         getRecentChats(isGetOutLxr());
      }
    });
 }
@@ -60,8 +61,12 @@ function addDiyDom(treeId, treeNode) {
   if(treeNode.type=='user'){
 	  var li = $("#" + treeNode.tId);
 	  li.empty();
+    var sign = treeNode.sign;
+    if (!sign) {
+      sign = "";
+    };
 	  var span = '<span class="">'
-	 +'<li class="search_clone" py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
+	 +'<li name="'+treeNode.name+'" title="'+sign+'" class="search_clone" py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
      + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
      +'<img user_avatar_img="'+treeNode.avatar+'" src="chat/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'

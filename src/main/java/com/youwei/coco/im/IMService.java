@@ -26,6 +26,9 @@ import com.youwei.coco.YjhChatHandler;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.im.entity.UserGroupStatus;
 import com.youwei.coco.im.entity.UserSign;
+import com.youwei.coco.user.entity.Admin;
+import com.youwei.coco.user.entity.Buyer;
+import com.youwei.coco.user.entity.Seller;
 import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
 
@@ -146,17 +149,28 @@ public class IMService {
 
 	@WebMethod
 	public  ModelAndView updateUserSign(String uid , String sign,String type){
-		UserSign us = dao.getUniqueByParams(UserSign.class, new String[]{"uid"}, new Object[]{uid});
-		User me = ThreadSessionHelper.getUser();
-		if(us==null){
-			us = new UserSign();
-			us.uid = me.getId();
-			us.userType = me.getType();
-			us.sign = sign;
-		}else{
-			us.sign = sign;
+//		UserSign us = dao.getUniqueByParams(UserSign.class, new String[]{"uid"}, new Object[]{uid});
+		
+		Seller seller = dao.get(Seller.class, uid);
+		Buyer buyer = dao.get(Buyer.class, uid);
+		try{
+			Admin admin = dao.get(Admin.class, Integer.valueOf(uid));
+			if(admin!=null){
+				admin.signature = sign;
+				dao.saveOrUpdate(admin);
+			}
+		}catch(NumberFormatException ex ){
+			
 		}
-		dao.saveOrUpdate(us);
+		
+		if(seller!=null){
+			seller.signature = sign;
+			dao.saveOrUpdate(seller);
+		}
+		if(buyer!=null){
+			buyer.signature = sign;
+			dao.saveOrUpdate(buyer);
+		}
 		ModelAndView mv = new ModelAndView();
 		return mv;
 	}

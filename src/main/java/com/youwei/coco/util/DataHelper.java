@@ -92,7 +92,7 @@ public class DataHelper {
 		}else{
 			jobj.put("avatar", u.getAvatar());
 		}
-		
+		jobj.put("sign", u.getSign());
 		jobj.put("type", u.getType());
 		return jobj;
 	}

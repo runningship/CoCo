@@ -133,7 +133,16 @@ function cocoWin_resize(){
 	}
 }
 $(document).ready(function() {
+	var win = gui.Window.get();
+	win.window.onblur=function(){
+        win.isFocus=false;
+    };
+    win.window.onfocus=function(){
+        win.title="有机会 - 叮铛";
+        win.isFocus=true;
+    };
 	cocoWin_resize();
+	
 });
 $(window).resize(function(event) {
 	cocoWin_resize();

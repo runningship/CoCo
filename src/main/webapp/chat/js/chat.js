@@ -36,8 +36,8 @@ function openChat(contactId,contactName,avatar){
 	var xx = $('#user_avatar_'+contactId+' img');
 	
 	var imgFilterClass = "";
-	if(xx.hasClass('user_offline_filter')){
-		imgFilterClass = 'user_offline_filter';
+	if(xx.hasClass('user_status_filter_0')){
+		imgFilterClass = 'user_status_filter_0';
 	}
 	// 添加联系人
 	var lxrHtml=	'<li type="msg" avatar="'+avatar+'" cname="'+contactName+'" cid="'+contactId+'" id="chat_'+contactId+'" onclick="selectChat(this)">'
@@ -349,7 +349,10 @@ function selectChat(li,groupId){
 	if(UE.Editor.body){
 		ue_text_editor.setContent(oldConts);
 	}
-	loadHistory($(li).attr('cid'),1);
+	if(!msgContainer.attr('hasLoadHistory')){
+		loadHistory($(li).attr('cid') , 1);
+		msgContainer.attr('hasLoadHistory',true);
+	}
 }
 
 function pushChatConts(senderId , type , conts){
@@ -579,7 +582,7 @@ function onReceiveMsg(msg){
 		sender = getRecentContactNameByUid(data.senderId);
 		if(!sender){
 			//不在最近联系人列表中,添加最近联系人
-			addRecentContact(msg.senderId);
+			addRecentContact(data.senderId);
 		}
 	}
 	

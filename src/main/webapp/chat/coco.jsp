@@ -2,11 +2,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript" src="chat/js/buildHtml.js"></script>
-<script type="text/javascript" src="chat/js/jquery.artDialog.source.js"></script>
-<script type="text/javascript" src="chat/js/jquery.artDialog.js"></script>
-<script type="text/javascript" src="chat/js/artDialog.source.js"></script>
-<script type="text/javascript" src="chat/js/artDialog.js"></script>
-<script type="text/javascript" src="chat/js/jquery.j.tool.v2.js"></script>
+<!-- <script type="text/javascript" src="chat/js/jquery.artDialog.source.js"></script> -->
+<!-- <script type="text/javascript" src="chat/js/jquery.artDialog.js"></script> -->
+<!-- <script type="text/javascript" src="chat/js/artDialog.source.js"></script> -->
+<!-- <script type="text/javascript" src="chat/js/artDialog.js"></script> -->
+<!-- <script type="text/javascript" src="chat/js/jquery.j.tool.v2.js"></script> -->
 <script type="text/javascript" src="chat/js/messagesBox.js"></script>
 <script type="text/javascript" src="chat/js/chat.js"></script>
 <script type="text/javascript" src="chat/js/select.js"></script>
@@ -38,7 +38,7 @@ $(function(){
           console.log(e);
         };
     });
-    getRecentChats(isGetOutLxr());
+    
     getUnReadChats();
     heartBeat();
 });
@@ -94,7 +94,8 @@ function doSearchContact(){
 	$('#searchResult ul .search_clone').each(function(index,obj){
 		var py = $(obj).attr('py');
 		var pyshort = $(obj).attr('pyshort');
-		if(py.indexOf(st)>-1 || pyshort.indexOf(st)>-1){
+		var name = $(obj).attr('name');
+		if(py.indexOf(st)>-1 || pyshort.indexOf(st)>-1 || name.indexOf(st)>-1){
 			$(obj).css('display' , '');
 		}else{
 			$(obj).css('display' , 'none');
@@ -141,9 +142,9 @@ function doSearchContact(){
                     <input name="uid" value="${me.id}" style="display:none;"/>
                     <div title="" class="mainInfo mainName" id="user_name_div">${me.name}</div>
                     <input id="user_name_input" style="display:none;width:152px;" onblur="endChangeName();" />
-                    <c:if test="${sign==null||sign==''}"><div class="mainInfo mainabout" onclick="editSign();">我的个性签名</div></c:if>
-                    <div class="mainInfo mainabout" id="sign" onclick="editSign();">${sign}</div>
-                    <input id="user_sign_input" style="display:none;width:152px;" value="${sign}" name="sign" onblur="endChangeSign();" />
+                    <c:if test="${me.sign==null||me.sign==''}"><div class="mainInfo mainabout nobar" onclick="editSign();">我的个性签名</div></c:if>
+                    <div class="mainInfo mainabout nobar" id="sign" onclick="editSign();">${me.sign}</div>
+                    <input id="user_sign_input" class=" nobar" style="display:none;width:152px;" value="${me.sign}" name="sign" onblur="endChangeSign();" />
                     <div class="turnLit" style="display:none;" onclick="$('.cocoMain').toggleClass('hide');">-</div>
                 </div>
                 <!-- <img src="oa/images/coco.png" /> -->
@@ -170,7 +171,7 @@ function doSearchContact(){
          <div class="tr w100">
               <div class="td cocoMainCon">
                     
-                    <div id="lxrList" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; z-index:1;">
+                    <div id="lxrList" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; z-index:3;">
                     
                     	<ul id="cocoList" class="ztree jtree cocoList"></ul>
                     </div>

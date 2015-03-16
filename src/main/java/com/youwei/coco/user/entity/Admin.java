@@ -28,6 +28,8 @@ public class Admin implements User{
 	public String area;
 	
 	public String avatar;
+	
+	public String signature;
 
 	@Override
 	public String getId() {
@@ -47,5 +49,10 @@ public class Admin implements User{
 	@Override
 	public String getType() {
 		return KeyConstants.User_Type_Admin;
+	}
+
+	@Override
+	public String getSign() {
+		return signature;
 	}
 }

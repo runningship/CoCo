@@ -112,8 +112,6 @@ public class CocoService {
 		mv.jspData.put("me",DataHelper.toCommonUser(u));
 		mv.jspData.put("depts",getGroupList());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
-		UserSign sign = dao.getUniqueByKeyValue(UserSign.class, "uid", u.getId());
-		mv.jspData.put("sign",sign);
 		return mv;
 	}
 	

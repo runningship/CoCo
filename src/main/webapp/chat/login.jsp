@@ -57,15 +57,27 @@ function login(){
 	    	window.top.location='../home.jsp';
 	    },
 	    error:function(data){
-	    	var json = JSON.parse(data.responseText);
-	    	dlbtn.text(json.msg);
-            login_shakeTip();
-	    	console.log(data);
+	    	try{
+	    		var json = JSON.parse(data.responseText);
+		    	dlbtn.text(json.msg);
+	            login_shakeTip();
+		    	console.log(data);	
+	    	}catch(e){
+	    		dlbtn.text('系统错误-99');
+	    		login_shakeTip();
+	    	}
+	    	
 	    }
     });
 }
 $(document).ready(function() {
     $('#idName').focus();
+    $(document).on('keyup',function(event){  
+        var keycode = (event.keyCode ? event.keyCode : event.which);  
+        if(keycode == '13'){  
+            login();
+        }  
+    });
 });
 </script>
 <style>

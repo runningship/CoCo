@@ -35,6 +35,8 @@ public class Buyer implements User{
 	public String cityId;
 	
 	public String avatar;
+	
+	public String signature;
 
 	@Override
 	public String getId() {
@@ -54,6 +56,11 @@ public class Buyer implements User{
 	@Override
 	public String getType() {
 		return KeyConstants.User_Type_Buyer;
+	}
+	
+	@Override
+	public String getSign() {
+		return signature;
 	}
 	
 }
