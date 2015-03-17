@@ -110,7 +110,7 @@ public class CocoService {
 		ModelAndView mv = new ModelAndView();
 		User u = (User)ThreadSessionHelper.getUser();
 		mv.jspData.put("me",DataHelper.toCommonUser(u));
-		mv.jspData.put("depts",getGroupList());
+		mv.jspData.put("groups",chatHandler.getUserGroups(u.getId()));
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
 		return mv;
 	}
@@ -233,7 +233,7 @@ public class CocoService {
 	}
 	
 	
-	public List<Map> getBuddyList(Integer parent){
+	private List<Map> getBuddyList(Integer parent){
 		List<Map> users = new ArrayList<Map>();
 		Map<String,Object> ass = new HashMap<String,Object>();
 		ass.put("avatar", AssistantAvatar);

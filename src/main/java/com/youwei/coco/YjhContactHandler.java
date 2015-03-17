@@ -89,16 +89,16 @@ public class YjhContactHandler implements IMContactHandler{
 	@Override
 	public void createGroup(String creatorUid , Group group) {
 		Group po = dao.getUniqueByKeyValue(Group.class, "name", group.name);
-		if(po!=null){
+		if(po==null){
 			dao.saveOrUpdate(group);
+			UserGroup ug = new UserGroup();
+			ug.groupId = group.id;
+			ug.uid = creatorUid;
+			ug.isOwner = 1;
+			dao.saveOrUpdate(ug);
 		}else{
 			throw new GException(PlatformExceptionType.BusinessException , "存在相同名称的群组，请修改后重试");
 		}
-		UserGroup ug = new UserGroup();
-		ug.groupId = po.id;
-		ug.uid = creatorUid;
-		ug.isOwner = 1;
-		dao.saveOrUpdate(ug);
 	}
 
 	@Override
@@ -120,6 +120,10 @@ public class YjhContactHandler implements IMContactHandler{
 				po.groupId = groupId;
 				po.uid = uid;
 				po.isOwner = 0;
+				User u = DataHelper.getPropUser(uid);
+				po.avatar = u.getAvatar();
+				po.uname = u.getName();
+				dao.saveOrUpdate(po);
 			}
 		}
 	}

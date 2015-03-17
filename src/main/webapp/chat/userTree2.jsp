@@ -2,11 +2,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <head>
-<link href="js/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="chat/style/im.css" />
-<script type="text/javascript" src="js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
+<link href="/coco/js/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/coco/chat/style/im_native.css" />
+<script type="text/javascript" src="/coco/js/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
         
 <script type="text/javascript">
+var check_user=false;
 //一次性加载
 var setting = {
   view: {
@@ -19,10 +20,13 @@ var setting = {
       enable: true
     }
   },
+  check:{
+    enable: false
+  },
   callback: {
     // onRightClick: OnRightClick
     // onClick: onClick
-    // onCheck: onCheck
+    onCheck: onCheck
   }
 };
 
@@ -33,7 +37,7 @@ function onCheck(event, treeId, treeNode){
 function initUserTree(treeId){
    $.ajax({
      type: 'POST',
-     url: 'c/getUserTree',
+     url: '/coco/c/getUserTree',
      data:'',
      success: function(data){
          var result=JSON.parse(data);
@@ -41,7 +45,10 @@ function initUserTree(treeId){
          var treeObj = $.fn.zTree.getZTreeObj(treeId); 
          treeObj.expandAll(true);
          //treeObj.expandAll(false); 
-         getRecentChats(isGetOutLxr());
+         if(check_user==false){
+        	 getRecentChats(isGetOutLxr());	 
+         }
+         
      }
    });
 }
@@ -49,6 +56,7 @@ function initUserTree(treeId){
 
 
 function addDiyDom(treeId, treeNode) {
+	treeNode.nocheck=false;
   console.log(treeId);
   var aObj = $("#" + treeNode.tId + "_a");
   aObj.css('display','inline');
@@ -58,38 +66,41 @@ function addDiyDom(treeId, treeNode) {
     var cnumStr = '<span class="">'+ treeNode.cnum +' </span>';
     aObj.prepend(cnumStr);  
   }
+  var checkBox = $('#'+treeNode.tId+'_check');
   if(treeNode.type=='user'){
+		if(check_user){
+			checkBox.css('position','absolute').css('top' ,'34px');
+			//checkBox.addClass('contact_check_box');
+		}
 	  var li = $("#" + treeNode.tId);
 	  li.empty();
-    var sign = treeNode.sign;
-    if (!sign) {
-      sign = "";
-    };
+	  li.append(checkBox);
+	  var sign = treeNode.sign;
+	  if (!sign) {
+	    sign = "";
+	  };
+	  var style="";
+	  if(check_user){
+		  style="margin-left:20px;";
+	  }
 	  var span = '<span class="">'
-	 +'<li name="'+treeNode.name+'" title="'+sign+'" class="search_clone" py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
-     + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
-     +'<img user_avatar_img="'+treeNode.avatar+'" src="chat/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
+	 +'<li style="'+style+'"  name="'+treeNode.name+'" title="'+sign+'" class="search_clone " py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
+	 //+ checkBox[0].outerHTML
+	 + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
+     +'<img user_avatar_img="'+treeNode.avatar+'" src="/coco/chat/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'
      + '<div class="cocoPerInfo Fleft">'
-     +    '<p class="name">'+treeNode.name+'</p>'
-     +     '<p class="txt"></p>'
+     +    '<p class="name">'+treeNode.name+'<span style="margin-left:25px;color:green">'+sign+'</span></p>'
+     //+     '<p class="txt"></p>'
      
      + '</div>'
      //+ 	'<div class="user_status_'+treeNode.id+'  user_status_'+treeNode.status+' "></div>'
      + '<div class="new_msg_count "></div>'
 	 +	'</li>'
 	  +'</span>';
+	  
 	  li.append(span);
   }
-  // var color="icon_sh";
-  // if(treeNode.sh==0 || treeNode.sh==undefined){
-  //   color="icon_wsh";
-  // }
-  // if(treeNode.type!="group"){
-  //   var lockStr = '<span id="'+treeNode.tId+'_sh_a" onClick="shenhe(\''+treeNode.tId+'\')" class="icon iconfont '+color+'">&#xe64e;</span>';
-  //   aObj.after(lockStr);
-  // }
-  // aObj.append('<span class="icon iconfont btns runMenu" data-type="runMenu" data-tree="'+treeNode.tId+'">&#xe641;</span>');
 }
 
 </script>

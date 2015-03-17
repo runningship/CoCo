@@ -134,7 +134,7 @@ public class IMServer extends WebSocketServer{
 
 		String groupId = data.getString("contactId");
 		//get users of group
-		List<Map> list = chatHandler.getGroupMembers(groupId);
+		List<Map> list = chatHandler.getGroupMembers(Integer.valueOf(groupId));
 		//save group message
 		GroupMessage gMsg = new GroupMessage();
 		gMsg.conts = data.getString("msg");
@@ -153,7 +153,7 @@ public class IMServer extends WebSocketServer{
 		}
 		dao.saveOrUpdate(ugs);
 		for(Map map : list){
-			Integer recvId = Integer.valueOf(String.valueOf(map.get("uid")));
+			String recvId = map.get("uid").toString();
 			if(recvId.equals(senderId)){
 				continue;
 			}

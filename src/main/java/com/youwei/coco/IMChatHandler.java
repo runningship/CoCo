@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface IMChatHandler {
 
-	public List<Map>  getGroupMembers(String groupId);
+	public List<Map>  getUserGroups(String uid);
 	
 	public List<Map> getSingleChatUnReads(String userId);
 	
@@ -14,4 +14,6 @@ public interface IMChatHandler {
 	public List<Map> getWebUnReadChats(String userId);
 	
 	public List<Map> getRecentChats(String userType,String uid);
+	
+	 public List<Map> getGroupMembers(Integer groupId); 
 }

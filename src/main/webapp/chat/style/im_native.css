@@ -1,0 +1,29 @@
+.user_offline_filter{-webkit-filter: grayscale(100%);filter: gray}
+/*在线*/
+.user_status_1{ }
+/*离线*/
+.user_status_filter_0{ -webkit-filter: grayscale(100%);filter: gray}
+
+.cocoPerInfo, .cocoQunInfo{ width:140px; margin-left:10px; font-family:"宋体"; white-space:normal; position:relative}
+.cocoPerInfo .name{ color:#5b7585; font-size:12px; margin:2px 0;}
+.cocoPerInfo .txt{ color:#bbbbbb; font-size:12px; margin:0;}
+
+.cocoList{ width:200px; margin-top:15px; float:left;}
+
+.cocoList li{ width:200px; float:left;}
+#cocoQunList li{ width:200px; float:left; margin-top:10px;}
+/* .cocoList li:hover{ background-color:#1c3748;} */
+
+.cocoTx{ width:35px; height:35px; margin-left:0px;}
+.cocoTx img{ width:24px; height:24px; border-radius:20px; border:2px solid #ffffff;box-shadow: #bbbbbb 0px 0px 5px;}
+
+.cocoSearchList{ width:200px; margin-top:15px; float:left;}
+
+.cocoSearchList li{ width:200px; float:left; }
+
+#searchResult   img{ width:25px; height:25px; border-radius:15px; border:0px solid #ffffff;box-shadow: #bbbbbb 0px 0px 5px;}
+
+#searchResult .cocoPerInfo { width:130px; margin-left:10px; font-family:"宋体"; white-space:nowrap;margin-top:3px;}
+
+.contact_check_box{position:absolute; top:34px;}
+.li_check{margin-left:20px;}

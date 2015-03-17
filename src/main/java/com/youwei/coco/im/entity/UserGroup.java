@@ -16,6 +16,10 @@ public class UserGroup {
 	
 	public String uid;
 	
+	public String uname;
+	
+	public String avatar;
+	
 	public Integer groupId;
 	
 	public int isOwner;

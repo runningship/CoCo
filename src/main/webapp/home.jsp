@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="chat/style/cocoWindow.css" />
 <link rel="stylesheet" type="text/css" href="chat/style/cocoWinLayer.css" />
 <link rel="stylesheet" type="text/css" href="chat/style/cssOa.css" />
-<link rel="stylesheet" type="text/css" href="chat/style/im.css" />
+
 <script src="js/jquery.js" type="text/javascript"></script>
 <!-- <script src="bootstrap/js/bootstrap.js" type="text/javascript"></script> -->
 <script type="text/javascript">
@@ -130,17 +130,22 @@ function cocoWin_resize(){
 		coM.height(BH-coTH-1);
 		coMi.height(coM.height()-coMs.height())
 		coMqb.height(BH-coTH);
+		//修改qunbox高度
 	}
 }
 $(document).ready(function() {
-	var win = gui.Window.get();
-	win.window.onblur=function(){
-        win.isFocus=false;
-    };
-    win.window.onfocus=function(){
-        win.title="有机会 - 叮铛";
-        win.isFocus=true;
-    };
+	//var win = gui.Window.get();
+	try{
+		win.window.onblur=function(){
+	        win.isFocus=false;
+	    };
+	    win.window.onfocus=function(){
+	        win.title="有机会 - 叮铛";
+	        win.isFocus=true;
+	    };
+	}catch(e){
+		
+	}
 	cocoWin_resize();
 	
 });
@@ -179,7 +184,7 @@ body{ overflow: hidden;}
 
 .bodys{ height: 490px; overflow: hidden;}
 .rightBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;height: 100%;}
-.qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;}
+/* .qunBox{ display: block; float: right; position: relative; top: 0;width: 200px; border-left: 1px solid #EEE; background: #FFF;box-shadow:none; display:none;} */
 
 .qunList{ border-bottom: 1px solid #EEE;}
 .qunList dt{ text-align: center; background: url('chat/cocoImages/titBg.png') repeat-x; height: 30px; line-height: 30px; font-size: 12px;}

@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript" src="chat/js/buildHtml.js"></script>
-<!-- <script type="text/javascript" src="chat/js/jquery.artDialog.source.js"></script> -->
-<!-- <script type="text/javascript" src="chat/js/jquery.artDialog.js"></script> -->
-<!-- <script type="text/javascript" src="chat/js/artDialog.source.js"></script> -->
-<!-- <script type="text/javascript" src="chat/js/artDialog.js"></script> -->
-<!-- <script type="text/javascript" src="chat/js/jquery.j.tool.v2.js"></script> -->
+
+<script src="js/dialog/jquery.artDialog.source.js?skin=win8s" type="text/javascript"></script>
+<script src="js/dialog/plugins/iframeTools.source.js" type="text/javascript"></script>
 <script type="text/javascript" src="chat/js/messagesBox.js"></script>
 <script type="text/javascript" src="chat/js/chat.js"></script>
 <script type="text/javascript" src="chat/js/select.js"></script>
@@ -14,6 +11,7 @@
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/ueditor.all.yw.min.js"> </script>
 <!--<script type="text/javascript" charset="utf-8" src="/js/ueditor1_4_3/ueditor.all.js"> </script>-->
 <script type="text/javascript" charset="utf-8" src="js/ueditor1_4_3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="chat/js/buildHtml.js"></script>
 <script type="text/javascript">
 
 function isGetOutLxr(){
@@ -102,6 +100,30 @@ function doSearchContact(){
 		}
 	});
 }
+
+function startCreateGroup(){
+	 art.dialog.open("chat/selectUser.jsp",{
+		 id:'user_tree',
+		 width:300,
+		 height:450,
+		 title:'选择联系人',
+		 ok: function () {
+			 var data = this.iframe.contentWindow.getSelectUsers();
+			 createGroupWithUsers(data.uids , data.names);
+		 }
+	 });
+}
+
+function createGroupWithUsers(uids , groupName){
+	YW.ajax({
+	    type: 'POST',
+	    url: '/coco/c/im/createGroupWithUsers',
+	    data:'uids='+uids.join()+'&groupName='+groupName.join(),
+	    mysuccess: function(data){
+	    }  
+	  });
+}
+
 /*document.ready*/
 (function () {
   var ie = !!(window.attachEvent && !window.opera);
@@ -184,17 +206,17 @@ function doSearchContact(){
                     <div id="qunList" class="cocoMainConBox" style="height:100%; overflow:hidden; overflow-y:auto; left:-100%;">
                     
                          <ul class="cocoList" id="cocoQunList" >
-                            <c:forEach items="${depts}" var="dept">
-                            	<c:if test="${dept.totalUsers>0 }">
-                            		<li id="group_${dept.did}" onclick="openGroupChat(${dept.did},'${dept.dname }')">
-	                                 <div id="group_avatar_${dept.did}" class="qunTx Fleft">
-                                        <c:forEach items="${dept.users}" var="user">
+                            <c:forEach items="${groups}" var="group">
+                            	<c:if test="${group.totalUsers>0 }">
+                            		<li id="group_${group.gid}" onclick="openGroupChat(${group.gid},'${group.dname }')">
+	                                 <div id="group_avatar_${group.gid}" class="qunTx Fleft">
+                                        <c:forEach items="${group.users}" var="user">
                                             <img src="chat/images/avatar/${user.avatar}.jpg">
                                         </c:forEach>
                                      </div>
 	                                 <div class="cocoQunInfo Fleft">
-	                                     <p id="group_name_${dept.did}" class="name">${dept.dname } 
-                                         <span>(${dept.type},${dept.totalUsers}人)</span>
+	                                     <p  id="group_name_${group.gid}" class="name">${group.dname } 
+                                         <span style="position: absolute;right: -20px;top: 10px;">(${group.totalUsers}人)</span>
                                          </p>
 	                                 </div>
                                      <div class="new_msg_count"></div>
@@ -205,7 +227,7 @@ function doSearchContact(){
                             
                          
                          </ul>
-                    
+                    	<img onclick="startCreateGroup();" src="chat/cocoImages/plus.png" style="width:20px;height:20px;position:absolute;bottom:0px;left:95px;cursor:pointer"/>
                     </div>
                     
                     

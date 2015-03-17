@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.Page;
 import org.bc.sdak.SimpDaoTool;
+import org.bc.sdak.Transactional;
 import org.bc.sdak.TransactionalServiceHelper;
 import org.bc.sdak.utils.JSONHelper;
 import org.bc.web.ModelAndView;
@@ -21,8 +22,11 @@ import org.java_websocket.WebSocket;
 
 import com.youwei.bosh.BoshConnectionManager;
 import com.youwei.coco.IMChatHandler;
+import com.youwei.coco.IMContactHandler;
 import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.YjhChatHandler;
+import com.youwei.coco.YjhContactHandler;
+import com.youwei.coco.im.entity.Group;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.im.entity.UserGroupStatus;
 import com.youwei.coco.im.entity.UserSign;
@@ -39,6 +43,8 @@ public class IMService {
 	CommonDaoService dao = TransactionalServiceHelper.getTransactionalService(CommonDaoService.class);
 	
 	IMChatHandler chatHandler = TransactionalServiceHelper.getTransactionalService(YjhChatHandler.class);
+	
+	IMContactHandler contactHandler = TransactionalServiceHelper.getTransactionalService(YjhContactHandler.class);
 	
 	@WebMethod
 	public ModelAndView getHistory(Page<Message> page , String contactId) {
@@ -68,7 +74,7 @@ public class IMService {
 	}
 	
 	@WebMethod
-	public ModelAndView getGroupMembers(String groupId) {
+	public ModelAndView getGroupMembers(Integer groupId) {
 		ModelAndView mv = new ModelAndView();
 		List<Map> list = chatHandler.getGroupMembers(groupId);
 		mv.data.put("members", JSONHelper.toJSONArray(list));
@@ -179,6 +185,22 @@ public class IMService {
 		ModelAndView mv = new ModelAndView();
 		User u = (User)ThreadSessionHelper.getUser();
 		mv.data.put("recentChats", JSONHelper.toJSONArray(chatHandler.getRecentChats(u.getType(), u.getId())));
+		return mv;
+	}
+	
+	@WebMethod
+	@Transactional
+	public ModelAndView createGroupWithUsers(String uids , String groupName) {
+		ModelAndView mv = new ModelAndView();
+		User me = ThreadSessionHelper.getUser();
+		Group group = new Group();
+		group.name = groupName;
+		contactHandler.createGroup(me.getId(), group);
+		List<String> uidList = new ArrayList<String>();
+		for(String uid : uids.split(",")){
+			uidList.add(uid);
+		}
+		contactHandler.addMembersToGroup(group.id, uidList);
 		return mv;
 	}
 	

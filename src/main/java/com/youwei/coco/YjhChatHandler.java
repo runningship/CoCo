@@ -1,6 +1,7 @@
 package com.youwei.coco;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,9 @@ import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.TransactionalServiceHelper;
 import org.bc.sdak.utils.JSONHelper;
 
+import com.youwei.coco.im.entity.Group;
+import com.youwei.coco.im.entity.UserGroup;
+import com.youwei.coco.im.entity.UserGroupStatus;
 import com.youwei.coco.user.entity.Buyer;
 import com.youwei.coco.user.entity.Seller;
 import com.youwei.coco.user.entity.User;
@@ -16,12 +20,6 @@ public class YjhChatHandler implements IMChatHandler{
 
 	CommonDaoService dao = TransactionalServiceHelper.getTransactionalService(CommonDaoService.class);
 	
-	@Override
-	public List<Map> getGroupMembers(String groupId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<Map> getSingleChatUnReads(String userId) {
 		// TODO Auto-generated method stub
@@ -84,6 +82,41 @@ public class YjhChatHandler implements IMChatHandler{
 		contacts.addAll(buyers);
 		contacts.addAll(admins);
 		return contacts;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List<Map> getUserGroups(String uid) {
+		//统计
+		List<UserGroup> groups = dao.listByParams(UserGroup.class, "from UserGroup where uid=?", uid);
+//		List<Map> groups = dao.listSql("select count(*) as total, groupId , g.`name` as gname from im_user_group  ug , im_group g where ug.groupId=g.id and ug.uid=? group by groupId ", uid);
+		List<Map> depts = new ArrayList<Map>();
+		for(UserGroup group : groups){
+			List<Map> users = getGroupMembers(group.groupId);
+			Group po = dao.get(Group.class, group.groupId);
+			Map dept = new HashMap();
+			dept.put("totalUsers", users.size());
+//			dept.put("type", "部门");
+			dept.put("gid", group.groupId);
+			dept.put("dname", po.name);
+			dept.put("users", users);
+			depts.add(dept);
+		}
+		return depts;
+	}
+
+	public List<Map> getGroupMembers(Integer groupId) {
+		List<UserGroup> list = dao.listByParams(UserGroup.class, "from UserGroup where groupId=?", groupId);
+		List<Map> users = new ArrayList<Map>();
+		for(UserGroup ug : list){
+			Map<String,Object> user = new HashMap<String,Object>();
+			user.put("avatar", ug.avatar);
+			user.put("uname", ug.uname);
+			user.put("uid", ug.uid);
+//			ass.put("online", true);
+			users.add(user);
+		}
+		return users;
 	}
 
 }
