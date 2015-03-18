@@ -23,7 +23,7 @@ function isGetOutLxr(){
 $(function(){
     ue_text_editor = UE.getEditor('editor', {
         toolbars: [
-            ['simpleupload','spechars','forecolor']
+            ['simpleupload','emotion','spechars','forecolor']
         ],
         autoHeightEnabled: false
     });
@@ -37,7 +37,7 @@ $(function(){
         };
     });
     
-    getUnReadChats();
+    
     heartBeat();
 });
 
@@ -109,19 +109,67 @@ function startCreateGroup(){
 		 title:'选择联系人',
 		 ok: function () {
 			 var data = this.iframe.contentWindow.getSelectUsers();
-			 createGroupWithUsers(data.uids , data.names);
+			 if(data.uids){
+				 createGroupWithUsers(data.uids , data.names , data.avatars);
+			 }
 		 }
 	 });
 }
 
-function createGroupWithUsers(uids , groupName){
+function createGroupWithUsers(uids , groupName ,avatars){
+	var subGroupName = groupName.join();
+	if(subGroupName.length>11){
+		subGroupName = subGroupName.substring(0,10);
+		subGroupName+="...";
+	}
 	YW.ajax({
 	    type: 'POST',
 	    url: '/coco/c/im/createGroupWithUsers',
-	    data:'uids='+uids.join()+'&groupName='+groupName.join(),
+	    data:'uids='+uids.join()+'&groupName='+subGroupName,
 	    mysuccess: function(data){
+	    	var json = JSON.parse(data);
+	    	//add to 
+	    	addGroupToPanel(json.groupId , subGroupName , uids.length,avatars);
 	    }  
 	  });
+}
+
+function addGroupToPanel(groupId , groupName,userCount ,avatars){
+	userCount++;//加自己
+	avatars.push(my_avatar);
+	var html = '<li id="group_'+groupId+'" onclick="openGroupChat(\''+groupId+' \',\''+groupName+' \')">'
+					  +	 '<div id="group_avatar_'+groupId+'" class="qunTx Fleft">';
+		for(var i=0;i<avatars.length;i++){
+			if(i>=4){
+				break;
+			}
+			html+= '<img src="chat/images/avatar/'+avatars[i]+'.jpg">';
+		}
+		html =html  +'</div>'
+					  +'<div class="cocoQunInfo Fleft">'
+					  +'<p id="group_name_'+groupId+'" class="name">'+groupName 
+					  +'<span style="position: absolute;right: -20px;top: 10px;">('+userCount+'人)</span>'
+					  +'</p>'
+					  +'</div>'
+					  +'<div class="new_msg_count"></div>'
+					  +	'<div class="msgClose" onclick="removeGroup(\''+groupId+'\')">×</div>'
+					  +'</li>';
+	$('#cocoQunList').prepend(html);
+	//selectChat($('#group_'+groupId) , groupId);
+	openGroupChat(groupId , groupName);
+}
+
+function removeGroup(groupId){
+	event.preventDefault();
+	event.cancelBubble=true;
+	YW.ajax({
+	    type: 'POST',
+	    url: '/coco/c/im/removeGroup?groupId='+groupId,
+	    mysuccess: function(data){
+	    	$('#group_'+groupId).remove();
+	    }
+	});
+	closeChat(groupId , groupId);
 }
 
 /*document.ready*/
@@ -212,7 +260,7 @@ function createGroupWithUsers(uids , groupName){
 	                                 <div id="group_avatar_${group.gid}" class="qunTx Fleft">
                                         <c:forEach items="${group.users}" var="user">
                                         	<c:if test="${user.avatar eq null}"><img src="chat/images/avatar/157.jpg"></c:if>
-											<c:if test="${!user.avatar eq null}"><img src="chat/images/avatar/${user.avatar }.jpg"></c:if>
+											<c:if test="${user.avatar ne null}"><img src="chat/images/avatar/${user.avatar }.jpg"></c:if>
                                         </c:forEach>
                                      </div>
 	                                 <div class="cocoQunInfo Fleft">
@@ -221,6 +269,7 @@ function createGroupWithUsers(uids , groupName){
                                          </p>
 	                                 </div>
                                      <div class="new_msg_count"></div>
+                                     <c:if test="${group.isOwner ==1}"><div class="msgClose" onclick="removeGroup('${group.gid}')">×</div></c:if>
                              		</li>
                             	</c:if>
                             	 

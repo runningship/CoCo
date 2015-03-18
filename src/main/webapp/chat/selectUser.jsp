@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="style/cocoWinLayer.css" />
 <link rel="stylesheet" type="text/css" href="style/cssOa.css" />
 <script src="/coco/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/chat.js"></script>
 <script type="text/javascript">
 $(function(){
 	check_user = true;
@@ -27,6 +28,7 @@ function getSelectUsers(){
 	var result = JSON.parse('{}');
 	var uids = [];
 	var names = [];
+	var avatars = [];
 	var treeObj = $.fn.zTree.getZTreeObj("cocoList");
 	var nodes = treeObj.getCheckedNodes(true);
 	for(var i=0;i<nodes.length;i++){
@@ -36,9 +38,15 @@ function getSelectUsers(){
 		}
 		uids.push(node.uid);
 		names.push(node.name);
-		result.uids = uids;
-		result.names = names;
+		if(node.avatar){
+			avatars.push(node.avatar);	
+		}else{
+			avatars.push(default_avatar);			
+		}
 	}
+	result.uids = uids;
+	result.names = names;
+	result.avatars = avatars;
 	return result;
 }
 </script>

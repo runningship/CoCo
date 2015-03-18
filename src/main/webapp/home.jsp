@@ -202,7 +202,7 @@ body{ overflow: hidden;}
 .WinInfoListAppend .newsAppendBox{ margin-left: 70px;}
 .WinInfoListAppend .newsAppendBox.Fright{ margin-left: 0; margin-right: 70px;}
 .WinInfoSendWrite{width: auto;float: none;margin-right: 0px;height: auto; margin-left: 0px; /**/}
-.WinInfoSendBtn{position: absolute;right: 0;bottom: 0;height: 30px; z-index: 22222;}
+.WinInfoSendBtn{position: absolute;right: 0;bottom: 3pt;height: 30px; z-index: 22222;}
 .WinInfoSendBtnMessage{height: 100%;}
 .WinInfoListShowMainBox{ float: none; margin: 0; height: 100%;}
 

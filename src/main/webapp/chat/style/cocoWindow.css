@@ -71,7 +71,7 @@ border-radius:3px; font-family:"宋体"; z-index:1990;}
 .WinInfoListAppend .newsAppendBox{ background-color:#efefef; border-radius:5px; padding:8px 12px; position:relative;}
 
 .WinInfoListAppend .lxrName{ width:100%; float:left; font-size:12px; color:#999999; margin-bottom:3px;}
-.WinInfoListAppend .pleft{ text-align:left;}
+.WinInfoListAppend .pleft{ text-align:left;margin-left:70px;}
 .WinInfoListAppend .pright{ text-align:right;}
 
 .WinInfoListAppend .newsAppendBox img{ max-width:200px;}

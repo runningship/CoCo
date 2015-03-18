@@ -64,7 +64,7 @@ public class YjhContactHandler implements IMContactHandler{
 		Random r = new Random();
 		for(Map u : users){
 			JSONObject json = new JSONObject();
-			if(user.getId().equals(u.get("uid"))){
+			if(user.getId().equals(u.get("uid").toString())){
 				continue;
 			}
 			json.put("id", u.get("uid"));
@@ -76,11 +76,12 @@ public class YjhContactHandler implements IMContactHandler{
 			json.put("type", "user");
 			json.put("sign", u.get("sign"));
 			json.put("status", DataHelper.getUserStatus(u.get("uid").toString()));
-			if(StringUtils.isEmpty((String)u.get("avatar"))){
-				json.put("avatar", KeyConstants.Default_Avatar);
-			}else{
-				json.put("avatar", u.get("avatar"));
-			}
+//			if(StringUtils.isEmpty((String)u.get("avatar"))){
+//				json.put("avatar", KeyConstants.Default_Avatar);
+//			}else{
+//				json.put("avatar", u.get("avatar"));
+//			}
+			json.put("avatar", u.get("avatar"));
 			result.add(json);
 		}
 	}
@@ -122,6 +123,10 @@ public class YjhContactHandler implements IMContactHandler{
 		}
 		dao.delete(po);
 		dao.execute("delete from UserGroup where groupId=?", groupId);
+		//remove recent chat
+		dao.execute("delete from RecentContact where contactId=? and userType=?", groupId , "group");
+		//remove group message
+		dao.execute("delete from GroupMessage where groupId=? ", groupId );
 	}
 
 	@Override

@@ -46,7 +46,10 @@ function initUserTree(treeId){
          treeObj.expandAll(true);
          //treeObj.expandAll(false); 
          if(check_user==false){
-        	 getRecentChats(isGetOutLxr());	 
+        	 getRecentChats(function(){
+        		 isGetOutLxr();
+        		 getUnReadChats();
+        	 });	 
          }
          
      }
@@ -69,7 +72,7 @@ function addDiyDom(treeId, treeNode) {
   var checkBox = $('#'+treeNode.tId+'_check');
   if(treeNode.type=='user'){
 		if(check_user){
-			checkBox.css('position','absolute').css('top' ,'34px');
+			checkBox.css('position','absolute').css('top' ,'24px');
 			//checkBox.addClass('contact_check_box');
 		}
 	  var li = $("#" + treeNode.tId);
@@ -83,14 +86,18 @@ function addDiyDom(treeId, treeNode) {
 	  if(check_user){
 		  style="margin-left:20px;";
 	  }
+	  var avatar = treeNode.avatar;
+	  if(!avatar){
+		  avatar = default_avatar;
+	  }
 	  var span = '<span class="">'
-	 +'<li style="'+style+'"  name="'+treeNode.name+'" title="'+sign+'" class="search_clone " py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+treeNode.avatar+')">'
+	 +'<li style="'+style+'"  name="'+treeNode.name+'" title="'+sign+'" class="search_clone " py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+avatar+')">'
 	 //+ checkBox[0].outerHTML
 	 + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
-     +'<img user_avatar_img="'+treeNode.avatar+'" src="/coco/chat/images/avatar/'+treeNode.avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
+     +'<img user_avatar_img="'+avatar+'" src="/coco/chat/images/avatar/'+avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'
      + '<div class="cocoPerInfo Fleft">'
-     +    '<p class="name">'+treeNode.name+'<span style="margin-left:25px;color:green">'+sign+'</span></p>'
+     +    '<p class="name">'+treeNode.name+'</p><span style="margin-left:25px;color:green;float:right;margin-top:-5px;">'+sign+'</span>'
      //+     '<p class="txt"></p>'
      
      + '</div>'

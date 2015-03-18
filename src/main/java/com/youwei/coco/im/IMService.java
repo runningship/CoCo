@@ -96,35 +96,10 @@ public class IMService {
 		mv.data.put("unReadSingleChats", JSONHelper.toJSONArray(chatHandler.getSingleChatUnReads(me.getId())));
 		
 		List<Map> groupList = new ArrayList<Map>();
-		//TODO
-//		groupList.add(getUserGroupUnReads(me.id , me.Department().id));
-//		groupList.add(getUserGroupUnReads(me.id , me.Company().id));
-		mv.data.put("unReadGroupChats", JSONHelper.toJSONArray(groupList));
+		mv.data.put("unReadGroupChats", JSONHelper.toJSONArray(chatHandler.getGroupChatUnReads(me.getId())));
 		return mv;
 	}
 	
-	
-	private Map getGroupChatUnReads(int userId , int groupId){
-		Date lasttime = getLastActivetimeOfGroup(userId , groupId);
-		long count = dao.countHql("select count(*) from GroupMessage where groupId=? and sendtime>?", groupId , lasttime);
-		Map<String ,Object> map = new HashMap<String , Object>();
-		map.put("groupId", groupId);
-		map.put("total", count);
-		return map;
-	}
-	
-	private Date getLastActivetimeOfGroup(int userId , int groupId){
-		UserGroupStatus ugs = dao.getUniqueByParams(UserGroupStatus.class, new String[]{"groupId" , "receiverId"}, new Object[]{groupId , userId});
-		if(ugs==null){
-			try {
-				return DataHelper.sdf.parse("1970-01-01 00:00:00");
-			} catch (ParseException e) {
-				return new Date();
-			}
-		}else{
-			return ugs.lasttime;
-		}
-	}
 	
 	@WebMethod
 	public ModelAndView setSingleChatRead(String contactId){
@@ -201,6 +176,14 @@ public class IMService {
 			uidList.add(uid);
 		}
 		contactHandler.addMembersToGroup(group.id, uidList);
+		mv.data.put("groupId",group.id);
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView removeGroup(String groupId) {
+		ModelAndView mv = new ModelAndView();
+		contactHandler.removeGroup(groupId);
 		return mv;
 	}
 	

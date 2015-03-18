@@ -9,7 +9,7 @@ public interface IMChatHandler {
 	
 	public List<Map> getSingleChatUnReads(String userId);
 	
-	public List<Map> getGroupChatUnReads(String userId , String groupId);
+	public List<Map> getGroupChatUnReads(String userId);
 	
 	public List<Map> getWebUnReadChats(String userId);
 	
