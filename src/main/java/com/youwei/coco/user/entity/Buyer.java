@@ -63,4 +63,8 @@ public class Buyer implements User{
 		return signature;
 	}
 	
+	@Override
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 }

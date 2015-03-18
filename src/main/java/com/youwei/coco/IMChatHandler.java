@@ -15,5 +15,5 @@ public interface IMChatHandler {
 	
 	public List<Map> getRecentChats(String userType,String uid);
 	
-	 public List<Map> getGroupMembers(Integer groupId); 
+	 public List<Map> getGroupMembers(String groupId); 
 }

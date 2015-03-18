@@ -15,6 +15,8 @@ public class KeyConstants {
 	public static final String User_Type_Admin = "admin";
 	
 	public static final String Default_Avatar = "150";
+	
+	public static final int Max_Avatar_Index = 167;
 
 	public static final int IM_Action_Login = 1;
 	

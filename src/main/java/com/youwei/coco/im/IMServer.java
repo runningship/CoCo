@@ -134,7 +134,7 @@ public class IMServer extends WebSocketServer{
 
 		String groupId = data.getString("contactId");
 		//get users of group
-		List<Map> list = chatHandler.getGroupMembers(Integer.valueOf(groupId));
+		List<Map> list = chatHandler.getGroupMembers(groupId);
 		//save group message
 		GroupMessage gMsg = new GroupMessage();
 		gMsg.conts = data.getString("msg");

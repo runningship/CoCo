@@ -72,15 +72,18 @@ public class YjhChatHandler implements IMChatHandler{
 		
 		//视野合并
 		List<Map> contacts = new ArrayList<Map>();
-		List<Map> sellers = dao.listAsMap("select seller.companyName as name , seller.sellerId as uid "
-				+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId  and rc.uid=?" ,uid);
-		List<Map> buyers = dao.listAsMap("select buyer.name as name , buyer.buyerId as uid "
-				+ "from RecentContact rc ,Buyer buyer where rc.contactId=buyer.buyerId and rc.uid=? " ,uid);
-		List<Map> admins = dao.listAsMap("select admin.name as name , admin.id as uid "
-				+ "from RecentContact rc ,Admin admin where rc.contactId=admin.id and rc.uid=? " ,uid);
+		List<Map> sellers = dao.listAsMap("select seller.companyName as name , seller.sellerId as uid ,rc.userType as type "
+				+ "from RecentContact rc ,Seller seller where rc.contactId=seller.sellerId  and rc.uid=? and userType='seller' " ,uid);
+		List<Map> buyers = dao.listAsMap("select buyer.name as name , buyer.buyerId as uid,rc.userType as type "
+				+ "from RecentContact rc ,Buyer buyer where rc.contactId=buyer.buyerId and rc.uid=? and userType='buyer' " ,uid);
+		List<Map> admins = dao.listAsMap("select admin.name as name , admin.id as uid ,rc.userType as type "
+				+ "from RecentContact rc ,Admin admin where rc.contactId=admin.id and rc.uid=? and userType='admin' " ,uid);
+		List<Map> groups = dao.listAsMap("select g.name as name , g.id as uid ,rc.userType as type "
+				+ "from RecentContact rc ,Group g where rc.contactId=g.id and rc.uid=? and userType='group' " ,uid);
 		contacts.addAll(sellers);
 		contacts.addAll(buyers);
 		contacts.addAll(admins);
+		contacts.addAll(groups);
 		return contacts;
 	}
 
@@ -105,7 +108,7 @@ public class YjhChatHandler implements IMChatHandler{
 		return depts;
 	}
 
-	public List<Map> getGroupMembers(Integer groupId) {
+	public List<Map> getGroupMembers(String groupId) {
 		List<UserGroup> list = dao.listByParams(UserGroup.class, "from UserGroup where groupId=?", groupId);
 		List<Map> users = new ArrayList<Map>();
 		for(UserGroup ug : list){

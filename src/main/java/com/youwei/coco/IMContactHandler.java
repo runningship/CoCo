@@ -14,13 +14,13 @@ public interface IMContactHandler {
 	
 	public void createGroup(String creatorUid , Group group);
 	
-	public void removeGroup(Integer groupId);
+	public void removeGroup(String groupId);
 	
-	public void addMembersToGroup(Integer groupId , List<String> uidList);
+	public void addMembersToGroup(String groupId , List<String> uidList);
 	
-	public void kickMemberFromGroup(String uid , Integer groupId);
+	public void kickMemberFromGroup(String uid , String groupId);
 	
-	public boolean allowToKickGroupMemeger(String kicker , String kicked , Integer groupId);
+	public boolean allowToKickGroupMemeger(String kicker , String kicked , String groupId);
 	
-	public boolean allowToRemoveGroup(String uid, Integer groupId);
+	public boolean allowToRemoveGroup(String uid, String groupId);
 }

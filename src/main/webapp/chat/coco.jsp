@@ -208,10 +208,11 @@ function createGroupWithUsers(uids , groupName){
                          <ul class="cocoList" id="cocoQunList" >
                             <c:forEach items="${groups}" var="group">
                             	<c:if test="${group.totalUsers>0 }">
-                            		<li id="group_${group.gid}" onclick="openGroupChat(${group.gid},'${group.dname }')">
+                            		<li id="group_${group.gid}" onclick="openGroupChat('${group.gid}','${group.dname }')">
 	                                 <div id="group_avatar_${group.gid}" class="qunTx Fleft">
                                         <c:forEach items="${group.users}" var="user">
-                                            <img src="chat/images/avatar/${user.avatar}.jpg">
+                                        	<c:if test="${user.avatar eq null}"><img src="chat/images/avatar/157.jpg"></c:if>
+											<c:if test="${!user.avatar eq null}"><img src="chat/images/avatar/${user.avatar }.jpg"></c:if>
                                         </c:forEach>
                                      </div>
 	                                 <div class="cocoQunInfo Fleft">

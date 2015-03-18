@@ -156,7 +156,7 @@ public class CocoService {
 	}
 	
 	@WebMethod
-	public ModelAndView addRecentContact(String contactId){
+	public ModelAndView addRecentContact(String contactId , String type){
 		ModelAndView mv = new ModelAndView();
 		String uid =ThreadSessionHelper.getUser().getId();
 		RecentContact po = dao.getUniqueByParams(RecentContact.class, new String[]{"uid" , "contactId"}, new Object[]{uid , contactId});
@@ -170,6 +170,9 @@ public class CocoService {
 			User u = DataHelper.getPropUser(contactId);
 			if(u!=null){
 				po.userType = u.getType();
+			}
+			if(StringUtils.isNotEmpty(type)){
+				po.userType = type;
 			}
 		}
 		dao.saveOrUpdate(po);
@@ -209,6 +212,10 @@ public class CocoService {
 		
 		if(u==null){
 			throw new GException(PlatformExceptionType.BusinessException, "用户或密码错误");
+		}
+		if(StringUtils.isEmpty(u.getAvatar())){
+			u.setAvatar(String.valueOf(new Random().nextInt(KeyConstants.Max_Avatar_Index)));
+			dao.saveOrUpdate(u);
 		}
 		ThreadSession.getHttpSession().setAttribute(KeyConstants.Session_User, u);
 		ModelAndView mv = new ModelAndView();

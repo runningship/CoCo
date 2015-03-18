@@ -15,4 +15,6 @@ public interface User {
 	public String getType();
 	
 	public String getSign();
+	
+	public void setAvatar(String avatar);
 }

@@ -24,7 +24,7 @@ public class RecentContact {
 	//账号
 	public String contactId;
 	
-	//联系人类别
+	//联系人类别,seller,buyer,admin,group
 	public String userType;
 	
 	public Date lasttime;

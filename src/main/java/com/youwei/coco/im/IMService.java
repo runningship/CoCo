@@ -74,7 +74,7 @@ public class IMService {
 	}
 	
 	@WebMethod
-	public ModelAndView getGroupMembers(Integer groupId) {
+	public ModelAndView getGroupMembers(String groupId) {
 		ModelAndView mv = new ModelAndView();
 		List<Map> list = chatHandler.getGroupMembers(groupId);
 		mv.data.put("members", JSONHelper.toJSONArray(list));

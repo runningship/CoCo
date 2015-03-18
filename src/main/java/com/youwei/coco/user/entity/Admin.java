@@ -55,4 +55,9 @@ public class Admin implements User{
 	public String getSign() {
 		return signature;
 	}
+
+	@Override
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 }

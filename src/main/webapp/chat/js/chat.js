@@ -6,7 +6,7 @@ var ue_text_editor;
 var ws_url;
 var unread_stack = [];
 var chat_conts=[];
-var default_avatar='150';
+var default_avatar='157';
 //web集成时要提供的来信息时的回调接口
 var web_plugin_message_callback;
 //web或者native,表示在web页面嵌入，还是客户端登录
@@ -158,6 +158,8 @@ function openGroupChat(groupId,groupName){
 	setGroupChatRead(groupId);
 	//加载组成员
 	loadGroupMembers(groupId);
+	
+	addRecentContact(groupId , 'group');
 }
 
 function loadGroupMembers(groupId){
@@ -177,7 +179,11 @@ function buildGroupMembers(groupId,members){
 	ul.empty();
 	for(var i=0;i<members.length;i++){
 		var mem = members[i];
-		ul.append('<li><div class="qunTxImg Fleft"><img class="user_avatar_img_'+mem.uid+'" src="chat/images/avatar/'+mem.avatar+'.jpg"></div><div class="qunLxrInfo Fleft"><p class="name">'+mem.uname+'</p></div></li>');
+		var avatar = default_avatar;
+		if(mem.avatar){
+			avatar = mem.avatar;
+		}
+		ul.append('<li><div class="qunTxImg Fleft"><img class="user_avatar_img_'+mem.uid+'" src="chat/images/avatar/'+avatar+'.jpg"></div><div class="qunLxrInfo Fleft"><p class="name">'+mem.uname+'</p></div></li>');
 	}
 }
 
@@ -187,6 +193,9 @@ function loadGroupHistory(groupId , currentPageNo){
     dataType: 'json',
     url: 'c/im/getGroupHistory?groupId='+groupId+'&currentPageNo='+currentPageNo,
     success:function(data){
+    	if(data.history.length<10){
+    		$('#msgContainer_group_'+groupId+' .msg_more').css('display','none');
+    	}
     	buildHistory(data.history,groupId);
     }
   });
@@ -532,13 +541,16 @@ function notifyNewChat(contactId,msgCount , contactName){
 	requestWindowAttention(contactId,'chat' , contactName);
 }
 
-function addRecentContact(senderId){
+function addRecentContact(senderId,type){
 	//msg中有联系人的所有信息
 	//添加到数据库
+	if(!type){
+		type="";
+	}
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: 'c/addRecentContact?contactId='+senderId,
+	    url: 'c/addRecentContact?contactId='+senderId+'&type='+type,
 	    success:function(data){
 	    }
 	  });
@@ -732,10 +744,20 @@ function getRecentChats(success){
 			if(data.recentChats){
 				for(var i=0;i<data.recentChats.length;i++){
 					var chat = data.recentChats[i];
-					openChat(chat.uid,chat.name);
+					if(chat.type=='group'){
+						openGroupChat(chat.uid, chat.name);
+					}else{
+						openChat(chat.uid,chat.name);
+					}
+					
 				}
 				if(data.recentChats.length>0){
-					selectChat($('#chat_'+data.recentChats[data.recentChats.length-1].uid) );
+					var last = data.recentChats[data.recentChats.length-1];
+					if(last.type='group'){
+						selectChat($('#group_chat_'+last.uid) , last.uid );
+					}else{
+						selectChat($('#chat_'+last.uid));	
+					}
 				}
 			}
 			console.log(data);

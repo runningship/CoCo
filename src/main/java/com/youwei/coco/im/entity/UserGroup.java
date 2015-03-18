@@ -20,7 +20,7 @@ public class UserGroup {
 	
 	public String avatar;
 	
-	public Integer groupId;
+	public String groupId;
 	
 	public int isOwner;
 }

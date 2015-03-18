@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -63,6 +64,9 @@ public class YjhContactHandler implements IMContactHandler{
 		Random r = new Random();
 		for(Map u : users){
 			JSONObject json = new JSONObject();
+			if(user.getId().equals(u.get("uid"))){
+				continue;
+			}
 			json.put("id", u.get("uid"));
 			json.put("uid", u.get("uid"));
 			json.put("pId", pid);
@@ -90,11 +94,20 @@ public class YjhContactHandler implements IMContactHandler{
 	public void createGroup(String creatorUid , Group group) {
 		Group po = dao.getUniqueByKeyValue(Group.class, "name", group.name);
 		if(po==null){
+			if(StringUtils.isEmpty(group.id)){
+				group.id = UUID.randomUUID().toString().replace("-", "");
+			}
 			dao.saveOrUpdate(group);
 			UserGroup ug = new UserGroup();
 			ug.groupId = group.id;
 			ug.uid = creatorUid;
 			ug.isOwner = 1;
+			
+			User user = DataHelper.getPropUser(creatorUid);
+			if(user!=null){
+				ug.avatar = user.getAvatar();
+				ug.uname = user.getName();
+			}
 			dao.saveOrUpdate(ug);
 		}else{
 			throw new GException(PlatformExceptionType.BusinessException , "存在相同名称的群组，请修改后重试");
@@ -102,7 +115,7 @@ public class YjhContactHandler implements IMContactHandler{
 	}
 
 	@Override
-	public void removeGroup(Integer groupId) {
+	public void removeGroup(String groupId) {
 		Group po = dao.get(Group.class, groupId);
 		if(po==null){
 			return;
@@ -112,7 +125,7 @@ public class YjhContactHandler implements IMContactHandler{
 	}
 
 	@Override
-	public void addMembersToGroup(Integer groupId ,List<String> uidList) {
+	public void addMembersToGroup(String groupId ,List<String> uidList) {
 		for(String uid : uidList){
 			UserGroup po = dao.getUniqueByParams(UserGroup.class, new String[]{"groupId" , "uid"}, new Object[]{groupId , uid});
 			if(po==null){
@@ -129,7 +142,7 @@ public class YjhContactHandler implements IMContactHandler{
 	}
 
 	@Override
-	public void kickMemberFromGroup(String uid, Integer groupId) {
+	public void kickMemberFromGroup(String uid, String groupId) {
 		UserGroup po = dao.getUniqueByParams(UserGroup.class, new String[]{"groupId" , "uid"}, new Object[]{groupId , uid});
 		if(po!=null){
 			dao.delete(po);
@@ -137,7 +150,7 @@ public class YjhContactHandler implements IMContactHandler{
 	}
 
 	@Override
-	public boolean allowToKickGroupMemeger(String kicker, String kicked, Integer groupId) {
+	public boolean allowToKickGroupMemeger(String kicker, String kicked, String groupId) {
 		if(kicker.equals(kicked)){
 			//自己
 			return true;
@@ -154,7 +167,7 @@ public class YjhContactHandler implements IMContactHandler{
 	}
 
 	@Override
-	public boolean allowToRemoveGroup(String uid, Integer groupId) {
+	public boolean allowToRemoveGroup(String uid, String groupId) {
 		UserGroup po = dao.getUniqueByParams(UserGroup.class, new String[]{"groupId" , "uid"}, new Object[]{groupId , uid});
 		if(po==null){
 			return false;

@@ -11,8 +11,8 @@ import javax.persistence.Table;
 public class Group {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public Integer id;
+//	@GeneratedValue(strategy=GenerationType.AUTO)
+	public String id;
 	
 	public String name;
 }

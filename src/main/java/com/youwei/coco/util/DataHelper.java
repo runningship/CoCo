@@ -119,9 +119,13 @@ public class DataHelper {
 		if(u!=null){
 			return u;
 		}
-		u = dao.get(Admin.class, Integer.valueOf(id));
-		if(u!=null){
-			return u;
+		try{
+			u = dao.get(Admin.class, Integer.valueOf(id));
+			if(u!=null){
+				return u;
+			}
+		}catch(Exception ex){
+			
 		}
 		return null;
 	}
