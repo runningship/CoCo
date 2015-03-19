@@ -26,7 +26,7 @@ public class YjhContactHandler implements IMContactHandler{
 	CommonDaoService dao = TransactionalServiceHelper.getTransactionalService(CommonDaoService.class);
 	
 	@Override
-	public JSONArray getUserTree() {
+	public JSONArray getUserTree(String uid , String userType) {
 		//两级,大区-->用户
 		//获取大区
 		List<BigArea> areas = dao.listByParams(BigArea.class, "from BigArea where 1=1");
@@ -39,23 +39,19 @@ public class YjhContactHandler implements IMContactHandler{
 			json.put("type", "comp");
 			json.put("isParent", true);
 			result.add(json);
-			getUsers(result , area.id);
+			getUsers(result , area.id ,uid , userType);
 		}
 		return result;
 	}
 
-	private void getUsers(JSONArray result, String pid) {
-		User user = ThreadSessionHelper.getUser();
-		if(user==null){
-			return;
-		}
+	private void getUsers(JSONArray result, String pid , String uid , String userType) {
 		List<Map> users = new ArrayList<Map>();
-		if(KeyConstants.User_Type_Buyer.equals(user.getType())){
+		if(KeyConstants.User_Type_Buyer.equals(userType)){
 			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar , seller.signature as sign from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId and city.bigareaId=?",pid );
-		}else if(KeyConstants.User_Type_Seller.equals(user.getType())){
+		}else if(KeyConstants.User_Type_Seller.equals(userType)){
 			//卖家只能看到管理员
 			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign from Admin  where area=?",pid );
-		}else if(KeyConstants.User_Type_Admin.equals(user.getType())){
+		}else if(KeyConstants.User_Type_Admin.equals(userType)){
 			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar , signature as sign from Admin  where area=?",pid );
 			//还有大区下的卖家
 			List<Map> sellers = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar , seller.signature as sign from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId and city.bigareaId=?",pid );
@@ -64,7 +60,7 @@ public class YjhContactHandler implements IMContactHandler{
 		Random r = new Random();
 		for(Map u : users){
 			JSONObject json = new JSONObject();
-			if(user.getId().equals(u.get("uid").toString())){
+			if(uid.equals(u.get("uid").toString())){
 				continue;
 			}
 			json.put("id", u.get("uid"));

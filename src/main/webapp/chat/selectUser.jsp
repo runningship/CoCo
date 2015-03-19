@@ -26,6 +26,7 @@ $(function(){
 
 function getSelectUsers(){
 	var result = JSON.parse('{}');
+	result.groupName=$('#groupName').val();
 	var uids = [];
 	var names = [];
 	var avatars = [];
@@ -52,6 +53,7 @@ function getSelectUsers(){
 </script>
 </head>
 <body>
+<span style="font-size: 14px;margin-left: 17px;">群组名称: </span><input id="groupName"/>
 <ul id="cocoList" class="ztree jtree cocoList"></ul>
 <div>
 <jsp:include page="userTree2.jsp"></jsp:include>

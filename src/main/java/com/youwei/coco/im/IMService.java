@@ -95,7 +95,6 @@ public class IMService {
 		User me = ThreadSessionHelper.getUser();
 		mv.data.put("unReadSingleChats", JSONHelper.toJSONArray(chatHandler.getSingleChatUnReads(me.getId())));
 		
-		List<Map> groupList = new ArrayList<Map>();
 		mv.data.put("unReadGroupChats", JSONHelper.toJSONArray(chatHandler.getGroupChatUnReads(me.getId())));
 		return mv;
 	}
@@ -159,7 +158,11 @@ public class IMService {
 	public ModelAndView getRecentChats(){
 		ModelAndView mv = new ModelAndView();
 		User u = (User)ThreadSessionHelper.getUser();
-		mv.data.put("recentChats", JSONHelper.toJSONArray(chatHandler.getRecentChats(u.getType(), u.getId())));
+		List<Map> list = chatHandler.getRecentChats(u.getType(), u.getId());
+		for(Map map : list){
+			map.put("status", DataHelper.getUserStatus(map.get("uid").toString()));
+		}
+		mv.data.put("recentChats", JSONHelper.toJSONArray(list));
 		return mv;
 	}
 	
@@ -184,6 +187,14 @@ public class IMService {
 	public ModelAndView removeGroup(String groupId) {
 		ModelAndView mv = new ModelAndView();
 		contactHandler.removeGroup(groupId);
+		return mv;
+	}
+	
+	@WebMethod
+	public ModelAndView leaveGroup(String groupId) {
+		ModelAndView mv = new ModelAndView();
+		User me = ThreadSessionHelper.getUser();
+		contactHandler.kickMemberFromGroup(me.getId(), groupId);
 		return mv;
 	}
 	

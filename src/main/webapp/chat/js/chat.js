@@ -12,7 +12,7 @@ var web_plugin_message_callback;
 //web或者native,表示在web页面嵌入，还是客户端登录
 var resource;
 //http://pub.idqqimg.com/lib/qqface/0.gif
-function openChat(contactId,contactName,avatar){
+function openChat(contactId,contactName,avatar , status){
 	if(!avatar){
 		avatar=default_avatar;
 	}
@@ -33,10 +33,11 @@ function openChat(contactId,contactName,avatar){
 		return;
 	}
 	//判断当前用户是否在线
+	//有些用户不在常用联系人列表中
 	var xx = $('#user_avatar_'+contactId+' img');
 	
 	var imgFilterClass = "";
-	if(xx.hasClass('user_status_filter_0')){
+	if(xx.hasClass('user_status_filter_0') || status==0){
 		imgFilterClass = 'user_status_filter_0';
 	}
 	// 添加联系人
@@ -119,7 +120,7 @@ function openGroupChat(groupId,groupName){
                     +   '   <p class="name">'+groupName+'</p>'
                     +   '</div>'
                     +	'<div class="new_msg_count"></div>'
-					+	'<div class="msgClose" onclick="closeChat('+groupId+','+groupId+')">×</div>'
+					+	'<div class="msgClose" onclick="closeChat(\''+groupId+'\',\''+groupId+'\')">×</div>'
                     +'</li>';
 	
 	// 添加聊天内容窗口
@@ -603,11 +604,7 @@ function onReceiveMsg(msg){
 		onReceiveGroupMsg(msg);
 		return;
 	}
-	var currentChat = getCurrentChat();
-	//只要不是在和当前人聊天就提醒
-	if(currentChat.contactId!=data.senderId){
-		requestFoxBarAttention(data.senderId,'msg',data.senderName);
-	}
+	
 	
 	//判断是否在联系人列表和最近联系人列表中
 	var sender = getContactNameByUid(data.senderId);
@@ -627,6 +624,18 @@ function onReceiveMsg(msg){
 		notifyNewChat(data.senderId ,'', data.senderName);
 		return;
 	}
+	
+	var currentChat = getCurrentChat();
+	//如果window窗口失去焦点
+	if(!win.isFocus){
+		requestWindowAttention(data.senderId,'msg',data.senderName);
+	}else{
+		if(currentChat.contactId!=data.senderId){
+			//只要不是在和当前人聊天就提醒
+			requestFoxBarAttention(data.senderId,'msg',data.senderName);
+		}
+	}
+	
     $('#msgContainer_'+data.senderId).append(buildRecvMessage(data.senderAvatar,data.msg , data.sendtime));
 
     //判断是否当前会话
@@ -659,11 +668,7 @@ function onReceiveGroupMsg(msg){
 	
 
 	var data = JSON.parse(msg);
-	//只要不是在和当前人聊天就提醒
-	var currentChat = getCurrentChat();
-	if(currentChat.contactId!=data.senderId){
-		requestFoxBarAttention(data.contactId,'group');
-	}
+	
 	// 判断是否新会话
 	var chat = $('#group_chat_'+data.contactId);
 	if(chat.length==0){
@@ -671,6 +676,18 @@ function onReceiveGroupMsg(msg){
 		notifyGroupNews(data.contactId);
 		return;
 	}
+	
+	//只要不是在和当前人聊天就提醒
+	var currentChat = getCurrentChat();
+	//如果window窗口失去焦点
+	if(!win.isFocus){
+		requestWindowAttention(data.senderId,'group','');
+	}else{
+		if(currentChat.contactId!=data.senderId){
+			requestFoxBarAttention(data.contactId,'group');
+		}
+	}
+	
     $('#msgContainer_group_'+data.contactId).append(buildRecvMessage(data.senderAvatar,data.msg , data.sendtime , data.senderName));
 
     //判断是否当前会话
@@ -771,13 +788,13 @@ function getRecentChats(success){
 					if(chat.type=='group'){
 						openGroupChat(chat.uid, chat.name);
 					}else{
-						openChat(chat.uid,chat.name , chat.avatar);
+						openChat(chat.uid,chat.name , chat.avatar ,chat.status);
 					}
 					
 				}
 				if(data.recentChats.length>0){
 					var last = data.recentChats[data.recentChats.length-1];
-					if(last.type='group'){
+					if(last.type=='group'){
 						selectChat($('#group_chat_'+last.uid) , last.uid );
 					}else{
 						selectChat($('#chat_'+last.uid));	

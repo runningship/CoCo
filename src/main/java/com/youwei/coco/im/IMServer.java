@@ -186,19 +186,23 @@ public class IMServer extends WebSocketServer{
 			if(conn!=null){
 				conn.send(jobj.toString());
 			}
+			BoshConnectionManager.notifyUserStatusToBoshClient(contactId, fromUid.toString(), status);
 		}
 		
 		//TODO此处为常用联系人列表
-//		JSONArray buddyList = contactHandler.getUserTree();
-//		for(int i=0;i<buddyList.size();i++){
-//			JSONObject buddy = buddyList.getJSONObject(i);
-//			if("user".equals(buddy.getString("type"))){
-//				WebSocket conn = conns.get(buddy.get("id"));
-//				if(conn!=null){
-//					conn.send(jobj.toString());
-//				}
-//			}
-//		}
+		String uid = (String)from.getAttributes().get("uid");
+		String userType =(String)from.getAttributes().get("userType");
+		JSONArray buddyList = contactHandler.getUserTree(uid , userType);
+		for(int i=0;i<buddyList.size();i++){
+			JSONObject buddy = buddyList.getJSONObject(i);
+			if("user".equals(buddy.getString("type"))){
+				WebSocket conn = conns.get(buddy.get("id"));
+				if(conn!=null){
+					conn.send(jobj.toString());
+				}
+				BoshConnectionManager.notifyUserStatusToBoshClient(buddy.get("id").toString(), (String)fromUid, status);
+			}
+		}
 		
 	}
 

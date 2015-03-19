@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.bc.sdak.TransactionalServiceHelper;
+import org.java_websocket.WebSocket;
 
 import com.youwei.coco.IMChatHandler;
 import com.youwei.coco.KeyConstants;
 import com.youwei.coco.YjhChatHandler;
+import com.youwei.coco.im.IMServer;
 
 import net.sf.ehcache.store.chm.ConcurrentHashMap;
 import net.sf.json.JSONObject;
@@ -47,12 +49,13 @@ public class BoshConnectionManager extends Thread{
 			for(String key: connectionStatus.keySet()){
 				Long lastActive = connectionStatus.get(key);
 				if(System.currentTimeMillis()-lastActive>=BoshConnection.Poll_Interval_In_Seconds*1000){
-					//最近联系人
+					//bosh端只有最近联系人
 					String offlineUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
 					List<Map> chats = chatHandler.getRecentChats("", offlineUid);
 					for(Map chat : chats){
 						String cid = (String)chat.get("uid");
-						notifyUserOffline(cid,offlineUid);
+						notifyUserStatusToBoshClient(cid,offlineUid , KeyConstants.User_Status_Offline);
+						notifyUserStatusSocketClient(offlineUid , (String)chat.get("uname") , cid , KeyConstants.User_Status_Offline);
 					}
 					connectionStatus.remove(key);
 				}
@@ -70,10 +73,10 @@ public class BoshConnectionManager extends Thread{
 		return result;
 	}
 
-	private void notifyUserOffline(String cid, String offlineUid) {
+	public static void notifyUserStatusToBoshClient(String cid, String offlineUid ,int status) {
 		JSONObject jobj = new JSONObject();
 		jobj.put("type", "user_status");
-		jobj.put("status", KeyConstants.User_Status_Offline);
+		jobj.put("status", status);
 		jobj.put("senderId", offlineUid);
 		for(String key : BoshConnectionManager.conns.keySet()){
     		if(key.startsWith(cid)){
@@ -84,5 +87,15 @@ public class BoshConnectionManager extends Thread{
     	}
 	}
 	
-	
+	public static void notifyUserStatusSocketClient(String fromUid ,String fromUname , String targetUid ,int status) {
+		JSONObject jobj = new JSONObject();
+		jobj.put("type", "user_status");
+		jobj.put("status", status);
+		jobj.put("contactId", fromUid);
+		jobj.put("contactName", fromUname);
+		WebSocket conn = IMServer.getUserSocket(targetUid);
+		if(conn!=null){
+			conn.send(jobj.toString());
+		}
+	}
 }

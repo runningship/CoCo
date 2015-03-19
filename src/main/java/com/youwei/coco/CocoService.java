@@ -226,7 +226,8 @@ public class CocoService {
 	@WebMethod
 	public ModelAndView getUserTree(){
 		ModelAndView mv = new ModelAndView();
-		JSONArray result = contactHandler.getUserTree();
+		User me = ThreadSessionHelper.getUser();
+		JSONArray result = contactHandler.getUserTree(me.getId() , me.getType());
 		mv.data.put("result", JSONHelper.toJSONArray(result));
 		return mv;
 	}

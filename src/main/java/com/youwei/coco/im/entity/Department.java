@@ -89,4 +89,5 @@ public class Department {
 	public Department Company(){
 		return SimpDaoTool.getGlobalCommonDaoService().get(Department.class,fid);
 	}
+	
 }

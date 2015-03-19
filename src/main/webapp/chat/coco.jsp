@@ -105,19 +105,25 @@ function startCreateGroup(){
 	 art.dialog.open("chat/selectUser.jsp",{
 		 id:'user_tree',
 		 width:300,
-		 height:450,
+		 height:350,
 		 title:'选择联系人',
 		 ok: function () {
 			 var data = this.iframe.contentWindow.getSelectUsers();
 			 if(data.uids){
-				 createGroupWithUsers(data.uids , data.names , data.avatars);
+				 createGroupWithUsers(data.groupName,data.uids , data.names , data.avatars);
 			 }
+		 },
+		 cancel:function(){
+			 
 		 }
 	 });
 }
 
-function createGroupWithUsers(uids , groupName ,avatars){
-	var subGroupName = groupName.join();
+function createGroupWithUsers(groupName, uids , names ,avatars){
+	var subGroupName = groupName;
+	if(!subGroupName){
+		subGroupName = names.join();
+	}
 	if(subGroupName.length>11){
 		subGroupName = subGroupName.substring(0,10);
 		subGroupName+="...";
@@ -152,24 +158,40 @@ function addGroupToPanel(groupId , groupName,userCount ,avatars){
 					  +'</p>'
 					  +'</div>'
 					  +'<div class="new_msg_count"></div>'
-					  +	'<div class="msgClose" onclick="removeGroup(\''+groupId+'\')">×</div>'
+					  +	'<div class="msgClose" onclick="removeGroup(\''+groupId+'\',1)">×</div>'
 					  +'</li>';
 	$('#cocoQunList').prepend(html);
-	//selectChat($('#group_'+groupId) , groupId);
 	openGroupChat(groupId , groupName);
+	selectChat($('#group_chat_'+groupId) , groupId);
 }
 
-function removeGroup(groupId){
+function removeGroup(groupId , isOwner){
 	event.preventDefault();
 	event.cancelBubble=true;
-	YW.ajax({
-	    type: 'POST',
-	    url: '/coco/c/im/removeGroup?groupId='+groupId,
-	    mysuccess: function(data){
-	    	$('#group_'+groupId).remove();
-	    }
-	});
-	closeChat(groupId , groupId);
+	//提醒确认
+	var cfmText = "";
+	var url="";
+	if(isOwner){
+		cfmText='确定要删除群组吗？';
+		url = '/coco/c/im/removeGroup?groupId='+groupId;
+	}else{
+		cfmText = '确定要离开群组吗？';
+		url = '/coco/c/im/leaveGroup?groupId='+groupId;
+	}
+	art.dialog.confirm(cfmText, function () {
+		YW.ajax({
+		    type: 'POST',
+		    url: url,
+		    mysuccess: function(data){
+		    	$('#group_'+groupId).remove();
+		    }
+		});
+		//如果chat被打开则关闭
+		if($('#group_chat_'+groupId).length>0){
+			closeChat(groupId , groupId);	
+		}
+  	},function(){},'warning');
+	
 }
 
 /*document.ready*/
@@ -269,7 +291,7 @@ function removeGroup(groupId){
                                          </p>
 	                                 </div>
                                      <div class="new_msg_count"></div>
-                                     <c:if test="${group.isOwner ==1}"><div class="msgClose" onclick="removeGroup('${group.gid}')">×</div></c:if>
+                                     <div class="msgClose" onclick="removeGroup('${group.gid}' ,${group.isOwner })">×</div>
                              		</li>
                             	</c:if>
                             	 
