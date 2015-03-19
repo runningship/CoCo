@@ -109,6 +109,12 @@ function openChats(contacts){
 		openChat(contact.uid , contact.name , contact.avatar,contact.status);
 	}
 }
+function hasContact(){
+	if($('.cocoWinLxrList li').length>0){
+		return true;
+	}
+	return false;
+}
 function select_chat(contactId){
 	selectChat(contactId);
 }

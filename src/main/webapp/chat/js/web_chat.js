@@ -483,7 +483,7 @@ function msgAreaKeyup(event){
 
 
 function closeChat(contactId){
-	if($('.cocoWinLxrList li').length<=1){
+	if($('.cocoWinLxrList li').length<=0){
 		//closeBox(closeAllChat);
 		return;
 	}

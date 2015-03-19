@@ -47,6 +47,7 @@ j_dialogShow=false;
 };
 </script>
 <script type="text/javascript" src="chat/${userType }.js"></script>
+<script type="text/javascript" src="chat/web_chat_user.js"></script>
 <style type="text/css">
 .hide{display:none}
 .user_offline_filter{-webkit-filter: grayscale(100%);}
@@ -75,6 +76,6 @@ j_dialogShow=false;
 <a href="#" onclick="openChat('3','杭州供应商','')">杭州供应商</a>
 <a href="#" onclick="openChat('8a7428463acfa966013acfaabdd80001','中兴店铺','')">中兴店铺</a>
 <div style="height:2000px;"></div>
-<span onclick="openChat();"><img id="coco"  onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='chat/cocoImages/coco_256.gif' style="width:16px;height:16px;position: fixed;bottom: 10px;right: 20px;cursor:pointer"/></span>
+<span  onclick="openChat();"><img id="coco"  title="没有联系人" onmouseover="allow_coco_doudong=false;" onmouseout="allow_coco_doudong=true;" src='chat/cocoImages/coco_256.gif' style="width:16px;height:16px;position: fixed;bottom: 10px;right: 20px;cursor:pointer"/></span>
 </body>
 </html>
