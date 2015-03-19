@@ -48,13 +48,13 @@ public class DataHelper {
 				if(arr!=null && arr.length>0){
 					pinyin+=arr[0];
 				}else{
-					LogUtil.warning("汉字["+hanzi.charAt(i)+"]转拼音失败,");
+//					LogUtil.warning("汉字["+hanzi.charAt(i)+"]转拼音失败,");
 					continue;
 				}
 			}
 			return pinyin;
-		} catch (BadHanyuPinyinOutputFormatCombination e) {
-			LogUtil.log(Level.WARN, "汉字["+hanzi+"]转拼音失败", e);
+		} catch (Exception e) {
+//			LogUtil.log(Level.WARN, "汉字["+hanzi+"]转拼音失败", e);
 		}
 		return "";
 	}
@@ -69,13 +69,13 @@ public class DataHelper {
 						pinyin+=arr[0].charAt(0);
 					}
 				}else{
-					LogUtil.warning("汉字["+hanzi.charAt(i)+"]转拼音失败,");
+//					LogUtil.warning("汉字["+hanzi.charAt(i)+"]转拼音失败,");
 					continue;
 				}
 			}
 			return pinyin;
-		} catch (BadHanyuPinyinOutputFormatCombination e) {
-			LogUtil.log(Level.WARN, "汉字["+hanzi+"]转拼音失败", e);
+		} catch (Exception e) {
+//			LogUtil.log(Level.WARN, "汉字["+hanzi+"]转拼音失败", e);
 		}
 		return "";
 	}

@@ -101,7 +101,7 @@ public class CocoService {
 	
 	private void getUserStatus(List<Map> chats){
 		for(Map chat : chats){
-			String uid = (String) chat.get("uid");
+			String uid = chat.get("uid").toString();
 			chat.put("status" , DataHelper.getUserStatus(uid));
 		}
 	}
@@ -195,13 +195,14 @@ public class CocoService {
 	public ModelAndView login(String name , String pwd ,String type){
 		//type :buyer,seller,admin
 		pwd = SecurityHelper.Md5(pwd);
-		User u  =  dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
+		User u = dao.getUniqueByParams(Admin.class, new String[]{"username" , "password"}, new Object[]{name , pwd});
 		if(u==null){
 			u = dao.getUniqueByParams(Seller.class, new String[]{"loginCode" , "pwd"}, new Object[]{name,pwd});
 		}
 		if(u==null){
-			u = dao.getUniqueByParams(Admin.class, new String[]{"username" , "password"}, new Object[]{name , pwd});
+			u  =  dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
 		}
+		
 //		if(KeyConstants.User_Type_Buyer.equals(type)){
 //			u = dao.getUniqueByParams(Buyer.class, new String[]{"loginCode" , "buyerPwd"}, new Object[]{name ,pwd});
 //		}else if(KeyConstants.User_Type_Seller.equals(type)){

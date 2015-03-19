@@ -495,6 +495,8 @@ function closeChat(contactId){
 	event.cancelBubble=true;
 	if(next.length>0){
 		selectChat(next.attr('cid'));	
+	}else{
+		window.top.webchat_dialog.hide();
 	}
 	removeWebRecentContact(contactId);
 }

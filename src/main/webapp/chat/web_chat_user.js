@@ -123,6 +123,6 @@ function updateTitle(title){
 	}
 }
 
-function cocoFail(){
+function cocoLoginFail(){
 	$('#coco').addClass('user_offline_filter');
 }

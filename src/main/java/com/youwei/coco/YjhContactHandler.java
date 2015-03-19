@@ -63,12 +63,16 @@ public class YjhContactHandler implements IMContactHandler{
 			if(uid.equals(u.get("uid").toString())){
 				continue;
 			}
+			String uname = (String)u.get("name");
+			if(StringUtils.isEmpty(uname)){
+				uname="";
+			}
 			json.put("id", u.get("uid"));
 			json.put("uid", u.get("uid"));
 			json.put("pId", pid);
-			json.put("name", u.get("name"));
-			json.put("namePy",DataHelper.toPinyin((String)u.get("name")));
-			json.put("namePyShort",DataHelper.toPinyinShort((String)u.get("name")));
+			json.put("name", uname);
+			json.put("namePy",DataHelper.toPinyin(uname));
+			json.put("namePyShort",DataHelper.toPinyinShort(uname));
 			json.put("type", "user");
 			json.put("sign", u.get("sign"));
 			json.put("status", DataHelper.getUserStatus(u.get("uid").toString()));

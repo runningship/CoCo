@@ -53,7 +53,7 @@ public class BoshConnectionManager extends Thread{
 					String offlineUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
 					List<Map> chats = chatHandler.getRecentChats("", offlineUid);
 					for(Map chat : chats){
-						String cid = (String)chat.get("uid");
+						String cid = chat.get("uid").toString();
 						notifyUserStatusToBoshClient(cid,offlineUid , KeyConstants.User_Status_Offline);
 						notifyUserStatusSocketClient(offlineUid , (String)chat.get("uname") , cid , KeyConstants.User_Status_Offline);
 					}

@@ -173,6 +173,8 @@ body{ overflow: hidden;}
 .body .winTools{-webkit-app-region: no-drag; float: right;}
 .body .winTools a{ display: inline-block; height: 30px; line-height: 30px; width: 30px; text-align: center; color: #000; font-family: 'microsoft yahei'; text-decoration: none;opacity: 0.5;}
 .body .winTools a.btn_close:hover{opacity: 1;}
+.body .winTools a.close_action{background-image: url('chat/images/close.png');background-size: 100%;  width: 20px;  background-repeat: no-repeat;  height: 16px;}
+.body .winTools a.min_action{background-image: url('chat/images/min.png');background-size: 100%;  width: 20px;  background-repeat: no-repeat;  height: 16px;}
 
 
 
@@ -231,9 +233,9 @@ body #edui1_iframeholder{ height: 50px;}
 <body>
 <div class="body titlebar">
 	<div class="winTools">
-		<a href="#" class="btn btn_close" data-type="winmin">_</a>
-		<a href="#" class="btn btn_close" data-type="winmax">□</a>
-		<a href="#" class="btn btn_close" data-type="winclose">X</a>
+		<a href="#" class="btn btn_close min_action" data-type="winmin"></a>
+<!-- 		<a href="#" class="btn btn_close" data-type="winmax">□</a> -->
+		<a href="#" class="btn btn_close close_action" data-type="winclose"  ></a>
 	</div>
 
 	<div>

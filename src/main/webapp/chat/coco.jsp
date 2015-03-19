@@ -23,7 +23,7 @@ function isGetOutLxr(){
 $(function(){
     ue_text_editor = UE.getEditor('editor', {
         toolbars: [
-            ['simpleupload','emotion','spechars','forecolor']
+            ['simpleupload','emotion','forecolor']
         ],
         autoHeightEnabled: false
     });
