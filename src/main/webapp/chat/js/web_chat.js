@@ -309,7 +309,7 @@ function showBigImg(img){
 		$("body").append(htmlText);
 		layerBoxCenter("imgBigSee");
 	}else{
-		window.open("http://localhost:8088/."+$(img).attr('src'), "_blank");
+		window.open("/"+$(img).attr('src'), "_blank");
 	}
 }
 
