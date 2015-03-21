@@ -40,7 +40,7 @@ $(function(){
 	}
 	ue_text_editor = UE.getEditor('editor', {
         toolbars: [
-            ['simpleupload','forecolor']
+            ['simpleupload','attachment','forecolor']
         ],
         theme:'default',
         autoHeightEnabled: false

@@ -135,7 +135,7 @@ function openGroupChat(groupId,groupName){
 	$('.cocoWinLxrList').prepend(lxrHtml);
 	//selectChat($('#group_chat_'+groupId),groupId);
 
-	loadGroupHistory(groupId,1);
+	//loadGroupHistory(groupId,1);
 
 	//添加组成员窗口
 	$('.qunBox .qunBoxList').append('<ul id="group_members_'+groupId+'"></ul>');
@@ -260,7 +260,7 @@ function getAvatarByUid(uid){
 }
 function getContactNameByUid(uid){
 	var name = $('#lxr_'+uid+' .name');
-	return name.text();
+	return name.attr('name');
 }
 
 function getRecentContactNameByUid(uid){
@@ -363,7 +363,11 @@ function selectChat(li,groupId){
 		ue_text_editor.setContent(oldConts);
 	}
 	if(!msgContainer.attr('hasLoadHistory')){
-		loadHistory($(li).attr('cid') , 1);
+		if(groupId){
+			loadGroupHistory(groupId , 1);
+		}else{
+			loadHistory($(li).attr('cid') , 1);
+		}
 		msgContainer.attr('hasLoadHistory',true);
 	}
 	if(!groupId){

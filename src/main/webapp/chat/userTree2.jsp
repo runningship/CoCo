@@ -97,7 +97,7 @@ function addDiyDom(treeId, treeNode) {
      +'<img user_avatar_img="'+avatar+'" src="/coco/chat/images/avatar/'+avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'
      + '<div class="cocoPerInfo Fleft">'
-     +    '<span class="name">'+treeNode.name+'&nbsp;&nbsp;&nbsp;'+sign+'</span>'
+     +    '<span name="'+treeNode.name+'" class="name">'+treeNode.name+'&nbsp;&nbsp;&nbsp;'+sign+'</span>'
      //+     '<p class="txt"></p>'
      
      + '</div>'

@@ -67,9 +67,9 @@
         ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
         ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
         ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
-        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml",".html"
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml",".html","*.*"
     ], /* 上传文件格式显示 */
-
+	"fileNotAllowFiles":[".exe"],
     /* 列出指定目录下的图片 */
     "imageManagerActionName": "listimage", /* 执行图片管理的action名称 */
     "imageManagerListPath": "/ueditor/jsp/upload/image/", /* 指定要列出图片的目录 */
