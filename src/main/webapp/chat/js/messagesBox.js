@@ -3,27 +3,27 @@
 	  var _x,_y;//鼠标离控件左上角的相对位置  
 	  
 	  
-	  function layerShowBox(id){
-		  
-	      var $mainId =$("#"+id);
-		  var w = $mainId.width();
-		  var h = $mainId.height();
-		  var winW = $("body",window.top.document).width();
-		  var winH = $("body",window.top.document).height();
-		  var L = (winW - w)/2;
-		  var T = (winH - h)/2;
-
-		  T = T<=0?0:T;
-		  //T = T>=winH-200?winH-200:T;
-					
-	      L = L!=216?216:L;
-		  //L = L>=winW-300?winW-300:L;
-		  
-		  $mainId.css("left",L);
-		  $mainId.css("top",T);
-		  
-		  
-	  }
+//	  function layerShowBox(id){
+//		  
+//	      var $mainId =$("#"+id);
+//		  var w = $mainId.width();
+//		  var h = $mainId.height();
+//		  var winW = $("body",window.top.document).width();
+//		  var winH = $("body",window.top.document).height();
+//		  var L = (winW - w)/2;
+//		  var T = (winH - h)/2;
+//
+//		  T = T<=0?0:T;
+//		  //T = T>=winH-200?winH-200:T;
+//					
+//	      L = L!=216?216:L;
+//		  //L = L>=winW-300?winW-300:L;
+//		  
+//		  $mainId.css("left",L);
+//		  $mainId.css("top",T);
+//		  
+//		  
+//	  }
 	  
 	  function showBox(){
 		 
@@ -76,17 +76,6 @@
 		   
 	  }
 	  
-	  function closeBox(callback){
-		 
-		 $("#layerBoxDj").css("display","none");
-		 $("#layerBoxBgShadow").css("display","none");
-		 if(callback){
-		 	callback();
-		 }
-	  }
-	  
-
-
 
 	  var m_Move=true;
 	  function mDown(id){
@@ -142,61 +131,6 @@
 		  layerShowBox("cocoLayerWebLine");
 	  }
 	  
-	  
-	/*联系人排序*/  
-	  
-	  function lxrzaixian(id){
-		  
-			  var $lxrNum = $("ul#"+ id +" li").size(); 
-			  var $online = $("ul#"+ id +" li"); 
-			  
-			  var $firstUnlineLi = $("ul#"+ id +" li").eq(0);
-			  
-			  
-			  
-			  
-			  for( var i=1;i<$lxrNum;i++){//在线排序
-				 
-				 
-				 var x = $online.eq(i).find(".cocoOnline").size();
-				 var y = $online.eq(i).find(".cocoWinNewsNum").size();
-				 var z = $online.eq(i).find(".cocoLeave").size();
-				 
-				 if(x>0){//在线的上去
-					 $online.eq(i).insertBefore($firstUnlineLi);
-				 }
-				 if(z>0){//不在线的下去去
-					 $online.eq(i).insertAfter($firstUnlineLi);
-				 }
-				 
-				 
-			  } 
-			  
-			  for( var i=1;i<$lxrNum;i++){
-				  
-				 var y = $online.eq(i).find(".cocoWinNewsNum").size();
-				 if(y>0){
-					 $online.eq(i).insertBefore($firstUnlineLi);
-				 }
-			  }
-			  
-			  for( var i=0;i<$lxrNum;i++){//在线有消息排序排序
-				  
-				 var x = $online.eq(i).find(".cocoOnline").size();
-				 var y = $online.eq(i).find(".cocoWinNewsNum").size();
-				 
-				 if(x>0 && y>0){
-					 $("ul#"+ id +" li").eq(i).insertBefore($firstUnlineLi);
-				 }
-				 
-			  }
-
-			  
-	  }
-	  
-	 /*联系人排序*/ 
-	 
-	 
 	 
 	 function LayerRemoveBox(id){
 		 
@@ -227,15 +161,4 @@
 			// LayerShow(id);
 	  
 	  }
-
-	  
-	  
-	  
-$(function(){
-	
-	  lxrzaixian("cocoList");
-	  lxrzaixian("cocoQunList");
-	  
-	
-});  
 

@@ -5,8 +5,8 @@
 .user_status_filter_0{ -webkit-filter: grayscale(100%);filter: gray}
 
 .cocoQunInfo{ width:140px; margin-left:1px; font-family:"宋体"; white-space:normal; position:relative}
-.cocoPerInfo{ width:140px; margin-left:1px;margin-top:11px; font-family:"宋体"; white-space:normal; position:relative}
-.cocoPerInfo .name{ color:#5b7585; font-size:12px; margin:2px 0;float:left}
+.cocoPerInfo{ width:160px; margin-left:1px;margin-top:11px; font-family:"宋体"; white-space:nowrap; position:relative;text-overflow:ellipsis}
+.cocoPerInfo .name{ color:#5b7585; font-size:12px; margin:-2px 0;float:left}
 .cocoPerInfo .txt{ color:#bbbbbb; font-size:12px; margin:0;}
 
 .cocoList{ width:200px; margin-top:15px; float:left;}

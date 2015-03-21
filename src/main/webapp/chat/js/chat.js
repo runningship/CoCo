@@ -767,7 +767,7 @@ function setUserStatus(json){
 	}
 
 	console.log(json.contactName+'状态: '+json.status);
-	lxrzaixian('cocoList');
+	//lxrzaixian('cocoList');
 }
 
 function msgAreaKeyup(event){
@@ -847,14 +847,14 @@ function closeChat(contactId,groupId){
 		next = $('#group_chat_'+groupId).next();
 		$('#group_chat_'+groupId).remove();
 		$('#msgContainer_group_'+groupId).remove();
-		
+		$('.qunBox').css('display','none');
 	}else{
 		next = $('#chat_'+contactId).next();
 		$('#chat_'+contactId).remove();
 		$('#msgContainer_'+contactId).remove();	
 		
 	}
-	
+	$('.chat_title').text('');
 	//如果删除的是当前聊天，重新选择下一个聊天为当前聊天，如果没有其他聊天，关闭聊天面板
 	event.cancelBubble=true;
 	if(next.length>0){
@@ -1056,6 +1056,17 @@ function connectWebSocket(){
     };
 }
 
+function showBox(){
+	$("#layerBoxDj").css("display","block");
+}
+function closeBox(callback){
+	 
+	 $("#layerBoxDj").css("display","none");
+	 $("#layerBoxBgShadow").css("display","none");
+	 if(callback){
+	 	callback();
+	 }
+ }
 function heartBeat(){
 	if(coco_ws && web_socket_on){
 		coco_ws.send("ping");

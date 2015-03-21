@@ -78,6 +78,12 @@ $(document).ready(function() {
             login();
         }  
     });
+    //win.setMaximumSize(280,400);
+    win.on('maximize',function(){
+    	event.preventDefault();
+    	event.cancelBubble=true;
+    	return false;
+    	});
 });
 </script>
 <style>

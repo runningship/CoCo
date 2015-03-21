@@ -192,6 +192,12 @@ public class CocoService {
 	}
 	
 	@WebMethod
+	public ModelAndView open(){
+		ModelAndView mv = new ModelAndView();
+		mv.jspData.put("host", ConfigCache.get("domainName", ""));
+		return mv;
+	}
+	@WebMethod
 	public ModelAndView login(String name , String pwd ,String type){
 		//type :buyer,seller,admin
 		pwd = SecurityHelper.Md5(pwd);

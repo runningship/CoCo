@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +9,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <link rel="stylesheet" href="font/iconfont.css">
-<script type="text/javascript" src="jquery.js"></script>
+<script src="js/jquery.js" type="text/javascript"></script>
 <link href="" rel="stylesheet">
 <style>
 html,body{ padding: 0; margin: 0;}
@@ -51,7 +53,7 @@ $(document).on('click', '.btn', function(event) {
     event.preventDefault();
 });
 function toLogin(){
-    iFrameSrc('http://192.168.1.102:8088/coco/chat/login.jsp?l=b');
+    iFrameSrc('http://${host}:8088/coco/chat/login.jsp?l=b');
 }
 function iFrameSrc(url){
     $('#iframe').attr('src',url);

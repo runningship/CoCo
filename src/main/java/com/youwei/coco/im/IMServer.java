@@ -55,7 +55,7 @@ public class IMServer extends WebSocketServer{
 	private IMServer() throws UnknownHostException {
 //		super(new InetSocketAddress(Inet4Address.getByName("localhost"), 9099));
 //		super(new InetSocketAddress("192.168.1.125", 9099));
-		super(new InetSocketAddress(ConfigCache.get("domainName" , "www.zhongjiebao.com"), 9099));
+		super(new InetSocketAddress(ConfigCache.get("domainName" , ""), 9099));
 	}
 
 	public static WebSocket getUserSocket(String uid){
