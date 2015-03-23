@@ -20,6 +20,7 @@ public class Buyer implements User{
 	@Column(name="buyer_id")
 	public String buyerId;
 	
+	@Column(name="short_name")
 	public String name;
 	
 	@Column(name="login_code")

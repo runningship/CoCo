@@ -245,9 +245,9 @@ function removeGroup(groupId , isOwner){
          </div>
          <div class="tr w100">
               <div class="td cocoMainSelect" id="cocoMainSelectId">
-                   <span class="sle" onclick="selBoxCge('lxrList')" id="lxrListBtn"><i class="Bg lxr"></i></span>
-                   <span onclick="selBoxCge('qunList')" id="qunListBtn"><i class="Bg qun"></i><em id="qunbox_dot" class=""></em></span>
-                   <span onclick="selBoxCge('outList')" id="outListBtn"><i class="Bg ldq"></i></span>
+                   <span title="联系人" class="sle" onclick="selBoxCge('lxrList')" id="lxrListBtn"><i class="Bg lxr"></i></span>
+                   <span title="群组" onclick="selBoxCge('qunList')" id="qunListBtn"><i class="Bg qun"></i><em id="qunbox_dot" class=""></em></span>
+                   <span title="最近聊天" onclick="selBoxCge('outList')" id="outListBtn"><i class="Bg ldq"></i></span>
               </div>
          </div>
          

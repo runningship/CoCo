@@ -48,6 +48,8 @@ public class YjhContactHandler implements IMContactHandler{
 		List<Map> users = new ArrayList<Map>();
 		if(KeyConstants.User_Type_Buyer.equals(userType)){
 			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar , seller.signature as sign from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId and city.bigareaId=?",pid );
+			List<Map> admins = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign from Admin  where area=?",pid );
+			users.addAll(admins);
 		}else if(KeyConstants.User_Type_Seller.equals(userType)){
 			//卖家只能看到管理员
 			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign from Admin  where area=?",pid );

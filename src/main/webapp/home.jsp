@@ -43,7 +43,14 @@ try{
 
 
 function WinClose(){
-	win.close(); 
+	//show choose dialog
+	  art.dialog({
+	    title: false,
+	    width: 250,
+	    content: '<a href="#">退&nbsp;&nbsp;出</a><a href="#">切换账号</a>',
+	    padding:20
+	  });
+	//win.close(); 
 }
 function WinMin(){
 	win.minimize();
@@ -251,5 +258,8 @@ body #edui1_iframeholder{ height: 50px;}
 <div class="winBoxBorders winBoxBorderR"></div>
 <div class="winBoxBorders winBoxBorderB"></div>
 <div class="winBoxBorders winBoxBorderL"></div>
+<div id="quit_confim">
+<a>退&nbsp;&nbsp;出</a><a>切换账号</a>
+</div>
 </body>
 </html>
