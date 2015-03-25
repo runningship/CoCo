@@ -348,13 +348,13 @@ function removeGroup(groupId , isOwner){
      
      <div class="cocoWinContent">
      
-          <div class="cocoWinContentLxr" style="-webkit-user-select:none; display:none;">
-               <!-- 左侧聊天人列表 -->
-               <ul class="cocoWinLxrList">
+<!--           <div class="cocoWinContentLxr" style="-webkit-user-select:none; display:none;"> -->
+<!--                左侧聊天人列表 -->
+<!--                <ul class="cocoWinLxrList"> -->
                                     
-               </ul>
+<!--                </ul> -->
                
-          </div>
+<!--           </div> -->
           <!--  width:510px; float:left; --> 
           <div style="height:100%;-webkit-user-select:text;">
           	  <!-- 聊天记录区 -->

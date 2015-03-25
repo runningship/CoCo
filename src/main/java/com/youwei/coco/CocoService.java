@@ -231,6 +231,13 @@ public class CocoService {
 	}
 	
 	@WebMethod
+	public ModelAndView logout(){
+		ModelAndView mv = new ModelAndView();
+		ThreadSession.getHttpSession().removeAttribute(KeyConstants.Session_User);
+		return mv;
+	}
+	
+	@WebMethod
 	public ModelAndView getUserTree(){
 		ModelAndView mv = new ModelAndView();
 		User me = ThreadSessionHelper.getUser();

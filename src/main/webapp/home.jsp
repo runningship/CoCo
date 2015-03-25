@@ -41,14 +41,27 @@ try{
 	win.moveTo(xs,ys);
 }catch (e){}
 
-
+function quit(){
+	win.close();
+}
+function logout(){
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: 'c/logout',
+	    success:function(data){
+	    	
+	    }
+	  });
+	window.location = 'open.jsp';
+}
 function WinClose(){
 	//show choose dialog
 	  art.dialog({
 	    title: false,
 	    width: 250,
-	    content: '<a href="#">退&nbsp;&nbsp;出</a><a href="#">切换账号</a>',
-	    padding:20
+	    content: $('#quit_confirm').html(),
+	    padding:1
 	  });
 	//win.close(); 
 }
@@ -235,6 +248,12 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', en
 box-shadow: 0 0px 0px rgba(0, 0, 0, 0.065);
 }
 body #edui1_iframeholder{ height: 50px;}
+.quit_confirm span {color:white;}
+.quit_confirm p{color:#888;font-size:14px;}
+.quit_confirm:hover {color:cornsilk !important;}
+.quit_confirm {background-color:rgb(47,53,53);display: inline-block;width: 100%;padding:10px;cursor:pointer}
+.quit_confirm img{float:left;margin-right:10px;}
+.aui_content{width:100%;}
 </style>
 </head>
 <body>
@@ -258,8 +277,15 @@ body #edui1_iframeholder{ height: 50px;}
 <div class="winBoxBorders winBoxBorderR"></div>
 <div class="winBoxBorders winBoxBorderB"></div>
 <div class="winBoxBorders winBoxBorderL"></div>
-<div id="quit_confim">
-<a>退&nbsp;&nbsp;出</a><a>切换账号</a>
+<div id="quit_confirm" >
+<div class="quit_confirm" style="border-bottom:1px solid black" onclick="quit();">
+	<img src="chat/images/quit.png" /><span>关闭叮当</span>
+	<p>关闭后你将不能收到新的信息</p>
+</div>
+<div class="quit_confirm" onclick="logout();">
+	<img src="chat/images/user.png" /><span>重新登录</span>
+	<p>注销或切换到其他登录账号</p>
+</div>
 </div>
 </body>
 </html>

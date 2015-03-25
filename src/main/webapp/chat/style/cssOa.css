@@ -256,7 +256,7 @@ i.add:hover{ background-position:-38px -100px;}
 
 .cocoMainTit .mainInfo{ width:150px; float:left; text-align:left; font-family:"宋体";}
 .cocoMainTit .mainName{ font-size:14px; color:#1c3748; margin-top:7px; margin-bottom:4px;}
-.cocoMainTit .mainabout{ font-size:12px; color:#b0e4e7;}
+.cocoMainTit .mainabout{ font-size:12px; color:#b0e4e7; height: 29px;width: 150px;overflow: hidden;text-overflow: ellipsis}
 
 .cocoMainTit .turnLit{ width:14px; height:14px; text-align:center; border-radius:7px; font-weight:bold; background-color:#008e96; position:absolute; color:#21c7d0; line-height:12px; top:8px; right:15px;cursor: pointer}
 

@@ -32,6 +32,7 @@ import com.youwei.coco.im.entity.UserGroupStatus;
 import com.youwei.coco.im.entity.UserSign;
 import com.youwei.coco.user.entity.Admin;
 import com.youwei.coco.user.entity.Buyer;
+import com.youwei.coco.user.entity.RecentContact;
 import com.youwei.coco.user.entity.Seller;
 import com.youwei.coco.user.entity.User;
 import com.youwei.coco.util.DataHelper;
@@ -110,6 +111,17 @@ public class IMService {
 	}
 	
 	@WebMethod
+	public ModelAndView setLastActive(String contactId ){
+		ModelAndView mv = new ModelAndView();
+		RecentContact po = dao.getUniqueByParams(RecentContact.class, new String[]{"uid" , "contactId"}, new Object[]{ThreadSessionHelper.getUser().getId() , contactId});
+		if(po!=null){
+			po.lasttime = new Date();
+			dao.saveOrUpdate(po);
+		}
+		return mv;
+	}
+	
+	@WebMethod
 	public ModelAndView setGroupChatRead(String groupId){
 		//更新最后活跃时间即可
 		ModelAndView mv = new ModelAndView();
@@ -133,8 +145,9 @@ public class IMService {
 		
 		Seller seller = dao.get(Seller.class, uid);
 		Buyer buyer = dao.get(Buyer.class, uid);
+		Admin admin = null;
 		try{
-			Admin admin = dao.get(Admin.class, Integer.valueOf(uid));
+			admin = dao.get(Admin.class, Integer.valueOf(uid));
 			if(admin!=null){
 				admin.signature = sign;
 				dao.saveOrUpdate(admin);
@@ -151,6 +164,9 @@ public class IMService {
 			buyer.signature = sign;
 			dao.saveOrUpdate(buyer);
 		}
+		//update to session user
+		ThreadSessionHelper.getUser().setSign(sign);
+		
 		ModelAndView mv = new ModelAndView();
 		return mv;
 	}

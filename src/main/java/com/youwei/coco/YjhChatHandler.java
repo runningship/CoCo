@@ -114,7 +114,8 @@ public class YjhChatHandler implements IMChatHandler{
 		List<Map> admins = dao.listAsMap("select admin.name as name ,admin.avatar as avatar, admin.id as uid ,rc.userType as type "
 				+ "from RecentContact rc ,Admin admin where rc.contactId=admin.id and rc.uid=? and userType='admin' " ,uid);
 		List<Map> groups = dao.listAsMap("select g.name as name , g.id as uid ,rc.userType as type "
-				+ "from RecentContact rc ,Group g where rc.contactId=g.id and rc.uid=? and userType='group' " ,uid);
+				+ "from RecentContact rc ,Group g where rc.contactId=g.id and rc.uid=? and userType='group' order by rc.lasttime desc" ,uid);
+		
 		contacts.addAll(sellers);
 		contacts.addAll(buyers);
 		contacts.addAll(admins);

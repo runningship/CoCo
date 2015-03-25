@@ -113,9 +113,9 @@ YW={
             // $('#loading').remove();
         },
         error: function(data){
-            if(data.status==500){
+            if(data.status==302){
                 alert('操作不成功，请联系管理员.');
-            }else if(data.status==400){
+            }else if(data.status==303){
                 json = JSON.parse(data.responseText);
                 if(json.type=='ParameterMissingError'){
                     var field = json.field;

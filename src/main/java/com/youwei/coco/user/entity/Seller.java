@@ -68,4 +68,8 @@ public class Seller implements User{
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+	@Override
+	public void setSign(String sign) {
+		this.signature = sign;
+	}
 }

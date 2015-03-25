@@ -507,9 +507,18 @@ function onSendMsg(text,chat){
 	}else{
 		$('#msgContainer_'+chat.contactId).append(buildSentMessage(text,time));	
 	}
-    
+	setLastActive(chat.contactId);
 }
 
+function setLastActive(contactId){
+	$.ajax({
+	    type: 'get',
+	    dataType: 'json',
+	    url: 'c/im/setLastActive?contactId='+contactId,
+	    success:function(data){
+	    }
+	  });
+}
 function notifyGroupNews(groupId,msgCount){
 	if(msgCount==0){
 		return;
@@ -787,7 +796,7 @@ function getRecentChats(success){
 		url: 'c/im/getRecentChats',
 		success:function(data){
 			if(data.recentChats){
-				for(var i=0;i<data.recentChats.length;i++){
+				for(var i=data.recentChats.length-1 ; i>=0;i--){
 					var chat = data.recentChats[i];
 					if(chat.type=='group'){
 						openGroupChat(chat.uid, chat.name);
@@ -797,11 +806,11 @@ function getRecentChats(success){
 					
 				}
 				if(data.recentChats.length>0){
-					var last = data.recentChats[data.recentChats.length-1];
-					if(last.type=='group'){
-						selectChat($('#group_chat_'+last.uid) , last.uid );
+					var first = data.recentChats[0];
+					if(first.type=='group'){
+						selectChat($('#group_chat_'+first.uid) , first.uid );
 					}else{
-						selectChat($('#chat_'+last.uid));	
+						selectChat($('#chat_'+first.uid));	
 					}
 				}
 			}

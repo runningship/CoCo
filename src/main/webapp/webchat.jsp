@@ -17,8 +17,8 @@
 <!-- <link rel="stylesheet" type="text/css" href="/chat/style/cocoWinLayer.css" /> -->
 <link rel="stylesheet" type="text/css" href="chat/style/cssOa.css" />
 <link rel="stylesheet" type="text/css" href="chat/style/im.css" />
-<!-- <script src="js/jquery.js" type="text/javascript"></script> -->
-<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+<script src="js/jquery.js" type="text/javascript"></script>
+<!-- <script src="js/jquery-1.9.1.js" type="text/javascript"></script> -->
 <!-- <script type="text/javascript" src="/chat/js/messagesBox.js"></script> -->
 <script type="text/javascript" src="chat/js/json2.js"></script>
 <script type="text/javascript" src="chat/js/web_chat.js"></script>

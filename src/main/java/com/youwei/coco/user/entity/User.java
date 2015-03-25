@@ -16,5 +16,7 @@ public interface User {
 	
 	public String getSign();
 	
+	public void setSign(String sign);
+	
 	public void setAvatar(String avatar);
 }

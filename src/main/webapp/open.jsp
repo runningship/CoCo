@@ -8,7 +8,7 @@
 <title>有机会 - 叮铛</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
-<link rel="stylesheet" href="font/iconfont.css">
+<link rel="stylesheet" href="chat/font/iconfont.css">
 <script src="js/jquery.js" type="text/javascript"></script>
 <link href="" rel="stylesheet">
 <style>
@@ -29,6 +29,7 @@ var gui = require('nw.gui');
 var win = gui.Window.get();
 var shell = gui.Shell;
 var winMaxHeight,winMaxWidth;
+win.resizeTo(280,400);
 }catch (e){}
  
 

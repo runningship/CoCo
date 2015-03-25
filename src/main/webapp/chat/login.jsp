@@ -18,6 +18,7 @@ try{
 var gui = require('nw.gui');
 var win = gui.Window.get();
 var shell = gui.Shell;
+win.resizeTo(280,400);
 }catch (e){}
 var dlbtn,
 dltimeout;
@@ -136,7 +137,7 @@ body{ }
     <div class="bodyer">
         <div class="mainer bd ">
                     <span class="logoBox">
-                        <img src="cocoImages/coco_256.png" alt="" class="">
+                        <img src="images/dd_128.ico" alt="" class="">
                     </span>
             <ul class="form_login">
                 <li>
