@@ -248,11 +248,13 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', en
 box-shadow: 0 0px 0px rgba(0, 0, 0, 0.065);
 }
 body #edui1_iframeholder{ height: 50px;}
-.quit_confirm span {color:white;}
-.quit_confirm p{color:#888;font-size:14px;}
-.quit_confirm:hover {color:cornsilk !important;}
+.quit_confirm span {color:white; margin-left:50px;}
+.quit_confirm p{color:#888;font-size:14px;margin-left:50px;}
 .quit_confirm {background-color:rgb(47,53,53);display: inline-block;width: 100%;padding:10px;cursor:pointer}
-.quit_confirm img{float:left;margin-right:10px;}
+.quit_confirm .quit{margin-right:10px; background-image: url('chat/images/quit.png');background-repeat: no-repeat; width:100%;height:45px;}
+.quit_confirm .quit:hover{background-image: url('chat/images/quit_hover.png');background-repeat: no-repeat; }
+.quit_confirm .logout{margin-right:10px; background-image: url('chat/images/user.png');background-repeat: no-repeat; width:100%;height:45px;}
+.quit_confirm .logout:hover{background-image: url('chat/images/user_hover.png');background-repeat: no-repeat; }
 .aui_content{width:100%;}
 </style>
 </head>
@@ -279,12 +281,14 @@ body #edui1_iframeholder{ height: 50px;}
 <div class="winBoxBorders winBoxBorderL"></div>
 <div id="quit_confirm" >
 <div class="quit_confirm" style="border-bottom:1px solid black" onclick="quit();">
-	<img src="chat/images/quit.png" /><span>关闭叮当</span>
+	<div class="quit"><span>关闭叮当</span>
 	<p>关闭后你将不能收到新的信息</p>
+	</div>
 </div>
 <div class="quit_confirm" onclick="logout();">
-	<img src="chat/images/user.png" /><span>重新登录</span>
+	<div class="logout"><span>重新登录</span>
 	<p>注销或切换到其他登录账号</p>
+	</div>
 </div>
 </div>
 </body>
