@@ -38,6 +38,7 @@ border-radius:3px; font-family:"宋体"; z-index:1990;}
 .cocoWinLxrListPerInfo{ width:90px; margin-left:2px; font-family:"宋体"; white-space:nowrap;}
 
 .cocoWinLxrListPerInfo .name{ color:#299da3; font-size:12px; margin:2px 0;}
+.cocoWinLxrListPerInfo .admin{ color:orchid}
 .cocoWinLxrListPerInfo .txt{ color:#356684; font-size:12px;}
 
 .cocoWinNewsNum{ height:13px; padding:0 4px; border-radius:8px; background-color:#f55252; text-align:center; line-height:13px; position:absolute; left:10px; top:2px; font-size:12px; color:#ffffff; font-family:"宋体";}

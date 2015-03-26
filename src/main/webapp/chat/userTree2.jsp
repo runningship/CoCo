@@ -90,6 +90,10 @@ function addDiyDom(treeId, treeNode) {
 	  if(!avatar){
 		  avatar = default_avatar;
 	  }
+	  var adminClass = "";
+	  if(treeNode.isAdmin){
+		  adminClass = "admin";
+	  }
 	  var span = '<span class="">'
 	 +'<li style="'+style+'"  name="'+treeNode.name+'" title="'+sign+'" class="search_clone " py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+avatar+')">'
 	 //+ checkBox[0].outerHTML
@@ -97,7 +101,7 @@ function addDiyDom(treeId, treeNode) {
      +'<img user_avatar_img="'+avatar+'" src="/coco/chat/images/avatar/'+avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'
      + '</div>'
      + '<div class="cocoPerInfo Fleft">'
-     +    '<span name="'+treeNode.name+'" class="name">'+treeNode.name+'&nbsp;&nbsp;&nbsp;'+sign+'</span>'
+     +    '<span name="'+treeNode.name+'" class="name '+adminClass+' ">'+treeNode.name+'&nbsp;&nbsp;&nbsp;'+sign+'</span>'
      //+     '<p class="txt"></p>'
      
      + '</div>'

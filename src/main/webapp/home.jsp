@@ -279,7 +279,7 @@ body #edui1_iframeholder{ height: 50px;}
 <div class="winBoxBorders winBoxBorderR"></div>
 <div class="winBoxBorders winBoxBorderB"></div>
 <div class="winBoxBorders winBoxBorderL"></div>
-<div id="quit_confirm" >
+<div id="quit_confirm" style="display:none">
 <div class="quit_confirm" style="border-bottom:1px solid black" onclick="quit();">
 	<div class="quit"><span>关闭叮当</span>
 	<p>关闭后你将不能收到新的信息</p>

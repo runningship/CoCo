@@ -242,10 +242,11 @@
                     file.rotation = 0;
 
                     /* 检查文件格式 */
-                    if (!file.ext || acceptExtensions.indexOf(file.ext.toLowerCase()) == -1) {
-                        showError('not_allow_type');
-                        uploader.removeFile(file);
-                    }
+                    //不检查，由服务端检查
+//                    if (!file.ext || acceptExtensions.indexOf(file.ext.toLowerCase()) == -1) {
+//                        showError('not_allow_type');
+//                        uploader.removeFile(file);
+//                    }
                 }
 
                 file.on('statuschange', function (cur, prev) {

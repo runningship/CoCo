@@ -1388,8 +1388,8 @@ div.edui-box {
 
 /*attachment-dialog*/
 .edui-default .edui-for-attachment .edui-dialog-content {
-    width: 650px;
-    height: 400px;
+    width: 400px;
+    height: 210px;
     overflow: hidden;
 }
 

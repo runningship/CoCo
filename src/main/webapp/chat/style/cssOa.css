@@ -323,7 +323,7 @@ i.add:hover{ background-position:-38px -100px;}
 
 
 
-.qunBox{ position:absolute; top:50px; right:0px; width:150px; background-color:#f6f6f6; border-radius:0 3px 3px 0; box-shadow: #999 3px 0px 8px; z-index:2;}
+.qunBox{ position:absolute; top:50px; right:0px; width:140px; background-color:#f6f6f6; border-radius:0 3px 3px 0; box-shadow: #999 3px 0px 8px; z-index:2;}
 
 .qunBoxTit{ width:100%; height:32px; line-height:32px; background: url(../cocoImages/titBg.png) repeat-x; float:left; font-size:12px; border-radius:3px 3px 0 0;}
 

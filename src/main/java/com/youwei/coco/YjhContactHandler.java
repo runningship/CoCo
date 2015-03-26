@@ -48,13 +48,13 @@ public class YjhContactHandler implements IMContactHandler{
 		List<Map> users = new ArrayList<Map>();
 		if(KeyConstants.User_Type_Buyer.equals(userType)){
 			users = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar , seller.signature as sign from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId and city.bigareaId=?",pid );
-			List<Map> admins = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign from Admin  where area=?",pid );
+			List<Map> admins = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign,1 as isAdmin from Admin   where area=?",pid );
 			users.addAll(admins);
 		}else if(KeyConstants.User_Type_Seller.equals(userType)){
 			//卖家只能看到管理员
-			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign from Admin  where area=?",pid );
+			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar ,signature as sign ,1 as isAdmin from Admin  where area=?",pid );
 		}else if(KeyConstants.User_Type_Admin.equals(userType)){
-			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar , signature as sign from Admin  where area=?",pid );
+			users = dao.listAsMap("select id as uid,name as name ,avatar as avatar , signature as sign,1 as isAdmin from Admin  where area=?",pid );
 			//还有大区下的卖家
 			List<Map> sellers = dao.listAsMap("select seller.sellerId as uid,seller.companyName as name ,seller.avatar as avatar , seller.signature as sign from BigAreaCity city ,Seller seller where city.areaCode=seller.cityId and city.bigareaId=?",pid );
 			users.addAll(sellers);
@@ -73,6 +73,9 @@ public class YjhContactHandler implements IMContactHandler{
 			json.put("uid", u.get("uid"));
 			json.put("pId", pid);
 			json.put("name", uname);
+			if(u.containsKey("isAdmin")){
+				json.put("isAdmin", 1);
+			}
 			json.put("namePy",DataHelper.toPinyin(uname));
 			json.put("namePyShort",DataHelper.toPinyinShort(uname));
 			json.put("type", "user");

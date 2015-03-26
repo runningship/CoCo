@@ -853,6 +853,7 @@ function buildGroupChatUnreads(unReads){
 function closeChat(contactId,groupId){
 	if($('.cocoWinLxrList li').length<=1){
 		closeBox(closeAllChat);
+		removeRecentContact(contactId);
 		return;
 	}
 	var next;
