@@ -120,8 +120,8 @@ function buildHistory(history){
 			var html = buildSentMessage(msg.conts,msg.sendtime,'',my_uid);
 			container.prepend(html);
 		}else{
-			var senderAvatar = getAvatarByUid(msg.senderId);
-			var html = buildRecvMessage(senderAvatar,msg.conts , msg.sendtime , '',msg.senderId);
+			//var senderAvatar = getAvatarByUid(msg.senderId);
+			var html = buildRecvMessage(chat.avatar ,msg.conts , msg.sendtime , '',msg.senderId);
 			container.prepend(html);
 		}
 		var top = container.children()[0];
