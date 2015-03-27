@@ -149,6 +149,7 @@ public class CocoService {
 		User u = (User)ThreadSession.getHttpSession().getAttribute(KeyConstants.Session_User);
 		if(u!=null){
 			mv.jspData.put("myUid", u.getId());
+			mv.jspData.put("myName", u.getName());
 		}
 		mv.jspData.put("resource", UUID.randomUUID().toString());
 		mv.jspData.put("domainName", ConfigCache.get("domainName" , "www.zhongjiebao.com"));
@@ -156,7 +157,7 @@ public class CocoService {
 	}
 	
 	@WebMethod
-	public ModelAndView addRecentContact(String contactId , String type){
+	public ModelAndView addRecentContact(String contactId , String userType){
 		ModelAndView mv = new ModelAndView();
 		String uid =ThreadSessionHelper.getUser().getId();
 		RecentContact po = dao.getUniqueByParams(RecentContact.class, new String[]{"uid" , "contactId"}, new Object[]{uid , contactId});
@@ -171,8 +172,8 @@ public class CocoService {
 			if(u!=null){
 				po.userType = u.getType();
 			}
-			if(StringUtils.isNotEmpty(type)){
-				po.userType = type;
+			if(StringUtils.isNotEmpty(userType)){
+				po.userType = userType;
 			}
 		}
 		dao.saveOrUpdate(po);

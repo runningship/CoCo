@@ -57,6 +57,7 @@ public class BoshServlet extends HttpServlet{
 			sendMsg(data);
     	}
     	BoshConnection newConn = new BoshConnection(res,uid);
+    	newConn.req = request;
     	newConn.resp = response;
     	try {
     		//等待oldConn.finish();完成

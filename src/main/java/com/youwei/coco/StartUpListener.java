@@ -13,6 +13,7 @@ import org.bc.web.PublicFieldSupportingELResolver;
 import org.hibernate.cfg.AvailableSettings;
 
 import com.youwei.bosh.BoshConnectionManager;
+import com.youwei.bosh.RetryMessagePool;
 import com.youwei.coco.cache.ConfigCache;
 import com.youwei.coco.im.IMServer;
 
@@ -36,6 +37,7 @@ public class StartUpListener implements ServletContextListener{
 		}
 		BoshConnectionManager bcm = new BoshConnectionManager();
 		bcm.start();
+		RetryMessagePool.startUp();
 	}
 
 	private void initModule() {

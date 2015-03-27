@@ -4,7 +4,7 @@ var my_name;
 var my_uid;
 var ue_text_editor;
 var chat_conts=[];
-var default_avatar='150';
+var default_avatar='157';
 //web集成时要提供的来信息时的回调接口
 var web_plugin_message_callback;
 var web_plugin_update_title_callback;
@@ -440,6 +440,7 @@ function getCurrentChat(){
 	chat.contactId=li.attr('cid');
 	chat.type=li.attr('type');
 	chat.contactName=li.attr('cname');
+	chat.senderName=my_name;
 	//好友的头像
 	chat.avatar=li.attr('avatar');
 	chat.currentPageNo = $('#msgContainer_'+chat.contactId).attr('currentPageNo');
@@ -489,11 +490,14 @@ function closeChat(contactId){
 	}
 	var next;
 	next = $('#chat_'+contactId).next();
+	if(next.length==0){
+		next = $('#chat_'+contactId).prev();
+	}
 	$('#chat_'+contactId).remove();
 	$('#msgContainer_'+contactId).remove();	
 	//如果删除的是当前聊天，重新选择下一个聊天为当前聊天，如果没有其他聊天，关闭聊天面板
 	event.cancelBubble=true;
-	if(next.length>0){
+	if($('.cocoWinLxrList li').length>0){
 		selectChat(next.attr('cid'));	
 	}else{
 		window.top.webchat_dialog.hide();

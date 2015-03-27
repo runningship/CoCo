@@ -67,6 +67,7 @@ function heartBeat(){
 		if(now-lastActiveTime>=65*1000){
 			//断网
 			window.top.cocoFail();
+			console.log('heart beat')
 			nextRound();
 		}
 		heartBeat();

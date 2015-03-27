@@ -226,10 +226,11 @@ public class IMServer extends WebSocketServer{
 		if(recv!=null){
 			recv.send(data.toString());
 		}
-		for(BoshConnection boshConn : BoshConnectionManager.getBoshConnections(recvId)){
-			boshConn.returnText = data.toString();
-			boshConn.flush();
-		}
+		DataHelper.sendToBosh(recvId, data);
+//		for(BoshConnection boshConn : BoshConnectionManager.getBoshConnections(recvId)){
+//			boshConn.returnText = data.toString();
+//			boshConn.flush();
+//		}
 	}
 
 	

@@ -2,6 +2,7 @@ package com.youwei.bosh;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.youwei.coco.KeyConstants;
@@ -11,6 +12,7 @@ public class BoshConnection {
 	public String uid;
 	
 	public static final int Poll_Interval_In_Seconds = 60;
+	public HttpServletRequest req;
 	public HttpServletResponse resp;
 	
 	public String resource;
@@ -39,6 +41,7 @@ public class BoshConnection {
 					resp.setContentType("text/html");
 					resp.setCharacterEncoding("utf-8");
 					resp.getOutputStream().write(returnText.getBytes("utf-8"));
+					resp.getOutputStream().flush();
 					BoshConnectionManager.remove(uid+KeyConstants.Connection_Resource_Separator+resource);
 //					System.out.println("send:"+returnText);
 					returned = true;

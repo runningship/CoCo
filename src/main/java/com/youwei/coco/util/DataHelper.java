@@ -17,6 +17,7 @@ import org.bc.sdak.utils.LogUtil;
 
 import com.youwei.bosh.BoshConnection;
 import com.youwei.bosh.BoshConnectionManager;
+import com.youwei.bosh.RetryMessagePool;
 import com.youwei.coco.KeyConstants;
 import com.youwei.coco.im.IMServer;
 import com.youwei.coco.user.entity.Admin;
@@ -148,6 +149,11 @@ public class DataHelper {
 	}
 	
 	public static void sendToBosh(String contactId , JSONObject msg){
+		if(!RetryMessagePool.isUserRetryMsgEmpty(contactId)){
+			RetryMessagePool.pushMsg(contactId, msg);
+			System.out.println("消息进入重试队列...");
+			return;
+		}
 		boolean send=false;
     	for(String key : BoshConnectionManager.conns.keySet()){
     		String targetUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
@@ -159,7 +165,9 @@ public class DataHelper {
     		}
     	}
     	if(!send){
-    		System.out.println("没有找到对方的connection ...");
+//    		System.out.println("没有找到对方的connection ...");
+    		RetryMessagePool.pushMsg(contactId, msg);
+			System.out.println("消息进入重试队列...");
     	}
 	}
 	

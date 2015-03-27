@@ -30,6 +30,7 @@
 <script type="text/javascript">
 var valid = false;
 my_uid = '${myUid}';
+my_name='${myName}';
 var resource = '${resource}';
 var callByArtDialog=false;
 web_plugin_update_title_callback = window.top.updateTitle;

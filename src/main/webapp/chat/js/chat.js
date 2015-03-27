@@ -287,7 +287,9 @@ function send(){
 	onSendMsg(text,chat);
 	chat.msg = text;
 	sendToServer(chat);
+	var for_color = ue_text_editor.queryCommandValue( 'forecolor' );
 	ue_text_editor.setContent('',false);
+	ue_text_editor.execCommand( 'forecolor', for_color );
 	$('#msg_textarea').focus();
 	
 	scrollToLatestNews();
@@ -575,16 +577,16 @@ function notifyNewChat(contactId,msgCount , contactName){
 	requestWindowAttention(contactId,'msg' , contactName);
 }
 
-function addRecentContact(senderId,type){
+function addRecentContact(senderId,userType){
 	//msg中有联系人的所有信息
 	//添加到数据库
-	if(!type){
-		type="";
+	if(!userType){
+		userType="";
 	}
 	$.ajax({
 	    type: 'get',
 	    dataType: 'json',
-	    url: 'c/addRecentContact?contactId='+senderId+'&type='+type,
+	    url: 'c/addRecentContact?contactId='+senderId+'&userType='+userType,
 	    success:function(data){
 	    }
 	  });
