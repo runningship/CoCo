@@ -53,7 +53,7 @@ public class RetryMessagePool extends Thread{
 		    		String targetUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
 		    		if(targetUid.equals(uid)){
 		    			BoshConnection target = BoshConnectionManager.conns.get(key);
-		    			target.returnText = msg.toString();
+		    			target.setReturnText(msg.toString());
 		    			target.flush();
 		    			System.out.println("发送重试消息["+msg.getString("msg")+"]成功..");
 		    			send=true;

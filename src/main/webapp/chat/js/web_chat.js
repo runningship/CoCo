@@ -370,7 +370,7 @@ function notifyNewChat(contactId,msgCount){
 		//未读消息数量++
 		var num_msg_count = 0;
 		if(jmsgCount.text()!=''){
-			num_msg_count = Number.parseInt(jmsgCount.text());
+			num_msg_count = parseInt(jmsgCount.text());
 		}
 		num_msg_count++;
 		jmsgCount.text(num_msg_count);
@@ -410,7 +410,7 @@ function onReceiveMsg(msg){
     	var jmsgCount = $('#chat_'+data.senderId).find('.new_msg_count');
     	var num_msg_count = 0;
     	if(jmsgCount.text()!=''){
-    		num_msg_count = Number.parseInt(jmsgCount.text());
+    		num_msg_count = parseInt(jmsgCount.text());
     	}
     	num_msg_count++;
 		jmsgCount.text(num_msg_count);
@@ -450,7 +450,7 @@ function getCurrentChat(){
 
 function nextPage(){
 	var chat = getCurrentChat();
-	var currentPageNo = Number.parseInt(chat.currentPageNo);
+	var currentPageNo = parseInt(chat.currentPageNo);
 	currentPageNo++;
 	
 	loadHistory(chat.contactId,currentPageNo);

@@ -51,7 +51,7 @@ public class MessagePool extends Thread{
 					for(String key : BoshConnectionManager.conns.keySet()){
 			    		if(key.startsWith(contactId)){
 			    			BoshConnection target = BoshConnectionManager.conns.get(key);
-			    			target.returnText = msg.toString();
+			    			target.setReturnText(msg.toString());
 			    			target.flush();
 			    			send=true;
 			    		}

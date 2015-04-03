@@ -44,13 +44,7 @@ public class BoshServlet extends HttpServlet{
     	if(StringUtils.isEmpty(res)){
     		res = UUID.randomUUID().toString();
     	}
-    	BoshConnection oldConn = BoshConnectionManager.get(uid+KeyConstants.Connection_Resource_Separator+res);
-    	if(oldConn!=null){
-    		//客户端主动发来新请求,要结束掉老的请求
-    		oldConn.finish();
-    	}else{
-    		//有可能页面刷新
-    	}
+    	
     	if("msg".equals(type)){
     		//有消息发消息
 			data.put("senderId", uid);
@@ -59,12 +53,19 @@ public class BoshServlet extends HttpServlet{
     	BoshConnection newConn = new BoshConnection(res,uid);
     	newConn.req = request;
     	newConn.resp = response;
-    	try {
-    		//等待oldConn.finish();完成
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//    	try {
+//    		//等待oldConn.finish();完成
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+    	BoshConnection oldConn = BoshConnectionManager.get(uid+KeyConstants.Connection_Resource_Separator+res);
+    	if(oldConn!=null){
+    		//客户端主动发来新请求,要结束掉老的请求
+    		oldConn.finish();
+    	}else{
+    		//有可能页面刷新
+    	}
     	BoshConnectionManager.put(uid+KeyConstants.Connection_Resource_Separator+res, newConn);
     	newConn.hold();
     }

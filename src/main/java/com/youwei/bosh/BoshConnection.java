@@ -5,13 +5,16 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import com.youwei.coco.KeyConstants;
 
 public class BoshConnection {
 
 	public String uid;
 	
-	public static final int Poll_Interval_In_Seconds = 60;
+	//链接持续的时间,单位秒,设置一个较长的时间，避免频繁换链接
+	public static final int Poll_Interval_In_Seconds = 1800;
 	public HttpServletRequest req;
 	public HttpServletResponse resp;
 	
@@ -26,7 +29,7 @@ public class BoshConnection {
 	
 	private long lifeStart=0;
 	
-	public String returnText = "";
+	private String returnText = "";
 	
 	public Boolean returned=false;
 	
@@ -38,18 +41,21 @@ public class BoshConnection {
 		synchronized (returned) {
 			if(returned==false){
 				try {
+					//先remove,避免connection已经response,但其他的线程仍然有几率操作，造成消息丢失
+					BoshConnectionManager.remove(uid+KeyConstants.Connection_Resource_Separator+resource);
 					resp.setContentType("text/html");
 					resp.setCharacterEncoding("utf-8");
 					resp.getOutputStream().write(returnText.getBytes("utf-8"));
 					resp.getOutputStream().flush();
-					BoshConnectionManager.remove(uid+KeyConstants.Connection_Resource_Separator+resource);
+					
 //					System.out.println("send:"+returnText);
 					returned = true;
 				} catch (IOException e) {
+					RetryMessagePool.pushMsg(uid, JSONObject.fromObject(returnText));
 					e.printStackTrace();
 				}
 			}else{
-				System.out.println("重复回复...");
+				System.out.println("重复回复..."+returnText);
 			}
 		}
 	}
@@ -61,7 +67,7 @@ public class BoshConnection {
 				break;
 			}
 			if(finish){
-				break;
+				return;
 			}
 			try {
 				Thread.sleep(500);
@@ -76,6 +82,10 @@ public class BoshConnection {
 	public void finish(){
 		finish = true;
 		returnText = "finished";
-//		respond();
+		respond();
+	}
+	
+	public void setReturnText(String text){
+		this.returnText = text;
 	}
 }

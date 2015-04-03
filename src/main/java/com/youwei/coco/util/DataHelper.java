@@ -151,7 +151,7 @@ public class DataHelper {
 	public static void sendToBosh(String contactId , JSONObject msg){
 		if(!RetryMessagePool.isUserRetryMsgEmpty(contactId)){
 			RetryMessagePool.pushMsg(contactId, msg);
-			System.out.println("消息进入重试队列...");
+			System.out.println("消息进入重试队列..."+msg);
 			return;
 		}
 		boolean send=false;
@@ -159,7 +159,7 @@ public class DataHelper {
     		String targetUid = key.split(KeyConstants.Connection_Resource_Separator)[0];
     		if(targetUid.equals(contactId)){
     			BoshConnection target = BoshConnectionManager.conns.get(key);
-    			target.returnText = msg.toString();
+    			target.setReturnText(msg.toString());
     			target.flush();
     			send=true;
     		}
@@ -167,7 +167,7 @@ public class DataHelper {
     	if(!send){
 //    		System.out.println("没有找到对方的connection ...");
     		RetryMessagePool.pushMsg(contactId, msg);
-			System.out.println("消息进入重试队列...");
+			System.out.println("消息进入重试队列..."+msg);
     	}
 	}
 	

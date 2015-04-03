@@ -81,7 +81,7 @@ public class BoshConnectionManager extends Thread{
 		for(String key : BoshConnectionManager.conns.keySet()){
     		if(key.startsWith(cid)){
     			BoshConnection target = BoshConnectionManager.conns.get(key);
-    			target.returnText = jobj.toString();
+    			target.setReturnText( jobj.toString());
     			target.flush();
     		}
     	}

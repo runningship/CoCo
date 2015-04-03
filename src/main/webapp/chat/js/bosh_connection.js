@@ -52,7 +52,7 @@ function startBosh(){
 	var data = jQuery.parseJSON('{}');
 	data.type="open";
 	sendByBosh(data);
-	heartBeat();
+	//heartBeat();
 }
 
 function nextRound(){

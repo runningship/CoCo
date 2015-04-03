@@ -534,7 +534,7 @@ function notifyGroupNews(groupId,msgCount){
 	}else{
 		var num_msg_count = 0;
 		if(group_msgCount.text()!=''){
-			num_msg_count = Number.parseInt(jmsgCount.text());
+			num_msg_count = parseInt(jmsgCount.text());
 		}
 		num_msg_count++;
 		group_msgCount.text(num_msg_count);
@@ -562,7 +562,7 @@ function notifyNewChat(contactId,msgCount , contactName){
 		//未读消息数量++
 		var num_msg_count = 0;
 		if(lxr_msgCount.text()!=''){
-			num_msg_count = Number.parseInt(jmsgCount.text());
+			num_msg_count = parseInt(jmsgCount.text());
 		}
 		num_msg_count++;
 		lxr_msgCount.text(num_msg_count);
@@ -660,7 +660,7 @@ function onReceiveMsg(msg){
     	var jmsgCount = $('#chat_'+data.senderId).find('.new_msg_count');
     	var num_msg_count = 0;
     	if(jmsgCount.text()!=''){
-    		num_msg_count = Number.parseInt(jmsgCount.text());
+    		num_msg_count = parseInt(jmsgCount.text());
     	}
     	num_msg_count++;
 		jmsgCount.text(num_msg_count);
@@ -712,7 +712,7 @@ function onReceiveGroupMsg(msg){
     	var jmsgCount = $('#group_chat_'+data.contactId).find('.new_msg_count');
     	var num_msg_count = 0;
     	if(jmsgCount.text()!=''){
-    		num_msg_count = Number.parseInt(jmsgCount.text());
+    		num_msg_count = parseInt(jmsgCount.text());
     	}
     	num_msg_count++;
 		jmsgCount.text(num_msg_count);
@@ -754,7 +754,7 @@ function getCurrentChat(){
 
 function nextPage(){
 	var chat = getCurrentChat();
-	var currentPageNo = Number.parseInt(chat.currentPageNo);
+	var currentPageNo = parseInt(chat.currentPageNo);
 	currentPageNo++;
 	
 	if(chat.type=='groupmsg'){
