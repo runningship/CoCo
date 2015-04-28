@@ -95,7 +95,7 @@ function addDiyDom(treeId, treeNode) {
 		  adminClass = "admin";
 	  }
 	  var span = '<span class="">'
-	 +'<li style="'+style+'"  name="'+treeNode.name+'" title="'+sign+'" class="search_clone " py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+avatar+')">'
+	 +'<li style="'+style+'"  name="'+treeNode.name+'" title="'+treeNode.name+' '+sign+'" class="search_clone " py="'+treeNode.namePy+'" pyShort="'+treeNode.namePyShort+'" id="lxr_'+treeNode.id+'" onclick="openAndSelectChat(\''+treeNode.uid+'\',\''+treeNode.name+'\','+avatar+')">'
 	 //+ checkBox[0].outerHTML
 	 + '<div id="user_avatar_'+treeNode.id+'" class="cocoTx Fleft">'
      +'<img user_avatar_img="'+avatar+'" src="/coco/chat/images/avatar/'+avatar+'.jpg" class="user_avatar_img_'+treeNode.id+' user_status_filter_'+treeNode.status+'">'

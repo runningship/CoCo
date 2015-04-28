@@ -35,7 +35,7 @@ border-radius:3px; font-family:"宋体"; z-index:1990;}
 .cocoWinLxrListTx{ width:39px; height:37px; margin-left:10px;}
 .cocoWinLxrListTx img{ width:35px; height:35px; border-radius:20px; border:2px solid rgba(255,255,255,0.2);}
 
-.cocoWinLxrListPerInfo{ width:90px; margin-left:2px; font-family:"宋体"; white-space:nowrap;}
+.cocoWinLxrListPerInfo{ width:95px; margin-left:2px; font-family:"宋体"; white-space:nowrap;text-overflow: clip;overflow: hidden;}
 
 .cocoWinLxrListPerInfo .name{ color:#299da3; font-size:12px; margin:2px 0;}
 .cocoWinLxrListPerInfo .admin{ color:orchid}

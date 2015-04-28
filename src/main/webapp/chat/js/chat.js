@@ -303,7 +303,7 @@ function sendToServer(chat){
 }
 function selectChat(li,groupId){
 	//保存当前窗口内容
-	selBoxCge('outList');
+	//selBoxCge('outList');
 	var conts = "";
 	if(UE.Editor.body){
 		conts = ue_text_editor.getContent();

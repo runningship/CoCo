@@ -9,12 +9,14 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Level;
 import org.bc.sdak.CommonDaoService;
 import org.bc.sdak.Page;
 import org.bc.sdak.SimpDaoTool;
 import org.bc.sdak.Transactional;
 import org.bc.sdak.TransactionalServiceHelper;
 import org.bc.sdak.utils.JSONHelper;
+import org.bc.sdak.utils.LogUtil;
 import org.bc.web.ModelAndView;
 import org.bc.web.Module;
 import org.bc.web.WebMethod;
@@ -214,9 +216,19 @@ public class IMService {
 		return mv;
 	}
 	
-	@WebMethod
-	public ModelAndView pushMsgToUser(String msg,String contactId , String senderId , String senderName,String senderAvatar){
+	public ModelAndView pushMsgToUserList(String msg,String contactIds , String senderId , String senderName,String senderAvatar){
 		ModelAndView mv = new ModelAndView();
+		for(String contactId : contactIds.split(",")){
+			try{
+				pushMsgToSingleUser(msg, contactId , senderId , senderName , senderAvatar);
+			}catch(Exception ex){
+				LogUtil.log(Level.WARN, "推送消息失败msg="+msg+",contactId="+contactId, ex);
+			}
+		}
+		return mv;
+	}
+	
+	private void pushMsgToSingleUser(String msg,String contactId , String senderId , String senderName,String senderAvatar){
 		JSONObject jobj = new JSONObject();
 		jobj.put("type", "msg");
 		jobj.put("msg", msg);
@@ -242,6 +254,11 @@ public class IMService {
 			targetConn.send(jobj.toString());
 		}
 		DataHelper.sendToBosh(contactId, jobj);
+	}
+	@WebMethod
+	public ModelAndView pushMsgToUser(String msg,String contactId , String senderId , String senderName,String senderAvatar){
+		ModelAndView mv = new ModelAndView();
+		pushMsgToSingleUser(msg, contactId , senderId , senderName , senderAvatar);
 		return mv;
 	}
 }
