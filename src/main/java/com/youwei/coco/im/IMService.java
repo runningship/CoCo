@@ -28,6 +28,7 @@ import com.youwei.coco.IMContactHandler;
 import com.youwei.coco.ThreadSessionHelper;
 import com.youwei.coco.YjhChatHandler;
 import com.youwei.coco.YjhContactHandler;
+import com.youwei.coco.im.entity.BigMessage;
 import com.youwei.coco.im.entity.Group;
 import com.youwei.coco.im.entity.Message;
 import com.youwei.coco.im.entity.UserGroupStatus;
@@ -55,6 +56,14 @@ public class IMService {
 		page.setPageSize(10);
 		String myId = ThreadSessionHelper.getUser().getId();
 		page = dao.findPage(page ,"from Message where (senderId=? and receiverId=?) or (senderId=? and receiverId=?) order by sendtime desc", myId , contactId , contactId , myId);
+		// 循环,如果是bigmsg,获取bigmsg内容
+		//TODO 换成left join
+		for(Message msg : page.getResult()){
+			BigMessage bm = dao.get(BigMessage.class, msg.bigMsgId);
+			if(bm!=null){
+				msg.conts = bm.conts;
+			}
+		}
 		mv.data.put("history", JSONHelper.toJSONArray(page.getResult() , DataHelper.sdf4.toPattern()));
 		return mv;
 	}
@@ -216,11 +225,15 @@ public class IMService {
 		return mv;
 	}
 	
+	@WebMethod
 	public ModelAndView pushMsgToUserList(String msg,String contactIds , String senderId , String senderName,String senderAvatar){
 		ModelAndView mv = new ModelAndView();
+		BigMessage bm = new BigMessage();
+		bm.conts = msg;
+		dao.saveOrUpdate(bm);
 		for(String contactId : contactIds.split(",")){
 			try{
-				pushMsgToSingleUser(msg, contactId , senderId , senderName , senderAvatar);
+				pushMsgToSingleUser("", contactId , senderId , senderName , senderAvatar , bm.id);
 			}catch(Exception ex){
 				LogUtil.log(Level.WARN, "推送消息失败msg="+msg+",contactId="+contactId, ex);
 			}
@@ -228,7 +241,7 @@ public class IMService {
 		return mv;
 	}
 	
-	private void pushMsgToSingleUser(String msg,String contactId , String senderId , String senderName,String senderAvatar){
+	private void pushMsgToSingleUser(String msg,String contactId , String senderId , String senderName,String senderAvatar , Integer bigMsgId){
 		JSONObject jobj = new JSONObject();
 		jobj.put("type", "msg");
 		jobj.put("msg", msg);
@@ -237,12 +250,14 @@ public class IMService {
 		jobj.put("senderAvatar", senderAvatar);
 		jobj.put("sendtime", DataHelper.sdf4.format(new Date()));
 		
+		
 		Message dbMsg = new Message();
 		dbMsg.sendtime = new Date();
-		dbMsg.conts = msg;
 		dbMsg.senderId = senderId;
 		dbMsg.receiverId = contactId;
 		dbMsg.hasRead=0;
+		dbMsg.conts = msg;
+		dbMsg.bigMsgId = bigMsgId;
 		try{
 			SimpDaoTool.getGlobalCommonDaoService().saveOrUpdate(dbMsg);
 		}catch(Exception ex){
@@ -258,7 +273,7 @@ public class IMService {
 	@WebMethod
 	public ModelAndView pushMsgToUser(String msg,String contactId , String senderId , String senderName,String senderAvatar){
 		ModelAndView mv = new ModelAndView();
-		pushMsgToSingleUser(msg, contactId , senderId , senderName , senderAvatar);
+		pushMsgToSingleUser(msg, contactId , senderId , senderName , senderAvatar , null);
 		return mv;
 	}
 }

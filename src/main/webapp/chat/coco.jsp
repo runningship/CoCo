@@ -119,6 +119,22 @@ function startCreateGroup(){
 	 });
 }
 
+function startQunFa(){
+	 art.dialog.open("chat/qunfa.jsp",{
+		 id:'msg_qunfa',
+		 width:500,
+		 height:450,
+		 title:'消息群发',
+		 ok: function () {
+			 this.iframe.contentWindow.qunfa(my_uid,my_name,my_avatar);
+			 return false;
+		 },
+		 cancel:function(){
+			 
+		 }
+	 });
+}
+
 function createGroupWithUsers(groupName, uids , names ,avatars){
 	var subGroupName = groupName;
 	if(!subGroupName){
@@ -299,7 +315,11 @@ function removeGroup(groupId , isOwner){
                             
                          
                          </ul>
-                    	<img onclick="startCreateGroup();" src="chat/cocoImages/plus.png" style="width:20px;height:20px;position:absolute;bottom:0px;left:95px;cursor:pointer"/>
+                         <div style="height:20px;position:absolute;bottom:0px;left:15px;cursor:pointer;font-size:12px;">
+                         	<span onclick="startCreateGroup();" ><img  src="chat/cocoImages/group_add.png" style=" vertical-align: bottom"/><span>创建群组</span></span>
+                         	<span onclick="startQunFa();" style="margin-left:30px;"><img  src="chat/cocoImages/qunfa.png" style="vertical-align: bottom"/><span>消息群发</span></span>
+                         </div>
+<!--                     	<img onclick="startCreateGroup();" src="chat/cocoImages/plus.png" style="width:20px;height:20px;position:absolute;bottom:0px;left:95px;cursor:pointer"/> -->
                     </div>
                     
                     
